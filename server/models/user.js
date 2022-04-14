@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       this.hasOne(Patient, {foreignKey : 'userId', as : 'patientDetails'});
     }
     toJSON() {
-      return {...this.get(), password : undefined}
+      const role = this.getDataValue('role');
+      const updatedString = role!=='doctor'?'doctorDetails':'patientDetails'
+      const data = this.getDataValue('patientDetails');
+      return {...this.get(), password : undefined, additionalData :data, dataId :data.uuid, doctorDetails : undefined, patientDetails : undefined   }
 
     }
   }
