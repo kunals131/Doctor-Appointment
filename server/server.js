@@ -16,6 +16,7 @@ app.use(cookieParser());
 
 
 app.use('/api/auth/', require('./routes/auth'));
+app.use('/api/patient/', require('./routes/patient'));
 
 app.get('/', (req,res)=>{
     res.send('<h1>Server is Running </h1>')
