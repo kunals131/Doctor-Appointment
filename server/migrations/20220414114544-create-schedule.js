@@ -27,7 +27,7 @@ module.exports = {
       state : {
         type : DataTypes.ENUM('future', 'past', 'done', 'cancelled'),
         allowNull : false,
-        default : 'future'
+        defaultValue : 'future'
       },
       createdAt: {
         allowNull: false,
