@@ -1,4 +1,4 @@
-const {Patient, Doctor} = require('../models');
+const {Patient, Doctor,Appointment} = require('../models');
 
 
 const ifPatientExists = async (id)=>{
@@ -17,5 +17,12 @@ const ifDoctorExists = async (id)=>{
     if (!doctor) return false;
     return true;
 }
+const ifAppointmentExists = async (id)=>{
+    const appointment = await Appointment.findOne({
+        where : {id : id},
+    });
+    if (!appointment) return false;
+    return true;
+}
 
-module.exports = {ifPatientExists, ifDoctorExists}
+module.exports = {ifPatientExists, ifDoctorExists, ifAppointmentExists}
