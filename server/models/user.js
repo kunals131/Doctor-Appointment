@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+    toJSON() {
+      return {...this.get(), password : undefined}
+
+    }
   }
   User.init({
     fullName : {
@@ -23,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue : DataTypes.UUIDV4,
       allowNull : false,
       primaryKey : true,
+    },
+    img : {
+      type : DataTypes.STRING,
+      defaultValue : 'https://res.cloudinary.com/insight-byte/image/upload/v1649939622/austin-distel-7bMdiIqz_J4-unsplash_rmcvfa.jpg',
+      allowNull : false
     },
     email : {
       type : DataTypes.STRING,

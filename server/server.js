@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 
 
-
+app.use('/api/auth/', require('./routes/auth'));
 
 app.get('/', (req,res)=>{
     res.send('<h1>Server is Running </h1>')

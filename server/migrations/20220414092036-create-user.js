@@ -15,6 +15,11 @@ module.exports = {
         allowNull : false,
         primaryKey : true,
       },
+      img : {
+        type : DataTypes.STRING,
+        defaultValue : 'https://res.cloudinary.com/insight-byte/image/upload/v1649939622/austin-distel-7bMdiIqz_J4-unsplash_rmcvfa.jpg',
+        allowNull : false
+      },
       email : {
         type : DataTypes.STRING,
         allowNull : false,
