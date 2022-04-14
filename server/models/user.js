@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     }
     toJSON() {
       const role = this.getDataValue('role');
-      const updatedString = role!=='doctor'?'doctorDetails':'patientDetails'
-      const data = this.getDataValue('patientDetails');
+      const updatedString = role==='doctor'?'doctorDetails':'patientDetails'
+      const data = this.getDataValue(updatedString);
       return {...this.get(), password : undefined, additionalData :data, dataId :data.uuid, doctorDetails : undefined, patientDetails : undefined   }
 
     }
