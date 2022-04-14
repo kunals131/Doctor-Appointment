@@ -1,4 +1,5 @@
 const {Patient, Appointment, Symptom} = require('../../models');
+const { ifPatientExists } = require('../../utils/ifExists');
 
 const getAllDetailsHandler = async(req,res)=>{
     const id = req.params.id
@@ -19,6 +20,9 @@ const getAllDetailsHandler = async(req,res)=>{
 const getAppointmentsHandler = async(req,res)=>{
     const id = req.params.id;
     try {
+        const isExists = await ifPatientExists(id);
+        if (!isExists) return res.status(404).json({message : 'Patient Not Found!'});
+
         const appointments = await Appointment.findAll({
             where : {patientId : id},
             include : ['patient', 'doctor']
@@ -31,9 +35,29 @@ const getAppointmentsHandler = async(req,res)=>{
     }
 }
 
+const getAppointedDoctors = async(req,res)=>{
+    const id = req.params.id;
+    try {
+        const isExists = await ifPatientExists(id);
+        if (!isExists) return res.status(404).json({message : 'Patient Not Found!'});
+        const appointments = await Appointment.findAll({
+            where : {patientId : id},
+            include : ['patient', 'doctor']
+        });
+        res.json(appointments.map(appointment=>appointment.doctor));
+    }catch(err) {
+        console.log(err);
+        return res.status(400).json({message : 'Something went wrong!', error : err});
+
+    }
+}
+
 const getAllSymptoms = async(req,res)=>{
     const id = req.params.id;
     try {
+        const isExists = await ifPatientExists(id);
+        if (!isExists) return res.status(404).json({message : 'Patient Not Found!'});
+    
         const symptoms = await Symptom.findAll({
             where : {patientId : id},
             include : ['patient']
@@ -46,4 +70,4 @@ const getAllSymptoms = async(req,res)=>{
     }
 }
 
-module.exports = {getAllDetailsHandler, getAppointmentsHandler, getAllSymptoms};
+module.exports = {getAllDetailsHandler, getAppointmentsHandler, getAllSymptoms,getAppointedDoctors};
