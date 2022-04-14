@@ -2,12 +2,13 @@ const express = require('express');
 const dotenv = require('dotenv')
 const {sequelize, User, Doctor,Patient, Appointment, Tag, Schedule, Symptom,Speciality,  } = require('./models');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 dotenv.config();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-
+app.use(cookieParser());
 
 
 

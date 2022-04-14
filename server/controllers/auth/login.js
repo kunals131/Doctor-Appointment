@@ -1,4 +1,4 @@
-const {User} = require('../../models');
+const {User, Doctor,Patient} = require('../../models');
 const bcrypt = require('bcrypt');
 const createAccessToken = require('../../utils/accessTokens');
 
@@ -8,17 +8,21 @@ const loginHandler = async(req,res)=>{
     if (!email || !password) res.status(406).json({message : 'Some fields are empty.'});
     try {
         const foundUser = await User.findOne({
-            where : {email}
+            where : {email},
+            include : ['doctorDetails', 'patientDetails']
         })
+
         if (!foundUser) return res.status(406).json({message : 'Invalid Email Address or Password'});
         const passwordMatch = await bcrypt.compare(password,foundUser.getDataValue('password'));
         if (!passwordMatch) return res.status(406).json({message : 'Invalid Email Address or Password'});
+        const dataId = foundUser.role==='doctor'?foundUser.doctorDetails.uuid:foundUser.patientDetails.uuid
         const accessToken = createAccessToken({
             uuid : foundUser.uuid,
-            role : foundUser.role
+            role : foundUser.role, 
+            dataId
         });
         res.cookie('token', accessToken, { httpOnly: true, sameSite: 'None',secure : true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json(foundUser);
+        res.json({user : foundUser,dataId});
     }
     catch(err) {
         console.log(err);
