@@ -17,6 +17,7 @@ app.use(cookieParser());
 
 app.use('/api/auth/', require('./routes/auth'));
 app.use('/api/patient/', require('./routes/patient'));
+app.use('/api/doctor/', require('./routes/doctor'));
 
 app.get('/', (req,res)=>{
     res.send('<h1>Server is Running </h1>')
@@ -28,7 +29,9 @@ app.get('/', (req,res)=>{
 
 app.get('/everything', async(req,res)=>{
     try {
-        const users = await User.findAll();
+        const users = await User.findAll({
+            include : ['doctorDetails', 'patientDetails']
+        });
         const doctors = await Doctor.findAll({include : ['tags', 'specialities']});
         const patients = await Patient.findAll();
         const appointments  = await Appointment.findAll();
