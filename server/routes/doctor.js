@@ -1,5 +1,5 @@
 const express = require('express');
-const {getAllDetailsHandler, getAppointmentsHandler, getAppointedPatientsHandler, getAllSpecialitiesHandler, getTagsHandler} = require('../controllers/doctor/details');
+const {getAllDetailsHandler, getAppointmentsHandler, getAppointedPatientsHandler, getAllSpecialitiesHandler, getTagsHandler, getAllCountsHandler} = require('../controllers/doctor/details');
 const { addSpecialityHandler, updateDoctorHandler, addTagHandler, removeTagHandler, removeSpecialityHandler } = require('../controllers/doctor/updateDetails');
 
 const router = express.Router();
@@ -15,6 +15,7 @@ router.get('/:id/specialities/', getAllSpecialitiesHandler);
 router.post('/:id/specialities/', addSpecialityHandler);
 router.delete('/:id/specialities/:specialityId', removeSpecialityHandler);
 router.get('/:id/allpatients/', getAppointedPatientsHandler);
+router.get('/:id/stats/', getAllCountsHandler);
 router.get('/:id/tags/', getTagsHandler)
 router.post('/:id/tags/', addTagHandler)
 router.delete('/:id/tags/:tagId', removeTagHandler)

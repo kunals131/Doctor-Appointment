@@ -1,4 +1,4 @@
-const {Doctor, Appointment, Speciality, Tag} = require('../../models');
+const {Doctor, Appointment,Payment, Speciality, Tag} = require('../../models');
 const { ifDoctorExists } = require('../../utils/ifExists');
 
 
@@ -91,4 +91,28 @@ const getAllSpecialitiesHandler = async(req,res)=>{
     }
 }
 
-module.exports = {getTagsHandler,getAllDetailsHandler, getAppointmentsHandler,getAllSpecialitiesHandler,getAppointedPatientsHandler};
+
+const getAllCountsHandler = async(req,res)=>{
+    const {id} =req.params;
+    try {
+        const doctor = await Doctor.findOne({
+            where : {uuid : id},
+            include : ['user', 'payments', 'appointments']
+        })
+        if (!doctor) return res.status(404).json({message : 'Doctor Not Found!'});
+        return res.json({
+            totalPatients : doctor.appointments.length,
+            totalRevenue : 0,
+            profileViews : Math.floor(Math.random()*doctor.appointments.length + 0)
+        })
+
+        
+
+    }catch(err) {
+        console.log(err);
+        return res.status(400).json({message : 'Something went wrong!', error : err});
+
+    }
+}
+
+module.exports = {getTagsHandler,getAllDetailsHandler, getAppointmentsHandler,getAllCountsHandler,getAllSpecialitiesHandler,getAppointedPatientsHandler};
