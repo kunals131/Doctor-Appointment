@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Symptom, {foreignKey : 'patientId' , as : 'symptoms' })
       this.hasMany(Appointment,{foreignKey : 'patientId', as : 'appointments'});
       this.hasMany(Payment,{foreignKey : 'from', as : 'payments'});
-      this.hasMany(Record, {foreignKey : 'patientId', as :  'medicalRecords'})
+      this.hasMany(Record, {foreignKey : 'patientId', as : 'medicalRecords'})
     }
   }
   patient.init({

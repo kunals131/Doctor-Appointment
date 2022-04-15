@@ -12,15 +12,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       file : {
-        type : DataTypes.TEXT,
+        type : DataTypes.STRING(400),
         allowNull : false
       },
       remark : {
-        type : DataTypes.TEXT,
+        type : DataTypes.STRING(1234),
         allowNull : true
       },
       title : {
-        type : DataTypes.TEXT,
+        type : DataTypes.STRING,
         allowNull : false
       },
       patientId : {
