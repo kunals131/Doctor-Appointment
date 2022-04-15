@@ -20,6 +20,7 @@ app.use('/api/patient/', require('./routes/patient'));
 app.use('/api/doctor/', require('./routes/doctor'));
 app.use('/api/appointments/', require('./routes/appointment'));
 app.use('/api/tags/', require('./routes/tags'));
+app.use('/api/schedule/', require('./routes/schedule'));
 
 app.get('/', (req,res)=>{
     res.send('<h1>Server is Running </h1>')

@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     state : {
       type : DataTypes.ENUM('future', 'past', 'done', 'cancelled'),
       allowNull : false,
-      default : 'future'
+      defaultValue : 'future'
     }
     
   }, {
