@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       const role = this.getDataValue('role');
       const updatedString = role==='doctor'?'doctorDetails':'patientDetails'
       const data = this.getDataValue(updatedString);
+      if (!data) return {...this.get(), password : undefined}
       return {...this.get(), password : undefined, additionalData :data, dataId :data.uuid, doctorDetails : undefined, patientDetails : undefined   }
 
     }
