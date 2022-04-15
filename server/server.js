@@ -21,6 +21,7 @@ app.use('/api/doctor/', require('./routes/doctor'));
 app.use('/api/appointments/', require('./routes/appointment'));
 app.use('/api/tags/', require('./routes/tags'));
 app.use('/api/schedule/', require('./routes/schedule'));
+app.use('/api/records/', require('./routes/records'));
 
 app.get('/', (req,res)=>{
     res.send('<h1>Server is Running </h1>')
@@ -36,7 +37,9 @@ app.get('/everything', async(req,res)=>{
             include : ['doctorDetails', 'patientDetails']
         });
         const doctors = await Doctor.findAll({include : ['tags', 'specialities']});
-        const patients = await Patient.findAll();
+        const patients = await Patient.findAll({
+            include : ['medicalRecords']
+        });
         const appointments  = await Appointment.findAll();
         const tags  = await Tag.findAll();
         const specialities  = await Speciality.findAll();
