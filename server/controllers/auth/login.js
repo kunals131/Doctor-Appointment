@@ -20,8 +20,8 @@ const loginHandler = async(req,res)=>{
             role : foundUser.role, 
             dataId : foundUser.dataId
         });
-        res.cookie('token', accessToken, { httpOnly: true, sameSite: 'None',secure : true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json({foundUser});
+        res.cookie('jwt', accessToken, { httpOnly: true, sameSite: 'None',secure : true, maxAge: 24 * 60 * 60 * 1000 });
+        res.json({foundUser, accessToken});
     }
     catch(err) {
         console.log(err);
