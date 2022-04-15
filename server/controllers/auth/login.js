@@ -21,7 +21,7 @@ const loginHandler = async(req,res)=>{
             dataId : foundUser.dataId
         });
         res.cookie('jwt', accessToken, { httpOnly: true, sameSite: 'None',secure : true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json({foundUser, accessToken});
+        res.json(foundUser);
     }
     catch(err) {
         console.log(err);

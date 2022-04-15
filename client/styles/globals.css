@@ -1,3 +1,46 @@
 @tailwind base;
 @tailwind components;
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  @apply bg-mainBackground font-poppins
+}
+
+
+.sidebar-icon {
+  @apply relative flex items-center justify-center 
+  h-12 w-12 mt-2 mb-2 mx-auto  
+bg-iconBg bg-opacity-[0.8] hover:bg-white 
+text-white hover:text-primary
+  hover:rounded-xl rounded-3xl
+  transition-all duration-300 ease-linear
+  cursor-pointer shadow-lg ;
+}
+
+.sidebar-tooltip {
+  @apply absolute w-auto p-2 m-2 min-w-max left-14
+  rounded-md shadow-md
+  text-white bg-gray-900 
+  text-xs font-bold
+  transition-all duration-100 scale-0 origin-left;
+}
+
+.logout-icon {
+  @apply relative flex items-center justify-center 
+  h-11 w-11 mt-52 mb-2 mx-auto  
+bg-white bg-opacity-[1] 
+text-primary 
+  hover:rounded-xl rounded-sm
+  transition-all duration-300 ease-linear
+  cursor-pointer shadow-lg ;
+}
+
 @tailwind utilities;
