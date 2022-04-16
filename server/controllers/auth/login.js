@@ -16,10 +16,7 @@ const loginHandler = async(req,res)=>{
         const passwordMatch = await bcrypt.compare(password,foundUser.getDataValue('password'));
         if (!passwordMatch) return res.status(406).json({message : 'Invalid Email Address or Password'});
         const accessToken = createAccessToken({
-            uuid : foundUser.uuid,
-            role : foundUser.role, 
-            dataId : foundUser.dataId,
-            user : foundUser
+            foundUser
         });
         res.cookie('jwt', accessToken, { httpOnly: true, sameSite: 'None',secure : true, maxAge: 24 * 60 * 60 * 1000 });
         res.json(foundUser);

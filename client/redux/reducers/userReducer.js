@@ -8,7 +8,7 @@ const initalState = {
 export default function userReducer (state=initalState,action) {
     switch(action.type) {
         case USER_ACTIONS.LOGIN_USER:
-            return {...state, isLoggedIn : true, user : action.payload}
+            return {...state, isLoggedIn : true, data : action.payload}
         case USER_ACTIONS.UPDATE_AUTH:
             return {...state, ...action.payload}
         case USER_ACTIONS.LOGOUT_USER:

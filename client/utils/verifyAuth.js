@@ -6,7 +6,7 @@ export const verifyAuthentication = (req)=>{
         console.log(token)
         try {
             const decodedData = verify(token,process.env.ACCESS_TOKEN_SECRET);
-            return {state : true, decodedData}
+            return {state : true, decodedData : decodedData.foundUser}
         }catch(err) {
             return {state : false}
         }

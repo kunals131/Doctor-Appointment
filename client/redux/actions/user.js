@@ -25,7 +25,8 @@ export const registerUser = (formData, setLoading, setError, router)=>async(disp
         setLoading(true);
         const result = await registerAPI(formData);
         const data = result.data;
-        return loginUser({email : formData.email, password : formData.password}, setLoading, setError,router);
+        setLoading(false);
+        dispatch(loginUser({email : formData.email, password : formData.password}, setLoading, setError,router))
     }catch(err) {
         console.log(err);
         setLoading(false);
@@ -43,5 +44,12 @@ export const logoutUser = (router)=>async(dispatch)=>{
     }
     catch(err) {
         console.log(err);
+    }
+}
+
+export const updateUser = (details)=>{
+    return {
+        type : USER_ACTIONS.LOGIN_USER,
+        payload : details
     }
 }

@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../redux/actions/user';
 import { verifyAuthentication } from '../utils/verifyAuth';
 
 export const getServerSideProps = (ctx) => {
@@ -11,11 +13,16 @@ export const getServerSideProps = (ctx) => {
       }
     }
     return {
-      props: {},
+      props: {user : auth.decodedData},
     };
   };
   
-const Dashboard = () => {
+const Dashboard = ({user}) => {
+  const dispatch=  useDispatch();
+  useEffect(()=>{
+    dispatch(updateUser(user));
+  }, [])
+  console.log(user)
   return (
     <div>Dashboard</div>
   )

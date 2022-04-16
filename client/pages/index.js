@@ -6,14 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import InputField from "../components/InputField";
-import { loginUser } from "../redux/actions/user";
+import { loginUser, registerUser } from "../redux/actions/user";
 const initalStateForm = {
   password: "",
   fullName: "",
   confirmPassword: "",
   email: "",
   contact: "",
-  role : 0,
+  role : "doctor",
 }
 
 export const getServerSideProps = (ctx) => {
@@ -31,7 +31,7 @@ export const getServerSideProps = (ctx) => {
 };
 
 
-const Home = () => {
+const Home = ({user}) => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
@@ -61,11 +61,16 @@ const Home = () => {
     dispatch(loginUser({email,password}, setLoading, setError, router));
     
 
-
-
   };
-  const RegisterSubmit = ()=>{};
-
+  const RegisterSubmit = ()=>{
+    const {email,password,confirmPassword, role, fullName, contact} = form;
+    if (!email || !password || !confirmPassword || !role || !fullName || !contact) {
+      return setError('Some Fields are invalid');
+    }
+    if (password!==confirmPassword) return setError('Password and confirm Password should match');
+    console.log(form)
+    dispatch(registerUser(form,setLoading, setError, router));
+  };
 
   useEffect(()=>{
     setError('');
@@ -155,8 +160,8 @@ const Home = () => {
                   onChange={handleChange}
                   className="mt-2  h-[40px] w-[510px] text-sm p-2 rounded-md outline-none"
                 >
-                  <option value="0">Doctor</option>
-                  <option value="1">Patient</option>
+                  <option value="doctor">Doctor</option>
+                  <option value="patient">Patient</option>
                 </select>
               </div>
             )}
@@ -181,7 +186,7 @@ const Home = () => {
                   label="Confirm Password"
                   type="password"
                   placeholder="Re-Enter"
-                  name="password"
+                  name="confirmPassword"
                   width={isLogin ? 370 : 250}
                   onChange={handleChange}
                   value={form.confirmPassword}

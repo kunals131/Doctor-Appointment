@@ -11,8 +11,8 @@ const verifyAuthHandler = async (req,res)=>{
     try {
         const decoded = verify(token,process.env.ACCESS_TOKEN_SECRET);
         console.log(decoded);
-        const user = await User.findByPk(decoded.uuid);
-        res.json({user,dataId : decoded.dataId, role : decoded.role, state : true});
+        const foundUser = await User.findByPk(decoded.uuid);
+        res.json(foundUser);
     }
     catch(err) {
         console.log(err)
