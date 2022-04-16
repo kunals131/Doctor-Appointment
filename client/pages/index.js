@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { verifyAuthentication } from "../utils/verifyAuth";
 import Image from "next/dist/client/image";
 import { FcUnlock } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,20 @@ const initalStateForm = {
   contact: "",
   role : 0,
 }
+
+export const getServerSideProps = (ctx) => {
+  const auth = verifyAuthentication(ctx.req);
+  if (auth.state) {
+    return {
+      redirect : {
+        destination : '/dashboard'
+      }
+    }
+  }
+  return {
+    props: {},
+  };
+};
 
 
 const Home = () => {
