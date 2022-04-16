@@ -1,4 +1,4 @@
-const {Doctor, Appointment,Payment, Speciality, Tag} = require('../../models');
+const {Doctor,Patient, Appointment,Payment, Speciality, Tag} = require('../../models');
 const { ifDoctorExists } = require('../../utils/ifExists');
 
 
@@ -26,7 +26,15 @@ const getAppointmentsHandler = async(req,res)=>{
 
         const appointments = await Appointment.findAll({
             where : {doctorId : id},
-            include : ['patient', 'doctor']
+            include : [{
+                model : Doctor,
+                as : 'doctor',
+                include : ['user']
+            }, {
+                model : Patient,
+                as : 'patient',
+                include : ['user']
+            }]
         });
         res.json(appointments);
     }catch(err) {

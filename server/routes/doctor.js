@@ -14,7 +14,7 @@ router.get('/:id/appointments/', getAppointmentsHandler);
 router.get('/:id/specialities/', getAllSpecialitiesHandler);
 router.post('/:id/specialities/', addSpecialityHandler);
 router.delete('/:id/specialities/:specialityId', removeSpecialityHandler);
-router.get('/:id/allpatients/', getAppointedPatientsHandler);
+router.get('/:id/allpatients/', getAppointedPatientsHandler)
 router.get('/:id/stats/', getAllCountsHandler);
 router.get('/:id/tags/', getTagsHandler)
 router.post('/:id/tags/', addTagHandler)
