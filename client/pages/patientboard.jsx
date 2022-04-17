@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { getDoctorAppointmentsAPI, getDoctorStatsAPI } from '../api/doctor';
+import { allPatientDetailsAPI, getAllAppointedDoctors } from '../api/patient';
 import DoctorDashboard from '../components/Dashboard/Doctor';
 import PatientDashboard from '../components/Dashboard/Patient';
 import { updateUser } from '../redux/actions/user';
@@ -11,15 +12,28 @@ export const getServerSideProps = async(ctx) => {
     if (!auth.state) {
       return {
         redirect : {
-          destination : '/'
+          destination : '/',
+          permanent : false
         }
       }
     }
-    return {props : {}}
-  
+   if (auth.decodedData.role==='doctor') {return {redirect : {destination : '/dashboard', permanent : false}}}
+   try {
+       const patientDetails = await allPatientDetailsAPI(auth.decodedData.dataId);
+       const appointedDoctors = await getAllAppointedDoctors(auth.decodedData.dataId);
+       return {props : {user : auth.decodedData, patient : patientDetails.data, appointedDoctors : appointedDoctors.data}}
+   }catch(err) {
+       console.log(err);
+       return {
+           notFound : true
+       }
+   }
   };
   
-const Dashboard = ({error}) => {
+const Dashboard = ({error, patient,user, appointedDoctors}) => {
+    console.log(patient);
+    console.log(user);
+    console.log(appointedDoctors);
 //   const dispatch=  useDispatch();
 // //   useEffect(()=>{
 // //     dispatch(updateUser(user));

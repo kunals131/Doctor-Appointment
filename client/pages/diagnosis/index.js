@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineRobot } from "react-icons/ai";
 import {MdClear} from 'react-icons/md';
 import {DatalistInput, useComboboxControls} from 'react-datalist-input';
+import diseases from '../../allDiseases.json';
 
 const SymptomItem = ({title, handleRemove})=>{
     return (
@@ -12,13 +13,19 @@ const SymptomItem = ({title, handleRemove})=>{
     )
 }
 
+
 const Diagnosis = () => {
-    const [symptomList, setSymptomList] = useState(['Fever', 'Ache'])
+    const [symptomList, setSymptomList] = useState([])
     const { value, setValue } = useComboboxControls({ initialValue: '' });
     // console.log(symptom)
+    const handleRunDiagnosis = ()=>{
+
+    }
+    
     const handleAdd = ()=>{
         setSymptomList((list)=>[...list,value]);
         setValue('');
+        
     }
     const handleRemove = (title)=>{
         setSymptomList(list=>list.filter(item=>item!==title));
@@ -39,21 +46,16 @@ const Diagnosis = () => {
       <div className="mt-2">
       <DatalistInput
     placeholder="Add a symptom"
-    className="bg-white w-[250px] rounded-md p-1 bg-transparent  border-b-2 border-black"
+    className="bg-white w-[250px] rounded-md p-1 bg-transparent  border-b-2  border-gray-500"
     inputProps={{className : 'w-[250px] bg-transparent text-sm outline-none '}}
 
     onSelect={(item) => console.log(item.value)}
-    listboxProps={{className : 'bg-white p-2 rounded-md '}}
+    listboxProps={{className : 'bg-white p-2 rounded-md h-[150px] overflow-y-auto '}}
     listboxOptionProps={{className : 'border-b-2'}}
     value={value}
     setValue={setValue}
-    items={[
-      { id: 'Chocolate', value: 'Chocolate' },
-      { id: 'Coconut', value: 'Coconut' },
-      { id: 'Mint', value: 'Mint' },
-      { id: 'Strawberry', value: 'Strawberry' },
-      { id: 'Vanilla', value: 'Vanilla' },
-    ]}
+    items={diseases.filter(d=>(!symptomList.includes(d))).map(d=>({id : d, value : d}))}
+   
   />
 
   <div className="mt-5 text-sm flex space-x-3 items-center">

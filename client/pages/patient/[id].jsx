@@ -2,6 +2,9 @@ import React from "react";
 import InfoBox from "../../components/Dashboard/InfoBox";
 
 
+
+
+
 const Patient = () => {
   return (
     <div className="flex space-x-10 mt-10">
