@@ -15,3 +15,4 @@ export const updateAppointmentAPI = async(id,updates)=>{
     const res = await axios.put(`/appointments/${id}`, {...updates});
     return res;
 }
+

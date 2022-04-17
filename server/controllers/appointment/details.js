@@ -25,7 +25,7 @@ const getAppointmentSchedulesHandler = async(req,res)=>{
         if (!ifExists) return res.status(404).json({message :'Appointment not found!'});
         const schedules = await Schedule.findAll({
             where : {appointmentId : id},
-            order : ['createdAt', 'ASC']
+            order : [['createdAt', 'DESC']],
         })
         res.json(schedules);
     }catch(err) {

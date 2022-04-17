@@ -7,9 +7,34 @@ import {GrSchedule} from 'react-icons/gr';
 import {FaFileMedicalAlt, FaFilePrescription} from 'react-icons/fa';
 import Conversation from "../../components/Appointment/Views/Conversation";
 import Schedules from "../../components/Appointment/Views/Schedules";
+import { verifyAuthentication } from "../../utils/verifyAuth";
+import { getAppointmentAPI, getAppointmentSchedules } from "../../api/common";
 
-
-
+export const getServerSideProps = async (ctx) => {
+  const auth = verifyAuthentication(ctx.req);
+  const {id} = ctx.query;
+  if (!auth.state) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  try {
+    const appointment = await getAppointmentAPI(id);
+    console.log(appointment)
+    const schedules = await getAppointmentSchedules(id);
+    return {props : {user : auth.decodedData, appointment : appointment.data, schedules : schedules.data}}
+    
+  }catch(error) {
+    console.log(error);
+    return {
+      notFound : true
+    }
+  }
+  return {props : {}}
+};
 
 
 
@@ -37,7 +62,8 @@ const Heading = ({view})=>{
   )
 }
 
-const Appointment = () => {
+const Appointment = ({schedules, appointment,user}) => {
+  console.log(schedules)
   const [view,setView] = useState('conversation');
   return (
     <div className="h-screen w-screen bg-white">

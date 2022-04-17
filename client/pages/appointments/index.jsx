@@ -166,7 +166,7 @@ const ViewItem = ({ view, setView, title, value }) => {
 
 const Appointments = ({ user, error, fetchedAppointments }) => {
   const [view, setView] = useState("active");
-  console.log(fetchedAppointments);
+  // console.log(fetchedAppointments);
   const [appointments, setAppointments] = useState(fetchedAppointments);
   useEffect(() => {
     if (fetchedAppointments?.length) {
