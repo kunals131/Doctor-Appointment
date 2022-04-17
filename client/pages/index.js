@@ -33,7 +33,7 @@ export const getServerSideProps = (ctx) => {
 
 const Home = ({user}) => {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const dispatch = useDispatch();
 
   const [form, setForm] = useState(initalStateForm);

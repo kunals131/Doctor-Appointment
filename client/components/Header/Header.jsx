@@ -1,7 +1,9 @@
 import React from 'react';
 import {MdSearch} from 'react-icons/md'
+import { useSelector } from 'react-redux';
 
 const Header = ({profile}) => {
+  const user = useSelector((state)=>state.user.data);
     const page = ''
     let black=profile.image;
   return (
@@ -17,7 +19,7 @@ const Header = ({profile}) => {
 }
       {page!=='profile'&&<div className='flex items-center space-x-6'>
       <div className="flex flex-col text-right">
-              <div className='font-medium text-[0.9rem]'>{profile.name}</div>
+              <div className='font-medium text-[0.9rem]'>{user?.fullName || 'None'}</div>
               <div className="text-gray-600 text-[0.9rem] cursor-pointer hover:underline hover:text-primary">Edit Profile</div>
           </div>
           <div className={`rounded-full w-12 hover:scale-110 transition-all cursor-pointer border-2 border-primary h-12 bg-black)`} style={{background : `url(${profile.image}) center center/cover`}}></div>

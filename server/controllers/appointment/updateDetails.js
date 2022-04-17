@@ -39,7 +39,7 @@ const updateAppointmentHandler = async(req,res)=>{
         isUpdate = true;
     }
     if (state) {
-        appointment.state = true; 
+        appointment.state = state; 
         isUpdate = true;
     }
     if (!isUpdate)  return res.json({message : 'Nothing updated'});

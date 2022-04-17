@@ -9,17 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-
     toJSON() {
       const state = this.getDataValue('state');
       if (state==='sent') {
         return  {...this.get(), state : 'pending'}
       }
+      if (state==='accepted') {
+        return {...this.get(), state :'active'}
+      }
       else {
         return {...this.get()}
       }
     }
-
     static associate({Patient,Doctor, Schedule}) {
       // define association here
       this.belongsTo(Patient, {foreignKey : 'patientId', as : 'patient'});
@@ -42,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull : false
     },
     state : {
-      type : DataTypes.ENUM('accepted', 'rejected', 'pending', 'closed'),
+      type : DataTypes.ENUM('accepted', 'rejected', 'sent'),
       allowNull : false,
       defaultValue : 'sent'
     },

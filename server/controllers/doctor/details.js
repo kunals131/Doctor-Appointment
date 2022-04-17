@@ -26,6 +26,7 @@ const getAppointmentsHandler = async(req,res)=>{
 
         const appointments = await Appointment.findAll({
             where : {doctorId : id},
+            order : [['createdAt', 'DESC']],
             include : [{
                 model : Doctor,
                 as : 'doctor',

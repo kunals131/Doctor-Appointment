@@ -18,7 +18,7 @@ const ComponentHeading = ({ text }) => (
   </div>
 );
 
-const DoctorDashboard = () => {
+const DoctorDashboard = ({stats, appointments}) => {
   const [dashboardState, setDashboardState] = useState('Doctor');
   return (
     <div className="mt-14">
@@ -26,25 +26,25 @@ const DoctorDashboard = () => {
       <div className="grid grid-cols-4 grid-flow-col  space-x-3">
         <DashboardCount
           icon={<MdCalendarToday size={36} />}
-          count={1500}
+          count={stats.totalPatients}
           text="3 today!✅"
           title="Appointments"
         ></DashboardCount>
         <DashboardCount
           icon={<MdVisibility size={39} />}
-          count={"1700+"}
+          count={stats.profileViews}
           text="43% Higher⚡"
           title="Profile Views"
         ></DashboardCount>
         <DashboardCount
           icon={<MdAccountBalanceWallet size={38} />}
-          count={"650$"}
+          count={stats.totalRevenue}
           text="430$+ This week"
           title="Total Revenue"
         ></DashboardCount>
         <DashboardCount
           icon={<MdPeopleOutline size={40} />}
-          count={95}
+          count={stats.totalPatients}
           text="7 Active"
           title="Total Patients"
         ></DashboardCount>
@@ -53,9 +53,8 @@ const DoctorDashboard = () => {
         <div className="bg-white w-[570px] rounded-xl h-[410px]">
           <ComponentHeading text="Active Appointments" />
           <div className="mt-3 p-3 flex flex-col space-y-3">
-            <AppointmentCard></AppointmentCard>
-            <AppointmentCard></AppointmentCard>
-            <AppointmentCard></AppointmentCard>
+            {appointments?.length&&appointments.map((appointment)=><AppointmentCard/>)}
+            {!appointments?.length&&<div className="">No Appointments yet</div>}
           </div>
         </div>
         
