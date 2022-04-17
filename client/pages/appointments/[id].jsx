@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdLogout,MdOutlineScheduleSend, MdSearch, MdArrowDownward, MdUser } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
 import {BsChevronDown} from 'react-icons/bs'
@@ -9,6 +9,7 @@ import Conversation from "../../components/Appointment/Views/Conversation";
 import Schedules from "../../components/Appointment/Views/Schedules";
 import { verifyAuthentication } from "../../utils/verifyAuth";
 import { getAppointmentAPI, getAppointmentSchedules } from "../../api/common";
+import io from 'socket.io-client';
 
 export const getServerSideProps = async (ctx) => {
   const auth = verifyAuthentication(ctx.req);
@@ -37,6 +38,10 @@ export const getServerSideProps = async (ctx) => {
 };
 
 
+const getUserFromId = (users,id)=>{
+  return Object.values(users).filter(u=>u.uuid===id)[0];
+}
+
 
 
 
@@ -63,7 +68,29 @@ const Heading = ({view})=>{
 }
 
 const Appointment = ({schedules, appointment,user}) => {
-  console.log(schedules)
+
+    const getOtherUser = ()=>{
+      return  appointment[user.role==='doctor'?'patient':'doctor'].user
+    }
+
+ 
+
+  const [messages,setMessages] = useState([]);
+
+  const [socket,setSocket] = useState(['hellow']);
+  useEffect(()=>{
+    const newSocket = io('http://localhost:5000', {
+      query : {id : user.uuid}
+    })
+    setSocket(newSocket);
+    newSocket.on('receive-message', (result)=>{
+      setMessages((list)=>[...list,result])
+    })
+
+    return ()=>newSocket.close();
+  }, [])
+
+ 
   const [view,setView] = useState('conversation');
   return (
     <div className="h-screen w-screen bg-white">
@@ -121,7 +148,7 @@ const Appointment = ({schedules, appointment,user}) => {
             <Heading view={view}/>
           </div>
          <div className="h-[calc(93vh-70px)]">
-           {view==='conversation'&&<Conversation/>}
+           {view==='conversation'&&<Conversation messages={messages} user={user} otherUser = {getOtherUser()} setMessages={setMessages} socket={socket}/>}
            {view==='schedules'&&<Schedules/>}
          </div>
         </div>
