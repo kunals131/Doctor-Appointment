@@ -15,6 +15,13 @@ export const getServerSideProps = async(ctx) => {
         }
       }
     }
+    if (auth.decodedData.role==='patient') {
+      return {
+        redirect : {
+          destination : '/patientboard'
+        }
+      }
+    }
     let error = null;
     try {
      const stats =  await getDoctorStatsAPI(auth.decodedData.dataId);
