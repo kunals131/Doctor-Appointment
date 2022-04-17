@@ -7,7 +7,7 @@ const Header = ({profile}) => {
     const page = ''
     let black=profile.image;
   return (
-  <div className="flex pt-8 items-center justify-between">
+  <div className="flex pt-8 text-white items-center justify-between">
       {
     page!=='profile'&&
       <div className='flex items-center'>

@@ -10,8 +10,8 @@ import {
 } from "react-icons/md";
 
 const ComponentHeading = ({ text }) => (
-  <div className="w-full rounded-t-xl flex justify-between items-center bg-headingBackground h-12 px-4">
-    <div className="font-medium text-gray-700">{text}</div>
+  <div className="w-full rounded-t-xl flex justify-between items-center bg-secondary h-12 px-4">
+    <div className="font-medium text-gray-100">{text}</div>
     <div className="text-gray-600 hover:scale-110 cursor-pointer">
       <MdOutlineMoreHoriz size={23} />
     </div>
@@ -50,7 +50,7 @@ const DoctorDashboard = ({stats, appointments}) => {
         ></DashboardCount>
       </div>
       <div className="flex mt-9 space-x-7">
-        <div className="bg-white w-[570px] rounded-xl h-[410px]">
+        <div className="bg-iconBg  w-[570px] rounded-xl h-[410px]">
           <ComponentHeading text="Active Appointments" />
           <div className="mt-3 p-3 flex flex-col space-y-3">
             {appointments?.length&&appointments.map((appointment)=><AppointmentCard/>)}
@@ -58,13 +58,13 @@ const DoctorDashboard = ({stats, appointments}) => {
           </div>
         </div>
         
-        <div className="bg-white h-[410px] rounded-xl w-[330px]">
+        <div className="bg-iconBg  h-[410px] rounded-xl w-[330px]">
           <ComponentHeading text="Messages" />
           <div className="mt-3 p-3 flex flex-col space-y-3">
             {/* <MessageCard></MessageCard> */}
           </div>
         </div>
-        <div className="bg-white h-[410px] rounded-xl w-[300px]">
+        <div className="bg-iconBg  h-[410px] rounded-xl w-[300px]">
           <ComponentHeading text="Notification" />
           <div className="flex text-center h-4/5 w-4/5 m-auto justify-center items-center">
             <div className="text-sm text-gray-800">This Feature is not currently under development</div>

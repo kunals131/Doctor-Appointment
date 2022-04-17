@@ -7,8 +7,9 @@ module.exports = {
     extend: {
       colors: {
         primary : '#7532FA',
-        mainBackground : '#EFEFFF',
-        iconBg : '#9350FF',
+        mainBackground : '#1C1F23',
+        secondary : '#19171D',
+        iconBg : '#3b4047',
         dashboardCountIcon : '#ECEBED',
         headingBackground : '#E5E5FF',
         gray: {

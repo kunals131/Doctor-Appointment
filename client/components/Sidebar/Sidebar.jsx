@@ -34,7 +34,7 @@ const Sidebar = () => {
     dispatch(logoutUser(router))
   }
   return (
-    <div className="fixed top-0 rounded-tr-2xl rounded-br-2xl scale-0 sm:scale-100 left-0 h-screen w-24 m-0 flex flex-col pt-36 bg-primary text-white shadow-lg">
+    <div className="fixed top-0 rounded-tr-2xl rounded-br-2xl scale-0 sm:scale-100 left-0 h-screen w-24 m-0 flex flex-col pt-36 bg-secondary text-white shadow-lg">
       <SideBarIcon
         link="/dashboard"
         icon={<MdHome size="28" />}
