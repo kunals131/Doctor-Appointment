@@ -42,8 +42,8 @@ export const getServerSideProps = async (ctx) => {
       props: { user: auth.decodedData, fetchedAppointments: appointments.data },
     };
   } catch (err) {
-    console.log(err);
-    return { props: { user: auth.decodedData, error: err } };
+    console.log(err.response.data);
+    return { props: { user: auth.decodedData, error: err.response.data } };
   }
 };
 
