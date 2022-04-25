@@ -3,7 +3,9 @@ import { AiOutlineRobot } from "react-icons/ai";
 import {MdClear} from 'react-icons/md';
 import {DatalistInput, useComboboxControls} from 'react-datalist-input';
 import diseases from '../../allDiseases.json';
-
+import { createPatientDiagnosis, getDiagnosis } from "../../api/patient";
+import { verifyAuthentication } from "../../utils/verifyAuth";
+import { useRouter } from "next/router";
 const SymptomItem = ({title, handleRemove})=>{
     return (
         <div className="text-sm p-2 flex items-center justify-between bg-gray-200 w-[250px] rounded-md">
@@ -13,14 +15,41 @@ const SymptomItem = ({title, handleRemove})=>{
     )
 }
 
+export const getServerSideProps = async(ctx) => {
+  const auth = verifyAuthentication(ctx.req);
+  if (!auth.state) {
+    return {
+      redirect : {
+        destination : '/'
+      }
+    }
+  }
+  if (auth.decodedData.role!=='patient') {
+    return {
+      notFound : true
+    }
+  }
+  return {props : {user : auth.decodedData}}
+  
 
-const Diagnosis = () => {
+};
+
+
+const Diagnosis = ({user}) => {
+  console.log(user)
     const [symptomList, setSymptomList] = useState([])
     const { value, setValue } = useComboboxControls({ initialValue: '' });
     const [loading,setLoading] = useState(false);
+    const router = useRouter();
     // console.log(symptom)
-    const handleRunDiagnosis = ()=>{
-      
+    const handleRunDiagnosis = async()=>{
+      // console.log(symptomList)
+      const symptomString = symptomList.join(',');
+      const res = await getDiagnosis(symptomString);
+      console.log(res.data.final_prediction);
+      const addedDiagosnis =  await createPatientDiagnosis({patientId : user.dataId, symptoms : symptomString, disease : res.data.final_prediction});
+      console.log(addedDiagosnis.data.id);
+      router.push(`/diagnosis/${addedDiagosnis.data.id}`)
     }
 
     const handleAdd = ()=>{
@@ -60,8 +89,8 @@ const Diagnosis = () => {
   />
 
   <div className="mt-5 text-sm flex space-x-3 items-center">
-      <button disabled={value.length==0} className="bg-primary p-1 px-4 text-white  rounded-md text-sm" onClick={handleAdd}>Add</button>
-      <button onClick={handleRunDiagnosis} disabled={symptomList.length==0} className="p-[3px] px-4 text-primary border-[1px] border-primary rounded-md">Run Diagnosis</button>
+      <button disabled={value.length==0} className="bg-primary p-1 disabled:bg-opacity-40 px-4 text-white  rounded-md text-sm" onClick={handleAdd}>Add</button>
+      <button onClick={handleRunDiagnosis} disabled={symptomList.length==0} className="p-[3px] disabled:bg-primary disabled:bg-opacity-40 disabled:text-white disabled:border-none px-4 text-primary border-[1px] border-primary rounded-md">Run Diagnosis</button>
   </div>
       </div>
     </div>

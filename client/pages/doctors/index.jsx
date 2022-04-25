@@ -2,7 +2,7 @@ import React from "react";
 import FilterOptions from "../../components/FilterOptions";
 import Image from "next/image";
 import { MdHome, MdPhone } from "react-icons/md";
-
+import DoctorProfile from "../../components/DoctorCard";
 
 const Doctors = () => {
   return (
