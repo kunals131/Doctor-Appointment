@@ -18,6 +18,7 @@
     "react-datalist-input": "^3.0.5",
     "react-dom": "18.0.0",
     "react-icons": "^4.3.1",
+    "react-loader-spinner": "^6.0.0-0",
     "react-redux": "^7.2.8",
     "redux": "^4.1.2",
     "redux-logger": "^3.0.6",

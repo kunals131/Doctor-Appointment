@@ -17,11 +17,12 @@ const SymptomItem = ({title, handleRemove})=>{
 const Diagnosis = () => {
     const [symptomList, setSymptomList] = useState([])
     const { value, setValue } = useComboboxControls({ initialValue: '' });
+    const [loading,setLoading] = useState(false);
     // console.log(symptom)
     const handleRunDiagnosis = ()=>{
-
+      
     }
-    
+
     const handleAdd = ()=>{
         setSymptomList((list)=>[...list,value]);
         setValue('');
@@ -60,7 +61,7 @@ const Diagnosis = () => {
 
   <div className="mt-5 text-sm flex space-x-3 items-center">
       <button disabled={value.length==0} className="bg-primary p-1 px-4 text-white  rounded-md text-sm" onClick={handleAdd}>Add</button>
-      <button onClick={()=>console.log('RAN DIAGNOSIS')} disabled={symptomList.length==0} className="p-[3px] px-4 text-primary border-[1px] border-primary rounded-md">Run Diagnosis</button>
+      <button onClick={handleRunDiagnosis} disabled={symptomList.length==0} className="p-[3px] px-4 text-primary border-[1px] border-primary rounded-md">Run Diagnosis</button>
   </div>
       </div>
     </div>
