@@ -16,6 +16,8 @@ import { BiTimeFive } from "react-icons/bi";
 import { FiCheckCircle } from "react-icons/fi";
 import { IoMdDoneAll } from "react-icons/io";
 import { updateAppointmentAPI } from "../../api/doctor";
+import { getAllAppointments } from "../../api/patient";
+import { useRouter } from "next/router";
 
 const returnGridStyle = (status) => {
   if (status === "pending") return "grid-cols-[1.2fr_1.2fr_1fr_1.7fr]";
@@ -35,9 +37,14 @@ export const getServerSideProps = async (ctx) => {
     };
   }
   try {
-    const appointments = await getDoctorAppointmentsAPI(
+    let appointments = null;
+    if (auth.decodedData.role==='doctor') {
+    appointments = await getDoctorAppointmentsAPI(
       auth.decodedData.dataId
     );
+    }else {
+      appointments = await getAllAppointments(auth.decodedData.dataId);
+    }
     return {
       props: { user: auth.decodedData, fetchedAppointments: appointments.data },
     };
@@ -47,14 +54,15 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const AppointmentCard = ({ appointment }) => {
+const AppointmentCard = ({ appointment, role }) => {
   const colors = {
     active: "bg-green-400",
     closed: "bg-gray-500",
     pending: "bg-gray-500",
     rejected: "bg-red-300",
   };
-  const { patient, createdAt } = appointment;
+  const router = useRouter();
+  const { patient, doctor, createdAt } = appointment;
   const { state: status } = appointment;
 
   const [title, setTitle] = useState(appointment.title);
@@ -71,6 +79,8 @@ const AppointmentCard = ({ appointment }) => {
   const handleStateUpdate = async (state) => {
     const res = await updateAppointmentAPI(appointment.id, { state });
     console.log(res.data);
+    router.reload(window.location.pathname)
+
   };
 
   return (
@@ -98,7 +108,7 @@ const AppointmentCard = ({ appointment }) => {
         </div>
         <div className="flex space-x-2 text-xs items-center">
           <FaUserAlt />
-          <div>{patient.user.fullName}</div>
+          <div>{role==='doctor'?patient.user.fullName:doctor.user.fullName}</div>
         </div>
         <div className="flex space-x-2 text-xs items-center">
           <BiTimeFive />
@@ -123,7 +133,7 @@ const AppointmentCard = ({ appointment }) => {
               Close Case
             </div>
           )}
-          {status === "pending" && (
+          {status === "pending"&&role!=='patient' && (
             <div
               onClick={() => handleStateUpdate("accepted")}
               className="p-2 bg-green-400 bg-opacity-20 rounded-md px-4 flex"
@@ -166,7 +176,7 @@ const ViewItem = ({ view, setView, title, value }) => {
 
 const Appointments = ({ user, error, fetchedAppointments }) => {
   const [view, setView] = useState("active");
-  // console.log(fetchedAppointments);
+  console.log(fetchedAppointments);
   const [appointments, setAppointments] = useState(fetchedAppointments);
   useEffect(() => {
     if (fetchedAppointments?.length) {
@@ -239,7 +249,7 @@ const Appointments = ({ user, error, fetchedAppointments }) => {
                     )}
                     {appointments.length > 0 &&
                       appointments.map((app) => (
-                        <AppointmentCard key={app.id} appointment={app} />
+                        <AppointmentCard key={app.id} appointment={app} role={user.role} />
                       ))}
                   </div>
                 </div>
@@ -254,7 +264,7 @@ const Appointments = ({ user, error, fetchedAppointments }) => {
               setView={setView}
             />
             <ViewItem
-              title="Recieved"
+              title={user.role==='doctor'?"Recieved":"Sent"}
               value="pending"
               view={view}
               setView={setView}

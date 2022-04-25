@@ -76,7 +76,7 @@ const Appointment = ({schedules, appointment,user}) => {
  
 
   const [messages,setMessages] = useState([]);
-
+ 
   const [socket,setSocket] = useState(['hellow']);
   useEffect(()=>{
     const newSocket = io('http://localhost:5000', {

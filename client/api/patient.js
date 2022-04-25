@@ -27,3 +27,8 @@ export const getDiagnosisData = async(id)=>{
     const res = await axios.get(`/diagnosis/${id}`);
     return res;
 }
+
+export const getAllAppointments = async(id)=>{
+    const res = await axios.get(`/patient/${id}/appointments`);
+    return res;
+}

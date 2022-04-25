@@ -53,7 +53,7 @@ const DoctorDashboard = ({stats, appointments}) => {
         <div className="bg-white w-[570px] rounded-xl h-[410px]">
           <ComponentHeading text="Active Appointments" />
           <div className="mt-3 p-3 flex flex-col space-y-3">
-            {appointments?.length&&appointments.map((appointment)=><AppointmentCard/>)}
+            {appointments?.length&&appointments.map((appointment,idx)=><AppointmentCard key={idx}/>)}
             {!appointments?.length&&<div className="">No Appointments yet</div>}
           </div>
         </div>

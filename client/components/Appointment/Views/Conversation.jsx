@@ -9,7 +9,7 @@ const MessageInput = ({socket, user, otherUser ,messages,setMessages})=>{
     const handleSubmit = (e)=>{
         e.preventDefault();
         console.log(`SENT : ${input} from ${user.fullName}`)
-        const dataToSend = {recipients : ['f8d960ef-9c6a-4b93-bf6d-f53f8caac349'], text : input, author : user.uuid,  time:
+        const dataToSend = {recipients : [otherUser.uuid], text : input, author : user.uuid,  time:
         new Date(Date.now()).getHours() +
         ":" +
         new Date(Date.now()).getMinutes(), authorName : user.fullName, authorImg : user.img }
