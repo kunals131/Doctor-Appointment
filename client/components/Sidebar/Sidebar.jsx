@@ -18,8 +18,10 @@ import { useRouter } from "next/dist/client/router";
 
 
 const SideBarIcon = ({ icon, text = "tooltip 💡", link }) => {
+  const router = useRouter();
+  const handleClick = ()=>router.push(link)
   return (
-    <div className="sidebar-icon group">
+    <div onClick={handleClick} className="sidebar-icon group">
       {icon}
       <span className="sidebar-tooltip group-hover:scale-100">{text}</span>
     </div>
@@ -36,7 +38,7 @@ const Sidebar = () => {
   return (
     <div className="fixed top-0 rounded-tr-2xl rounded-br-2xl scale-0 sm:scale-100 left-0 h-screen w-24 m-0 flex flex-col pt-36 bg-primary text-white shadow-lg">
       <SideBarIcon
-        link="/dashboard"
+        link="/"
         icon={<MdHome size="28" />}
         text="Dashboard🏥"
       />
@@ -45,9 +47,9 @@ const Sidebar = () => {
         icon={<MdSearch size="27" />}
         text="Search 🔎"
       />
-      <SideBarIcon icon={<FaRobot size="23" />} text="AI Diagnosis 🤖" />
-      <SideBarIcon icon={<MdAccessAlarms size="26" />} text="Appointments🕛" />
-      <SideBarIcon icon={<MdStorefront size="26" />} text="Store💊" />
+      <SideBarIcon icon={<FaRobot size="23" />} link="/diagnosis" text="AI Diagnosis 🤖" />
+      <SideBarIcon icon={<MdAccessAlarms size="26" />} link="/appointments" text="Appointments🕛" />
+      <SideBarIcon icon={<MdStorefront size="26" />} link="/" text="Store💊" />
       <div className="logout-icon group" onClick={handleLogout}>
         <MdLogout></MdLogout>
         <span className="sidebar-tooltip group-hover:scale-100" >Logout</span>
