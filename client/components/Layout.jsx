@@ -7,7 +7,7 @@ import AdditionalDetails from "./AdditionalDetails";
 
 
 const Layout = ({children}) => {
-    const [isNew,setIsNew] = useState(true);
+    const [isNew,setIsNew] = useState(false);
     const router = useRouter();
     const [path,setPath] = useState(router.pathname);
     useEffect(()=>{
@@ -22,7 +22,7 @@ const Layout = ({children}) => {
     return <>
     {(path!=='/'&&router.pathname!=='/appointments/[id]')&&<Sidebar></Sidebar>}
     <div className={(path!=='/'&&router.pathname!=='/appointments/[id]')?'sm:pl-28 md:pl-36 lg:pl-44 lg:pr-28':''}>
-        {(router.pathname!=='/'&&router.pathname!=='/appointments/[id]')&&<Header></Header>}
+        {(router.pathname!=='/'&&router.pathname!=='/appointments/[id]'&&router.pathname!=='/edit')&&<Header></Header>}
         {children}
     </div>
     </>;

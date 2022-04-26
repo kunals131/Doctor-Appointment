@@ -32,3 +32,8 @@ export const getAllAppointments = async(id)=>{
     const res = await axios.get(`/patient/${id}/appointments`);
     return res;
 }
+
+export const updatePatientDetailsAPI = async(id,formData)=>{
+    const res = await axios.put(`/patient/${id}`, {changes : formData})
+    return res;
+}

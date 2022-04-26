@@ -37,19 +37,23 @@ const updatePatientHandler = async (req,res)=>{
     const id = req.params.id;
     try {
         const patient = await Patient.findByPk(id);
-        const {body} = req;
+        const {changes} = req.body;
         if (!patient)return res.status(404).json({message : 'Patient Not Found!'});
-        if (body.isComplete) {
-            patient.isComplete = body.isComplete;
+        if (changes) {
+            await patient.update(changes);
+            const result = await patient.save();
+            return res.json(result);
         }
-        const result = await patient.save();
-        res.json(result);
+        else {
+            return res.json({message : 'No Changes'})
+        }
     }catch(err) {
         console.log(err);
         return res.status(400).json({message : 'Something went wrong!', error : err});
     }
 
 }
+
 
 
 module.exports = {addSymptomHandler, updatePatientHandler,removeSymptomHandler}

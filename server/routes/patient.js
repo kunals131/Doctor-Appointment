@@ -11,7 +11,7 @@ router.get('/:id/records/', getAllMedicalRecordsHandler);
 router.post('/:id/symptoms', addSymptomHandler);
 router.delete('/:id/symptoms/:symptomId', removeSymptomHandler);
 router.get('/:id/appointeddoctors', getAppointedDoctors);
-router.put('/:id/update', updatePatientHandler)
+router.put('/:id/', updatePatientHandler)
 router.get('/:id/diagnoses', getAllPatientDiagnosisHandler);
 
 

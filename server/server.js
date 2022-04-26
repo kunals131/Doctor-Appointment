@@ -36,6 +36,7 @@ app.use('/api/appointments/', require('./routes/appointment'));
 
 app.use('/api/schedule/', require('./routes/schedule'));
 app.use('/api/records/', require('./routes/records'));
+app.use('/api/user/', require('./routes/user'));
 
 app.get('/', (req,res)=>{
     res.send('<h1>Server is Running </h1>')
@@ -50,12 +51,11 @@ app.get('/everything', async(req,res)=>{
         const users = await User.findAll({
             include : ['doctorDetails', 'patientDetails']
         });
-        const doctors = await Doctor.findAll({include : ['tags', 'specialities']});
+        const doctors = await Doctor.findAll({include : ['specialities']});
         const patients = await Patient.findAll({
-            include : ['medicalRecords']
+            include : ['medicalRecords', 'medications', 'symptoms']
         });
         const appointments  = await Appointment.findAll();
-        const tags  = await Tag.findAll();
         const specialities  = await Speciality.findAll();
         const symptoms  = await Symptom.findAll();
         const schedules = await Schedule.findAll();
