@@ -7,7 +7,7 @@ const getAllDetailsHandler = async(req,res)=>{
     try {
         const doctor = await Doctor.findOne({
             where : {uuid : id},
-            include : ['specialities', 'appointments', 'user', 'tags'],
+            include : ['specialities', 'appointments', 'user'],
         });
         if (!doctor) return res.status(404).json({message : 'Patient Not Found!'});
         res.json(doctor);

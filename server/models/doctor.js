@@ -25,11 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull : false,
       primaryKey : true,
     },
-    isNew : {
-      type : DataTypes.BOOLEAN,
-      defaultValue : false,
-      allowNull : false
-    },
+
     medicalExperience : {
       type : DataTypes.STRING,
       allowNull : true,
@@ -50,17 +46,13 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.UUID,
       allowNull : false
     },
-    isComplete : {
-      type : DataTypes.BOOLEAN,
-      defaultValue : false,
-      allowNull : false
-    },
+
     lat : {
       type : DataTypes.STRING,
       allowNull : true
     },
     tags : {
-      type : DataTypes.STRING(15000),
+      type : DataTypes.TEXT,
       allowNull : true,
     },
     long : {

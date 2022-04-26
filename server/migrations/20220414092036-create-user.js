@@ -38,6 +38,16 @@ module.exports = {
         type : DataTypes.STRING(400),
         allowNull : false
       },
+      isComplete : {
+        type : DataTypes.BOOLEAN,
+        defaultValue : false,
+        allowNull : false
+      },
+      isNew : {
+        type : DataTypes.BOOLEAN,
+        defaultValue : true,
+        allowNull : false
+      },
       lat : DataTypes.STRING,
       long : DataTypes.STRING,
   

@@ -43,17 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.UUID,
       allowNull : false
     },
-    isComplete : {
-      type : DataTypes.BOOLEAN,
-      defaultValue : false,
-      allowNull : false
-    },
-    isNew : {
-      type : DataTypes.BOOLEAN,
-      defaultValue : false,
-      allowNull : false
-    }
-    
+
   }, {
     sequelize,
     modelName: 'Patient',

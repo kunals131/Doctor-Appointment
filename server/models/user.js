@@ -34,6 +34,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull : false,
       primaryKey : true,
     },
+    isNew : {
+      type : DataTypes.BOOLEAN,
+      defaultValue : true,
+      allowNull : false
+    },
+    isComplete : {
+      type : DataTypes.BOOLEAN,
+      defaultValue : false,
+      allowNull : false
+    },
     img : {
       type : DataTypes.STRING,
       defaultValue : 'https://res.cloudinary.com/insight-byte/image/upload/v1649939622/austin-distel-7bMdiIqz_J4-unsplash_rmcvfa.jpg',
