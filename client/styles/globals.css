@@ -14,6 +14,15 @@ body {
   @apply bg-mainBackground font-poppins
 }
 
+.drop {
+  /* From https://css.glass */
+background: rgba(145, 14, 255, 0.17);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(9.3px);
+-webkit-backdrop-filter: blur(9.3px);
+border: 1px solid rgba(145, 14, 255, 0.3);
+}
 
 .sidebar-icon {
   @apply relative flex items-center justify-center 
@@ -42,5 +51,25 @@ text-primary
   transition-all duration-300 ease-linear
   cursor-pointer shadow-lg ;
 }
+
+.scrollbar::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+  display: none;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+	background-color: #a9a9a9;
+	border: 2px solid #5555552b;
+}
+
 
 @tailwind utilities;

@@ -29,8 +29,6 @@ module.exports = {
         type : DataTypes.UUID,
         allowNull : false
       },
-
-
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

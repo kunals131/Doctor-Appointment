@@ -34,10 +34,10 @@ const Dashboard = ({error, patient,user, appointedDoctors}) => {
     console.log(patient);
     console.log(user);
     console.log(appointedDoctors);
-//   const dispatch=  useDispatch();
-// //   useEffect(()=>{
-// //     dispatch(updateUser(user));
-// //   }, [])
+  const dispatch=  useDispatch();
+  useEffect(()=>{
+    dispatch(updateUser(user));
+  }, [])
  
   if (error) {
     return <div>Error Occured</div>
