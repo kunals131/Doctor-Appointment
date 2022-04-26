@@ -9,7 +9,7 @@ const getAllDetailsHandler = async(req,res)=>{
             where : {uuid : id},
             include : ['specialities', 'appointments', 'user'],
         });
-        if (!doctor) return res.status(404).json({message : 'Patient Not Found!'});
+        if (!doctor) return res.status(404).json({message : 'Doctor Not Found!'});
         res.json(doctor);
     }
     catch(err) {

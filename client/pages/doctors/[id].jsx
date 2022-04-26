@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdPhone, MdEmail, MdHome, MdPersonPin, MdLocalMall, MdFeed, MdReviews } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { getDoctorDetailsAPI } from "../../api/doctor";
 import DoctorProfile from "../../components/DoctorCard";
+import { updateUser } from "../../redux/actions/user";
+import { verifyAuthentication } from "../../utils/verifyAuth";
 
 const DetailCard = ({title,info})=>(
     <div className="bg-mainBackground w-full h-auto p-2 rounded-lg">
@@ -8,9 +12,34 @@ const DetailCard = ({title,info})=>(
         <div className="mt-1">{info}</div>
     </div>
 )
+export const getServerSideProps = async(ctx) => {
+  const auth = verifyAuthentication(ctx.req);
+  if (!auth.state) {
+    return {
+      redirect : {
+        destination : '/'
+      }
+    }
+  }
+  console.log(ctx.query.id);
+  try {
+  const doctorDetails = await getDoctorDetailsAPI(ctx.query.id);
+  return {props:{user : auth.decodedData, doctor : doctorDetails.data}}
+  }catch(err) {
+    console.log(err);
+    return {
+      notFound : true
+    }
+  }
 
-const Profile = ({ profile }) => {
-  
+
+}
+
+const Profile = ({ profile, user,doctor }) => {
+  const dispatch=  useDispatch();
+  useEffect(()=>{
+    dispatch(updateUser(user));
+  }, [])
 
   return (
     
@@ -20,12 +49,12 @@ const Profile = ({ profile }) => {
         <div className="flex space-x-6 items-center">
           <div
             className="w-48 h-48 bg-black rounded-xl"
-            style={{ background: `url(${profile.image}) center center/cover` }}
+            style={{ background: `url(${doctor.user.img}) center center/cover` }}
           ></div>
           <div>
-            <div className="text-xl font-semibold">{profile.name}</div>
+            <div className="text-xl font-semibold">{doctor.user.fullName}</div>
             <div className="text-xs text-gray-700">
-              {profile.experience}+ Years of Experience
+              {doctor.medicalExperience}+ Years of Experience
             </div>
             <div className="mt-8 text-xs font-medium">👨‍⚕️Specialities : </div>
             <div className="mt-2 flex space-x-1">
@@ -48,13 +77,13 @@ const Profile = ({ profile }) => {
         <div className="space-y-3">
         {/* Contact */}
         <div className="flex space-x-1">
-            <MdPhone size={20}/> <p className="text-sm">+91 7049930903</p>
+            <MdPhone size={20}/> <p className="text-sm">{doctor.user.contact}</p>
         </div>
         <div className="flex space-x-1">
-            <MdEmail size={20} /> <p className="text-sm">keithsebas@gmail.com</p>
+            <MdEmail size={20} /> <p className="text-sm">{doctor.user.email}</p>
         </div>
         <div className="flex space-x-1">
-            <MdHome size={20} /> <p className="text-sm">Hoit Clinic - new Neightbour</p>
+            <MdHome size={20} /> <p className="text-sm">{doctor.address}</p>
         </div>
         <div>
             <button className="text-sm mt-2 bg-primary text-white rounded-xl px-3 py-2" >👨‍⚕️ Appoint Doctor Keith</button>
@@ -86,7 +115,7 @@ const Profile = ({ profile }) => {
                     <div className="font-semibold text-xl">About</div>
                     <div className="h-1 w-5 transition-all group-hover:w-9 bg-primary"></div>
                     <div className="mt-5 overflow-y-scroll h-[270px] space-y-3">
-                        <DetailCard title={"Name"} info={profile.name} />
+                        <DetailCard title={"Name"} info={doctor.user.fullName} />
                         <DetailCard title={"Speciality"} info={<div className="mt-2 flex space-x-1">
               <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
                 Dentist
@@ -101,10 +130,10 @@ const Profile = ({ profile }) => {
                 Lungs
               </span>
             </div>} />
-            <DetailCard title={"Medical University"} info={"Institute of Medical Science, UK"} />
-            <DetailCard title={"Degree"} info={"MBBS | Dentistry"} />
-            <DetailCard title={"Address"} info={"Keith Street Norway"} />
-            <DetailCard title={"Contact"} info={"+91 7049930"} />
+            <DetailCard title={"Medical University"} info={doctor.university} />
+            <DetailCard title={"Degree"} info={doctor.degree} />
+            <DetailCard title={"Address"} info={doctor.address} />
+            <DetailCard title={"Contact"} info={doctor.user.contact} />
 
                         
                     </div>

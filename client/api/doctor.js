@@ -5,6 +5,10 @@ export const getDoctorStatsAPI = async (id)=>{
     const res = await axios.get(`/doctor/${id}/stats`);
     return res;
 }
+export const getDoctorDetailsAPI = async(id)=>{
+    const res = await axios.get(`/doctor/${id}`);
+    return res;
+}
 
 export const getDoctorAppointmentsAPI = async(id)=>{
     const res = await axios.get(`/doctor/${id}/appointments`);
