@@ -15,7 +15,11 @@ import { MdClear } from "react-icons/md";
 import InputField from "./Input";
 
 
-const MedicalRecord = () => {
+const MedicalRecord = ({record, handleRecordTitle}) => {
+  const [title,setTitle] = useState(record.title);
+  const handleSubmit = ()=>{
+    if (title.length>0) handleRecordTitle(record.id,title);
+  }
     return (
       <div className="px-5 rounded-md py-10 p-2 pt-10 bg-[#F5F7FB] border-dashed border-gray-400 border-2 flex flex-col items-center ">
         <div className="p-6 shadow-md bg-white w-fit">
@@ -24,7 +28,9 @@ const MedicalRecord = () => {
         <div>
           <input
             type="text"
-            value="New Record"
+            value={title}
+            onChange={(e)=>setTitle(e.target.value)}
+            onBlur={handleSubmit}
             className="text-[#6757E5] w-full outline-none text-center mt-3  bg-transparent p-1"
           />
         </div>

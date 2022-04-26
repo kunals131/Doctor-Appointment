@@ -37,3 +37,8 @@ export const updatePatientDetailsAPI = async(id,formData)=>{
     const res = await axios.put(`/patient/${id}`, {changes : formData})
     return res;
 }
+
+export const updateMedicalRecordAPI = async(id,formData)=>{
+    const res = await axios.put(`/records/${id}`, {...formData});
+    return res;
+}

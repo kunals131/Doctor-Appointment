@@ -9,7 +9,15 @@ const loginHandler = async(req,res)=>{
     try {
         const foundUser = await User.findOne({
             where : {email},
-            include : ['doctorDetails', 'patientDetails']
+            include : [{
+                model : Doctor,
+                as : 'doctorDetails',
+                include : ['user']
+            }, {
+                model : Patient,
+                as : 'patientDetails',
+                include : ['user', 'medicalRecords', 'medications', 'symptoms']
+            }]
         })
 
         if (!foundUser) return res.status(406).json({message : 'Invalid Email Address or Password'});

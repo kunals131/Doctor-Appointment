@@ -34,7 +34,8 @@ const Edit = ({user}) => {
     details : {
       age : user.additionalData.age,
       bloodGroup : user.additionalData.bloodGroup,
-      medicalHistory : user.additionalData.medicalHistory
+      medicalHistory : user.additionalData.medicalHistory,
+      medicalRecords : user.additionalData.medicalRecords
     },
     error : ''
   })

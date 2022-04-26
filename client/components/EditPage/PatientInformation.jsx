@@ -9,16 +9,26 @@ import InputField from "../Input";
 import InputAdvance from "../InputAdvance";
 import MedicalRecord from "../MedicalRecord";
 import { updatePatientDetailsAPI } from "../../api/patient";
+import { updateMedicalRecordAPI } from "../../api/patient";
 
 
 const PatientDetails = ({information,setInformation, userId})=>{
-  const {age,medicalHistory, bloodGroup} = information.details;
+  const {age,medicalHistory, bloodGroup, medicalRecords} = information.details;
   console.log(age);
   const handleChange = (e)=>{
     setInformation(prev=>({
       ...prev, details : {...prev.details, [e.target.name] : e.target.value}, error : ''
     }));
    
+  }
+  const handleRecordTitle = async(id,title)=>{
+    try {
+      const res =await updateMedicalRecordAPI(id,{title});
+      console.log(res);
+    }
+    catch(err) {
+      console.log(err);
+    }
   }
   const handleSave = async(e)=>{
     if (!information.age || !information.medicalHistory || !information.bloodGroup) setInformation({...information, error : 'Something went wrong!'});
@@ -61,15 +71,15 @@ const PatientDetails = ({information,setInformation, userId})=>{
           <div className="mt-10">
             <div className="text-[#5A5482] font-bold text-xl flex justify-between w-full">
               <div>Medical Records</div>
-              <div className="text-base bg-[#5A5482] px-4 rounded-md py-[2px] hover:scale-105 transition-all cursor-pointer text-white ">Save</div>
             </div>
             <div className="text-gray-500 text-xs mt-2">
               These Medical Records will be shown to the doctor for better
               accessment.
             </div>
             <div className="mt-10 grid grid-cols-2 text-gray-800 gap-4 grid-flow-row">
-              <MedicalRecord />
-              <MedicalRecord />
+              {medicalRecords.map(mr=>(
+                <MedicalRecord record={mr} handleRecordTitle={handleRecordTitle} setInformation={setInformation}/>
+              ))}
               <div className="w-full hover:border-[#6757E5] transition-all ease-in-out group border-gray-400 flex flex-col items-center justify-center h-full border-2 border-dashed rounded-md">
                 <div>
                   <BsPlusCircleDotted
