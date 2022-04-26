@@ -85,27 +85,15 @@ const removeSpecialityHandler = async (req, res) => {
 
 const updateDoctorHandler = async(req,res)=>{
     const id = req.params.id;
-    const {university,degree,address} = req.body;
+    const {changes} = req.body;
     try {
     let isUpdated = false;
     const doctor = await Doctor.findByPk(id);
     if (!doctor) return res.status(404).json({ message: "Doctor Not Found!" });
-
-    if (university) {
-        isUpdated = true;
-        doctor.university = university;
-    }
-    if (degree) {
-        isUpdated = true,
-        doctor.degree = degree;
-    }
-    if (address) {
-        isUpdated = true;
-        doctor.address = address;
-    }
-    if (isUpdated) {
-        const result = await doctor.save();
-        return res.json(result);
+    if (changes) {
+      await doctor.update(changes)
+      const result = await doctor.save();
+      return res.json(result);
     }
 
 

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { updateUserDetailsAPI } from "../../api/common";
 import BasicInformation from "../../components/EditPage/BasicInformation";
 import DoctorDetails from "../../components/EditPage/DoctorInformation";
 import PatientDetails from "../../components/EditPage/PatientInformation";
@@ -30,6 +31,7 @@ const Edit = ({user}) => {
     },
     error : ''
   })
+  const ref = useRef();
   const [patientInformation, setPatientInformation] = useState({
     details : {
       age : user.additionalData.age,
@@ -39,6 +41,35 @@ const Edit = ({user}) => {
     },
     error : ''
   })
+  const [loading,setLoading] = useState(false);
+  const handleFileChange = async(e)=>{
+    if (e.target.files[0]) {
+    const file = e.target.files[0];
+    try {
+      setLoading(true);
+    const formData = new FormData();
+    formData.append('file', file)
+    formData.append("upload_preset", "yylewyo1")
+    const res = await fetch('https://api.cloudinary.com/v1_1/insight-byte/raw/upload', {
+      method : 'POST',
+      body : formData
+    })
+   const result = await res.json();
+   const {url} = result;
+   console.log(url);
+   setProfileImg(url);
+   const result2 = await updateUserDetailsAPI(user.uuid,{img : profileImg});
+   console.log(result2);
+   setLoading(false);
+
+  }catch(err) {
+    console.log(err);
+   setLoading(false);
+
+  }
+  }
+  }
+  const [profileImg,setProfileImg] = useState(user.img);
   return (
     <div className="py-10 w-[70vw] pr-10">
       <div className="text-[#5A5482] font-bold text-xl">Edit Your Profile</div>
@@ -46,7 +77,8 @@ const Edit = ({user}) => {
         Tip : Keep your profile complete for better search and accessiblity.
       </div>
       <div className="mt-10 flex space-x-5 items-center ">
-        <div className="w-[100px] h-[100px] rounded-full bg-primary"></div>
+        <div onClick={()=>ref.current.click()} className="w-[100px] h-[100px] rounded-full flex items-center justify-center text-xs hover:scale-110 transition-all bg-primary text-white border-primary border-2" style={{background : loading?'':`url(${profileImg}) center center/cover`}}>{loading&&'Uploading.....'}</div>
+        <input accept="image/*" ref={ref} disabled={loading} type="file" onChange={handleFileChange} className="hidden" />
         <div className="text-black">
           <div>{basicInformation.details.fullName}</div>
           <div className="text-xs mt-1">{basicInformation.details.email}</div>
