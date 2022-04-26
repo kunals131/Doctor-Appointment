@@ -1,6 +1,6 @@
 import React from 'react'
 
-const FilterOptions = () => {
+const FilterOptions = ({keywords,setKeywords}) => {
     const specialities = [
         "Dentist",
         "Heart",
@@ -35,14 +35,23 @@ const FilterOptions = () => {
           height : 100
         },
       ];
+      const handleChange = (e)=>{
+        if (e.target.checked) {
+          setKeywords(prev=>([...prev,e.target.name]));
+        }
+        else {
+          setKeywords(prev=>prev.filter(p=>e.target.name!==p));
+        }
+      }
+      
   return (
     <div className="bg-white p-3 px-4 rounded-md w-[21vw]">
     <div className="flex justify-between items-center">
       <div className="text-gray-600 font-medium">Filters</div>
       <div className="text-sm text-black underline">Clear All</div>
     </div>
-    {options.map((option) => (
-      <div>
+    {options.map((option,idx) => (
+      <div key={idx}>
         <hr className="mt-5 mb-5" />
         <div>
           <div className="text-sm">{option.title}</div>
@@ -54,11 +63,13 @@ const FilterOptions = () => {
             />
           </div>
           <div className="mt-4 space-y-2 overflow-y-auto" style={{height :` ${option.height}px`}}>
-            {option.options.map((name) => (
-              <div className="flex space-x-2 items-center">
+            {option.options.map((name,idx) => (
+              <div key={idx} className="flex space-x-2 items-center">
                 <div>
                   <input
                     type="checkbox"
+                    name={name}
+                    onChange={handleChange}
                     className="appearance-none border-2 h-4 w-4 checked:bg-primary"
                   />
                 </div>

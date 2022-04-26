@@ -24,3 +24,8 @@ export const updateDoctorAPI = async(id,formData)=>{
     const res = await axios.put(`/doctor/${id}`, {changes : formData});
     return res;
 }
+
+export const getDoctorsAPI = async(keywords,accuracy=0)=>{
+    const res = await axios.get(`/search/doctors?keywords=${keywords}&accuracy=${accuracy}`);
+    return res;
+}

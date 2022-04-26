@@ -24,7 +24,7 @@ const Header = ({profile}) => {
               <div className='font-medium text-[0.9rem]'>{user?.fullName || 'None'}</div>
               <div className="text-gray-600 text-[0.9rem] cursor-pointer hover:underline hover:text-primary" onClick={()=>router.push('/edit')}>Edit Profile</div>
           </div>
-          <div className={`rounded-full w-12 hover:scale-110 transition-all cursor-pointer border-2 border-primary h-12 bg-black)`} style={{background : `url(${user.img || profile.image}) center center/cover`}}></div>
+          <div className={`rounded-full w-12 hover:scale-110 transition-all cursor-pointer border-2 border-primary h-12 bg-black)`} style={{background : `url(${user?.img || profile.image}) center center/cover`}}></div>
       </div>}
   </div>);
 };

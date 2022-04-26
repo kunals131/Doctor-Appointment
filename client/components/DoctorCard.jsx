@@ -9,21 +9,21 @@ const Tag = ({ title }) => {
       </span>
     );
   };
-  const DoctorProfile = () => {
+  const DoctorProfile = ({doctor}) => {
     return (
       <div className="flex items-center rounded-md w-full p-2 px-2 bg-slate-50  border-[1px]  border-gray-400">
         <div className="flex space-x-5 items-center w-full">
           <div className="pt-1 rounded-md">
             <Image
               className="rounded-lg"
-              src="https://res.cloudinary.com/insight-byte/image/upload/v1643459644/unnamed_tqkmtj.jpg"
+              src={doctor.user.img}
               height={160}
               width={160}
             />
           </div>
           <div className="flex justify-between w-full">
             <div>
-              <div className="text-sm font-semibold">Keith Sebastian</div>
+              <div className="text-sm font-semibold">{doctor.user.fullName}</div>
               <div className="text-[0.7rem] text-gray-500 mt-1">
                 I'm the best doctor in the holy fucking world
               </div>
@@ -35,7 +35,7 @@ const Tag = ({ title }) => {
               </div>
               <div className="mt-4 flex space-x-3 items-center">
                 <div className="text-[0.7rem] bg-primary bg-opacity-90 hover:bg-opacity-100 w-fit p-1 border-[1px] text-white rounded-md px-2">
-                  Appointment Dr. Keith
+                  Appointment Dr. {doctor.user.fullName.split(' ')[0]}
                 </div>
                 <div className="text-[0.7rem] border-primary border-[1px] text-primary bg-opacity-90 hover:bg-opacity-100 w-fit p-1  rounded-md px-2">
                   View Profile
@@ -47,12 +47,12 @@ const Tag = ({ title }) => {
                 <div className="flex space-x-2">
                   <MdHome className="text-primary" />
                   <div className="text-[0.7rem]">
-                    32/5 Rajmahal colony, Indore
+                    {doctor.address}
                   </div>
                 </div>
                 <div className="flex space-x-2">
                   <MdPhone className="text-primary" size={15} />
-                  <div className="text-[0.7rem]">+91 7049930190</div>
+                  <div className="text-[0.7rem]">{doctor.user.contact}</div>
                 </div>
               </div>
             </div>
