@@ -12,7 +12,7 @@ const loginHandler = async(req,res)=>{
             include : [{
                 model : Doctor,
                 as : 'doctorDetails',
-                include : ['user']
+                include : ['user', 'specialities']
             }, {
                 model : Patient,
                 as : 'patientDetails',

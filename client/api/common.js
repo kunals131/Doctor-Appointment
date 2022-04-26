@@ -14,3 +14,7 @@ export const updateUserDetailsAPI = async (id,formData)=>{
     return res;
 }
 
+export const getAllUserDetailsAPI = async(id)=>{
+    const res=  await axios.get(`/user/${id}`,);
+    return res;
+}
