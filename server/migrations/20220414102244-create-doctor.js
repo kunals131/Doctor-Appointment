@@ -13,6 +13,19 @@ module.exports = {
         allowNull : false,
         primaryKey : true,
       },
+      isNew : {
+        type : DataTypes.BOOLEAN,
+        defaultValue : false,
+        allowNull : false
+      },
+      medicalExperience : {
+        type : DataTypes.STRING,
+        allowNull : true,
+      },
+      lisenceId : {
+        type : DataTypes.STRING,
+        allowNull : true,
+      },
       university : {
         type : DataTypes.STRING,
         allowNull : true
@@ -29,6 +42,18 @@ module.exports = {
         type : DataTypes.BOOLEAN,
         defaultValue : false,
         allowNull : false
+      },
+      lat : {
+        type : DataTypes.STRING,
+        allowNull : true
+      },
+      tags : {
+        type : DataTypes.STRING(15000),
+        allowNull : true,
+      },
+      long : {
+        type : DataTypes.STRING,
+        allowNull  :true
       },
       address : {
         type : DataTypes.STRING,

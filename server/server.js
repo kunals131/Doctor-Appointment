@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const http = require('http');
 const {Server, Socket} = require('socket.io');
 
-const {sequelize, User, Doctor,Patient, Appointment, Tag, Schedule, Symptom,Speciality,  } = require('./models');
+const {sequelize, User, Doctor,Patient, Appointment, Schedule, Symptom,Speciality,  } = require('./models');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const corsOptions = require('./config/corsConfig')
@@ -33,7 +33,7 @@ app.use('/api/patient/', require('./routes/patient'));
 app.use('/api/doctor/', require('./routes/doctor'));
 app.use('/api/diagnosis/', require('./routes/diagnosis'));
 app.use('/api/appointments/', require('./routes/appointment'));
-app.use('/api/tags/', require('./routes/tags'));
+
 app.use('/api/schedule/', require('./routes/schedule'));
 app.use('/api/records/', require('./routes/records'));
 
@@ -59,7 +59,7 @@ app.get('/everything', async(req,res)=>{
         const specialities  = await Speciality.findAll();
         const symptoms  = await Symptom.findAll();
         const schedules = await Schedule.findAll();
-        res.json({users,doctors,patients,tags,specialities,symptoms,appointments,schedules});
+        res.json({users,doctors,patients,specialities,symptoms,appointments,schedules});
     }
     catch(err) {
         console.log(err);

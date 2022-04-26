@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({User, Symptom, Appointment, Payment, Record, Diagnosis}) {
+    static associate({User, Symptom, Appointment, Payment, Record, Diagnosis, Medication}) {
       // define association here
       this.belongsTo(User, {foreignKey : 'userId', as : 'user'})
       this.hasMany(Symptom, {foreignKey : 'patientId' , as : 'symptoms' })
@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Payment,{foreignKey : 'from', as : 'payments'});
       this.hasMany(Record, {foreignKey : 'patientId', as : 'medicalRecords'})
       this.hasMany(Diagnosis, {foreignKey : 'patientId', as : 'diagnoses'})
+      this.hasMany(Medication, {foreignKey : 'patientId', as : 'medications'});
     }
   }
   patient.init({
@@ -25,6 +26,18 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue : DataTypes.UUIDV4,
       allowNull : false,
       primaryKey : true,
+    },
+    age : {
+      type : DataTypes.INTEGER,
+      allowNull : true,
+    },
+    medicalHistory : {
+      type : DataTypes.INTEGER,
+      allowNull : true
+    },
+    bloodGroup : {
+      type : DataTypes.STRING,
+      allowNull : true
     },
     userId : {
       type : DataTypes.UUID,
@@ -35,6 +48,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue : false,
       allowNull : false
     },
+    isNew : {
+      type : DataTypes.BOOLEAN,
+      defaultValue : false,
+      allowNull : false
+    }
     
   }, {
     sequelize,

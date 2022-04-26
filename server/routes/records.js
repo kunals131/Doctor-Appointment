@@ -12,4 +12,4 @@ router.put('/:id/', updateRecordHandler);
 router.delete('/:id/', DeleteRecordHandler);
 
 
-module.exports = router;
+module.exports = router

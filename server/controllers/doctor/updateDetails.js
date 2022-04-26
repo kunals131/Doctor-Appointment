@@ -1,4 +1,4 @@
-const { Doctor, Appointment, Speciality, Tag } = require("../../models");
+const { Doctor, Appointment, Speciality } = require("../../models");
 const { ifDoctorExists } = require("../../utils/ifExists");
 
 const addSpecialityHandler = async (req, res) => {
@@ -47,41 +47,41 @@ const removeSpecialityHandler = async (req, res) => {
 
 
 
-const addTagHandler = async(req,res)=>{
-    const id = req.params.id;
-    const {title} = req.body;
-    if (!title) return res.status(400).json({ message: "Some fields are missing" });
-    try {
-        const isExists = await ifDoctorExists(id);
-        if (!isExists) return res.status(404).json({ message: "Doctor Not Found!" });
-        const newTag = await Tag.create({title, doctorId : id});
-        res.json(newTag);
-    }catch(err) {
-        console.log(err);
-        return res
-          .status(400)
-          .json({ message: "Something went wrong!", error: err });
-    }
-}
+// const addTagHandler = async(req,res)=>{
+//     const id = req.params.id;
+//     const {title} = req.body;
+//     if (!title) return res.status(400).json({ message: "Some fields are missing" });
+//     try {
+//         const isExists = await ifDoctorExists(id);
+//         if (!isExists) return res.status(404).json({ message: "Doctor Not Found!" });
+//         const newTag = await Tag.create({title, doctorId : id});
+//         res.json(newTag);
+//     }catch(err) {
+//         console.log(err);
+//         return res
+//           .status(400)
+//           .json({ message: "Something went wrong!", error: err });
+//     }
+// }
 
-const removeTagHandler = async(req,res)=>{
+// const removeTagHandler = async(req,res)=>{
 
-    const {tagId,id} = req.params;
-    if (!tagId) return res.status(400).json({ message: "Some fields are missing" });
-    try {
-        const isExists = await ifDoctorExists(id);
-        if (!isExists) return res.status(404).json({ message: "Doctor Not Found!" });
-        await Tag.destroy({
-            where : {id : tagId}
-        });
-        res.json({message : 'Tag removed'})
-    }catch(err) {
-        console.log(err);
-        return res
-        .status(400)
-        .json({ message: "Something went wrong!", error: err });
-    }
-}
+//     const {tagId,id} = req.params;
+//     if (!tagId) return res.status(400).json({ message: "Some fields are missing" });
+//     try {
+//         const isExists = await ifDoctorExists(id);
+//         if (!isExists) return res.status(404).json({ message: "Doctor Not Found!" });
+//         await Tag.destroy({
+//             where : {id : tagId}
+//         });
+//         res.json({message : 'Tag removed'})
+//     }catch(err) {
+//         console.log(err);
+//         return res
+//         .status(400)
+//         .json({ message: "Something went wrong!", error: err });
+//     }
+// }
 
 const updateDoctorHandler = async(req,res)=>{
     const id = req.params.id;
@@ -122,4 +122,4 @@ const updateDoctorHandler = async(req,res)=>{
 }
 
 
-module.exports = {addSpecialityHandler, updateDoctorHandler, removeSpecialityHandler,removeTagHandler, addTagHandler}
+module.exports = {addSpecialityHandler, updateDoctorHandler, removeSpecialityHandler}

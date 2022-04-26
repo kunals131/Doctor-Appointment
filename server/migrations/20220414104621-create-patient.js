@@ -13,11 +13,28 @@ module.exports = {
         allowNull : false,
         primaryKey : true,
       },
+      age : {
+        type : DataTypes.INTEGER,
+        allowNull : true,
+      },
+      medicalHistory : {
+        type : DataTypes.INTEGER,
+        allowNull : true
+      },
+      bloodGroup : {
+        type : DataTypes.STRING,
+        allowNull : true
+      },
       userId : {
         type : DataTypes.UUID,
         allowNull : false
       },
       isComplete : {
+        type : DataTypes.BOOLEAN,
+        defaultValue : false,
+        allowNull : false
+      },
+      isNew : {
         type : DataTypes.BOOLEAN,
         defaultValue : false,
         allowNull : false
