@@ -132,6 +132,7 @@ const Edit = ({ user }) => {
             information={patientInformation}
             setInformation={setPatientInformation}
             symptomsList={user.additionalData.symptoms}
+            user={user}
           />
         )}
       </div>

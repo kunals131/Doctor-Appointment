@@ -6,7 +6,15 @@ const getAllDetailsHandler = async(req,res)=>{
     try {
         const patient = await Patient.findOne({
             where : {uuid : id},
-            include : ['symptoms', 'appointments', 'user', 'medicalRecords', 'medications'],
+            include : ['symptoms', {
+                model : Appointment,
+                as : 'appointments',
+                include : [{
+                    model : Doctor,
+                    as : 'doctor',
+                    include : ['specialities', 'user']
+                }, 'schedules']
+            }, 'user', 'medicalRecords', 'medications', 'diagnoses'],
         });
         if (!patient) return res.status(404).json({message : 'Patient Not Found!'});
         res.json(patient);
@@ -50,7 +58,11 @@ const getAppointedDoctors = async(req,res)=>{
         if (!isExists) return res.status(404).json({message : 'Patient Not Found!'});
         const appointments = await Appointment.findAll({
             where : {patientId : id},
-            include : ['patient', 'doctor']
+            include : [{
+                model : Doctor,
+                as : 'doctor',
+                include : ['user','specialities']
+            }]
         });
         res.json(appointments.map(appointment=>appointment.doctor));
     }catch(err) {

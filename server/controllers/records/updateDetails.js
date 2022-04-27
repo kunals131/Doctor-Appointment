@@ -3,14 +3,13 @@ const {Patient, Record} = require('../../models');
 
 
 const createMedicalRecordHandler = async(req,res)=>{
-    const {patientId, title,file,remark} = req.body;
-    const objectToSend =  {title,file, patientId};
-    if (remark) objectToSend.remark = remark;
+    const {data} = req.body;
+    
     try {
-        const patient = await Patient.findByPk(patientId);
+        const patient = await Patient.findByPk(data.patientId);
         if (!patient) return res.json({message : 'Patient doesnt exists!'});
-        const result = await Record.create(objectToSend);
-        return res.json(result);
+        const result = await Record.create(data);
+        return res.json(result);    
     }
     catch(err) {
         console.log(err);

@@ -53,9 +53,25 @@ const updateAppointmentHandler = async(req,res)=>{
 
     }
 
+}
 
+const createScheduleHandler = async(req,res)=>{
+    const {id : appointmentId} = req.params;
+        const {data} = req.body;
+        console.log(req.body)
+        if (!appointmentId || !data.at) res.status(404).json({message : 'some fields are missing'});
+        try {
+            const appointment = await Appointment.findByPk(appointmentId);
+            if (!appointment) return res.json({message : 'Appointment doesnt exists!'});
+            const result = await appointment.createSchedule(data);
+            res.json(result);
+    
+        }catch(err) {
+            console.log(err);
+            return res.status(400).json({message : 'Something went wrong!', error : err});
+        }
 }
 
 
 
-module.exports = {createAppointmentHandler, updateAppointmentHandler};
+module.exports = {createAppointmentHandler, updateAppointmentHandler,createScheduleHandler};
