@@ -29,3 +29,13 @@ export const getDoctorsAPI = async(keywords,accuracy=0)=>{
     const res = await axios.get(`/search/doctors?keywords=${keywords}&accuracy=${accuracy}`);
     return res;
 }
+
+export const addSpecialityAPI = async(id,title)=>{
+    const res = await axios.post(`/doctor/${id}/specialities`, {title});
+    return res;
+}
+
+export const RemoveSpecialityAPI = async(id,sId)=>{
+    const res = await axios.delete(`/doctor/${id}/specialities/${sId}`);
+    return res;
+}

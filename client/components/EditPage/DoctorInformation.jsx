@@ -1,16 +1,65 @@
 import React, { useState } from "react";
-import { updateDoctorAPI } from "../../api/doctor";
+import { addSpecialityAPI, RemoveSpecialityAPI, updateDoctorAPI } from "../../api/doctor";
 
-
+import diseases from '../../allDiseases.json';
 import InputField from "../Input";
 import InputAdvance from "../InputAdvance";
 
-const DoctorDetails = ({information,setInformation,userId})=>{
+const DoctorDetails = ({information,setInformation,userId,tagsList,specialitiesList})=>{
   const handleChange = (e)=>{
     setInformation(prev=>({
       ...prev, details : {...prev.details, [e.target.name] : e.target.value}, error : ''
     }));
   }
+  const [specialities,setSpecialities] = useState(specialitiesList);
+  const [tags,setTags] = useState(tagsList?.split(',')||[]);
+  const handleAddSpecialities = async(title)=>{
+    try {
+      const res = await addSpecialityAPI(userId,title);
+      console.log(res);
+      setSpecialities(prev=>[...prev,res.data]);
+    }catch(err) {
+      console.log(err);
+    }
+  }
+  const handleRemoveSpeciality = async(id)=>{
+    try {
+      const result = await RemoveSpecialityAPI(userId,id);
+      console.log(result);
+      setSpecialities(prev=>prev.filter(p=>p.id!==id));
+    }catch(err) {
+      console.log(err);
+      setInformation({...information, error : err.response.data.message})
+    }
+  }
+
+  const handleAddDisease = async(item)=>{
+    const {value : title} = item;
+    try {
+      const newArr = [...tags, title];
+      const newTags =  newArr.join(',');
+      const result = await updateDoctorAPI(userId,{tags : newTags});
+      setTags([...newArr]);
+      console.log(result);
+    }catch(err) {
+      console.log(err);
+      setInformation({...information, error : err.response.data.message})
+    }
+  };
+  const handleRemoveDisease = async(title)=>{
+
+    try {
+    const newArr = tags.filter(t=>t!==title);
+    const newTags = newArr.join(',');
+    const result = await updateDoctorAPI(userId, {tags : newTags});
+    console.log(result);
+    setTags(newArr);
+    }catch(err) {
+      console.log(err);
+      setInformation({...information, error : err.response.data.message})
+    }
+  }
+
   const handleSave = async()=>{
     try {
     const res = await updateDoctorAPI(userId,information.details)
@@ -43,7 +92,8 @@ const DoctorDetails = ({information,setInformation,userId})=>{
                 <InputField name="degree" onChange={handleChange} value={information.details.degree} width="300px" label="Degree"/>
                 <InputField name="university" onChange={handleChange} value={information.details.university} width="100%" label="University"/>
             </div>
-            <InputAdvance width="100%" label="Disease Tags" placeholder="Enter diseases you can treat"/>
+            <InputAdvance list={tags} handleAdd={handleAddDisease} handleRemove={handleRemoveDisease} options={diseases.filter(d=>(!tags.includes(d))).map(d=>({id : d, value : d}))} width="100%" label="Disease Tags" placeholder="Enter diseases you can treat"/>
+            <InputAdvance list={specialities} handleAdd={handleAddSpecialities} handleRemove={handleRemoveSpeciality}   width="100%" label="Speciality" placeholder="Enter your major specialities"/>
         </div>
         </>
     )
