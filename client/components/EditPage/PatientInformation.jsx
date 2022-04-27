@@ -2,17 +2,17 @@ import React, { useState } from "react";
 
 
 import cls from "classnames";
-
+import diseases from '../../allDiseases.json'
 import { BsPlusCircleDotted } from "react-icons/bs";
 
 import InputField from "../Input";
 import InputAdvance from "../InputAdvance";
 import MedicalRecord from "../MedicalRecord";
-import { updatePatientDetailsAPI } from "../../api/patient";
+import { addMedicationAPI, addSymptomsAPI, removeSymptomAPI, updatePatientDetailsAPI } from "../../api/patient";
 import { updateMedicalRecordAPI } from "../../api/patient";
 
 
-const PatientDetails = ({information,setInformation, userId})=>{
+const PatientDetails = ({information,symptomsList,setInformation, userId})=>{
   const {age,medicalHistory, bloodGroup, medicalRecords} = information.details;
   console.log(age);
   const handleChange = (e)=>{
@@ -30,6 +30,7 @@ const PatientDetails = ({information,setInformation, userId})=>{
       console.log(err);
     }
   }
+
   const handleSave = async(e)=>{
     if (!information.age || !information.medicalHistory || !information.bloodGroup) setInformation({...information, error : 'Something went wrong!'});
     // console.log(save)
@@ -42,6 +43,34 @@ const PatientDetails = ({information,setInformation, userId})=>{
       setInformation({...information, error : err.response.data.message})
     }
   }
+  const [symptoms,setSymptoms] = useState(symptomsList || []);
+  const [medications,setMedications] = useState();
+  const handleAddSymptom =async (item)=>{
+    const {value : title}  = item;
+    try {
+      const res = await addSymptomsAPI(userId,title);
+      console.log(res);
+      setSymptoms([...symptoms, res.data]);
+    }catch(err) {
+      console.log(err);
+      setInformation({...information, error : err.response.data.message})
+    }
+  }
+
+  const handleRemoveSymptom= async(id)=>{
+    try {
+      const res = await removeSymptomAPI(userId,id);
+      console.log(res.data);
+      setSymptoms(symptoms.filter(s=>s.id!==id));
+    }catch(err) {
+      console.log(err);
+      setInformation({...information, error : err.response.data.message})
+    }
+  }
+
+
+
+
   const {error} = information;
     return (
         <>
@@ -62,11 +91,11 @@ const PatientDetails = ({information,setInformation, userId})=>{
             <InputField name="bloodGroup" value={bloodGroup} onChange={handleChange} width="100px" label="Blood Group *" />
           </div>
           <div className="mt-4 space-y-4">
-            <InputAdvance label="Symptoms" />
-            <InputAdvance
+            <InputAdvance options={diseases.filter(d=>(!symptoms.includes(d))).map(d=>({id : d, value : d}))} list={symptoms} handleAdd={handleAddSymptom} handleRemove={handleRemoveSymptom} label="Symptoms" />
+            {/* <InputAdvance
               label="Medications"
               placeholder=" Eg : Crosin / 3 in a day / ongoing "
-            />
+            /> */}
           </div>
           <div className="mt-10">
             <div className="text-[#5A5482] font-bold text-xl flex justify-between w-full">

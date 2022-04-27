@@ -1,6 +1,6 @@
 const express = require('express');
-const { getAllDetailsHandler, getAppointmentsHandler, getAllSymptoms, getAppointedDoctors, getAllMedicalRecordsHandler, getAllPatientDiagnosisHandler } = require('../controllers/patient/details');
-const { addSymptomHandler, updatePatientHandler, removeSymptomHandler } = require('../controllers/patient/updateDetails');
+const { getAllDetailsHandler,getMedicationsHandler, getAppointmentsHandler, getAllSymptoms, getAppointedDoctors, getAllMedicalRecordsHandler, getAllPatientDiagnosisHandler } = require('../controllers/patient/details');
+const { addSymptomHandler,addMedicationHandler,deleteMedicationHandler, updatePatientHandler, removeSymptomHandler, updateMedicationHandler } = require('../controllers/patient/updateDetails');
 
 const router = express.Router();
 
@@ -13,6 +13,11 @@ router.delete('/:id/symptoms/:symptomId', removeSymptomHandler);
 router.get('/:id/appointeddoctors', getAppointedDoctors);
 router.put('/:id/', updatePatientHandler)
 router.get('/:id/diagnoses', getAllPatientDiagnosisHandler);
+
+router.get('/:id/medications', getMedicationsHandler)
+router.delete('/:id/medications/:medicationId', deleteMedicationHandler);
+router.put('/:id/medications/:medicationId', updateMedicationHandler);
+router.post('/:id/medications', addMedicationHandler);
 
 
 

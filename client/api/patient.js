@@ -42,3 +42,23 @@ export const updateMedicalRecordAPI = async(id,formData)=>{
     const res = await axios.put(`/records/${id}`, {...formData});
     return res;
 }
+
+export const addSymptomsAPI = async(patientId, title)=>{
+    const res = await axios.post(`/patient/${patientId}/symptoms`, {title});
+    return res;
+}
+
+export const removeSymptomAPI = async(patientId,smpId)=>{
+    const res = await axios.delete(`/patient/${patientId}/symptoms/${smpId}`);
+    return res;
+}
+
+export const addMedicationAPI = async(patientId,data)=>{
+    const res = await axios.post(`/patient/${patientId}/medications`, {data});
+    return res;
+}
+
+export const deleteMedicationAPI = async(patientId,medId)=>{
+    const res = await axios.delete(`/patient/${patientId}/medications/${medId}`);
+    return res;
+}

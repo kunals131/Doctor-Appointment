@@ -123,12 +123,15 @@ const Edit = ({ user }) => {
             information={doctorInformation}
             setInformation={setDoctorInformation}
             userId={user.additionalData.uuid}
+            specialitiesList={user.additionalData.specialities}
+            tagsList={user.additionalData.tags}
           />
         ) : (
           <PatientDetails
             userId={user.additionalData.uuid}
             information={patientInformation}
             setInformation={setPatientInformation}
+            symptomsList={user.additionalData.symptoms}
           />
         )}
       </div>
