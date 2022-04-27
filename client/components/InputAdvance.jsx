@@ -6,15 +6,16 @@ import { HiArrowSmRight } from "react-icons/hi";
 
 import { MdClear } from "react-icons/md";
 import InputField from "./Input";
+import DatalistInput, { useComboboxControls } from "react-datalist-input";
 
 
 
-const ListItem = ({ text, setList, list }) => {
+const ListItem = ({ text, handleRemove,id }) => {
   return (
     <div className="bg-gray-300 w-fit flex space-x-2 items-center px-3 py-1 text-sm rounded-xl text-gray-500">
       <div>{text}</div>
       <div
-        onClick={() => setList(list.filter((v) => v !== text))}
+        onClick={()=>handleRemove(id)}
         className="cursor-pointer"
       >
         <MdClear />
@@ -23,20 +24,20 @@ const ListItem = ({ text, setList, list }) => {
   );
 };
 
-const InputAdvance = ({ width, label, placeholder }) => {
+const InputAdvance = ({ width, label,list, placeholder,handleAdd, handleRemove, options }) => {
   const [isFocus, setIsFocus] = useState(false);
-  const [list, setList] = useState([]);
   const [input, setInput] = useState("");
+  const { value, setValue } = useComboboxControls({ initialValue: '' });
   return (
     <>
-      {list.length > 0 && (
+      {list?.length > 0 && (
         <div className="">
           <div className="font-semibold text-sm text-gray-700">
             Added {label}
           </div>
           <div className="flex mt-2 space-x-3">
-            {list.map((l) => (
-              <ListItem list={list} setList={setList} text={l} />
+            {list.map((l,idx) => (
+              <ListItem key={idx} list={list} handleRemove={handleRemove} id={l.id || l} text={l?.title || l?.value || l} />
             ))}
           </div>
         </div>
@@ -53,7 +54,7 @@ const InputAdvance = ({ width, label, placeholder }) => {
           {label}
         </label>
         <div className="flex items-center -space-x-8">
-          <input
+         { !options?<input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -61,12 +62,22 @@ const InputAdvance = ({ width, label, placeholder }) => {
             onBlur={(e) => setIsFocus(e.target.value !== "")}
             placeholder={placeholder || label}
             className="border-gray-300 placeholder:text-gray-400 outline-none border-2 mt-1 px-2 py-[8px] rounded-sm w-full"
-          />
-          {isFocus && input.length > 0 && (
+          />:<DatalistInput
+          placeholder={placeholder || label}
+          className="w-full"
+          inputProps={{className : 'border-gray-300 placeholder:text-gray-400 outline-none border-2 mt-1 px-2 py-[8px] rounded-sm w-full'}}
+          onSelect={(item)=>{handleAdd(item); setValue('')}}
+          listboxProps={{className : 'bg-white p-2 rounded-md h-[150px] overflow-y-auto '}}
+          listboxOptionProps={{className : 'border-b-2'}}
+          value={value}
+          setValue={setValue}
+          items={options}
+        />}
+          {isFocus && input.length>0 && (
             <div>
               <HiArrowSmRight
                 onClick={() => {
-                  setList([...list, input]);
+                  handleAdd(input)
                   setInput("");
                   setIsFocus(false);
                 }}
