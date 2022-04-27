@@ -58,6 +58,11 @@ export const addMedicationAPI = async(patientId,data)=>{
     return res;
 }
 
+export const createMedicalRecordAPI = async(data)=>{
+    const res = await axios.post(`/records`, {data});
+    return res;
+}
+
 export const deleteMedicationAPI = async(patientId,medId)=>{
     const res = await axios.delete(`/patient/${patientId}/medications/${medId}`);
     return res;

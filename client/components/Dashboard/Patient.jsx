@@ -1,21 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {AiOutlinePlusSquare} from "react-icons/ai";
 import Image from "next/image";
 
 
 import InfoBox from "./InfoBox";
 
-
-
-
-
-
-
-
-
-
-
-const PatientDashboard = () => {
+const PatientDashboard = ({patient,user,appointedDoctors}) => {
   const DoctorCard = ({ speciality, name }) => {
     return (
       <div className="p-2 bg-[#ede4ff] rounded-md flex items-center space-x-3">
@@ -32,7 +22,17 @@ const PatientDashboard = () => {
       </div>
     );
   };
-
+  const schdulesArray = (patient)=>{
+    console.log(patient)
+    let arr = [];
+    patient.appointments.filter(a=>a.state==='accepted').map(a=>{
+      const arr2 = a.schedules.filter(s=>s.state==='future').map(s=>({...s,doctorId : a.doctor.uuid,doctorName : a.doctor.user.fullName, appointmentId : a.id, }))
+      arr = [...arr,...arr2]
+    });
+    return arr;
+  }
+  const [schedule,setSchedule] = useState(schdulesArray(patient))
+  console.log(schedule)
  
   return (
     <div className="mt-10">
@@ -42,8 +42,10 @@ const PatientDashboard = () => {
           src="/doctorsappointed.png"
           width="400px"
         >
-          <DoctorCard name="Keith Sebastian" speciality={"Heart Specialist"} />
-          <DoctorCard name="Keith Sebastian" speciality={"Heart Specialist"} />
+          {appointedDoctors.length>0?appointedDoctors.map(doc=>(
+              <DoctorCard name={doc.user.fullName} speciality={`${doc.specialities[0].title} Specialist` || 'Not Found'} />
+          )):<div className=" text-gray-600">No Doctor Found</div>}
+         
         </InfoBox>
 
         <InfoBox
@@ -52,7 +54,9 @@ const PatientDashboard = () => {
           color="pink"
           width="450px"
         >
-          <div className="text-gray-600">No Reports Found</div>
+          {patient.diagnoses.length>0?patient.diagnoses.map(diagnosis=>(
+            <div>{diagnosis.title}</div>
+          )):<div className="text-gray-600">No Reports Found</div>}
         </InfoBox>
         <InfoBox
           src="/medicalrecords.png"
@@ -61,7 +65,10 @@ const PatientDashboard = () => {
           width="450px"
           icon={<AiOutlinePlusSquare size={31} className="-mt-1 text-green-600 hover:scale-105" />}
         >
-          <div className="text-gray-600">No Records Found</div>
+          {patient.medicalRecords.length>0?patient.medicalRecords.map(record=>(
+            <a href={record.file} target="true" className='block'>{record.title}</a>
+          )):<div className="text-gray-600">No Records Found</div>
+          }
         </InfoBox>
       </div>
       <div className="mt-4 flex space-x-10">
@@ -71,17 +78,19 @@ const PatientDashboard = () => {
            color="royalblue"
            width="600px"
            height={185}
-        
-           
-          ></InfoBox>
+          >
+
+                    
+           {schedule.length>0?schedule.map(s=>(
+             <div>{s.title}</div>
+           )):<div>No Appointments Found</div>}
+          </InfoBox>
           <InfoBox
            src="/Prescriptions.png"
            title="Prescriptions"
            color="orange"
            width="600px"
            height={185}
-           
-
            
           ></InfoBox>
       </div>

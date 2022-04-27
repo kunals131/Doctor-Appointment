@@ -44,7 +44,7 @@ const Dashboard = ({error, patient,user, appointedDoctors}) => {
   }
   return (
     <>
-    <PatientDashboard/>
+    <PatientDashboard patient={patient} user={user} appointedDoctors={appointedDoctors}/>
     </>
   )
 }

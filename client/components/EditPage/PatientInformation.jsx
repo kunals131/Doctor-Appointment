@@ -10,9 +10,10 @@ import InputAdvance from "../InputAdvance";
 import MedicalRecord from "../MedicalRecord";
 import { addMedicationAPI, addSymptomsAPI, removeSymptomAPI, updatePatientDetailsAPI } from "../../api/patient";
 import { updateMedicalRecordAPI } from "../../api/patient";
+import AddMedicalRecord from "./AddMedicalRecord";
 
 
-const PatientDetails = ({information,symptomsList,setInformation, userId})=>{
+const PatientDetails = ({information,symptomsList,setInformation, userId, user})=>{
   const {age,medicalHistory, bloodGroup, medicalRecords} = information.details;
   console.log(age);
   const handleChange = (e)=>{
@@ -67,14 +68,16 @@ const PatientDetails = ({information,symptomsList,setInformation, userId})=>{
       setInformation({...information, error : err.response.data.message})
     }
   }
-
+  const [show,setShow] = useState(false);
+  const [medicalRecordsList, setMedicalRecordsList] = useState(user.additionalData.medicalRecords || []);
 
 
 
   const {error} = information;
     return (
         <>
-             <div className="text-[#5A5482] font-bold text-xl flex justify-between w-full">
+        <AddMedicalRecord show={show} onClose={()=>setShow(false)} userId={userId} setMedicalRecordsList={setMedicalRecordsList}/>
+          <div className="text-[#5A5482] font-bold text-xl flex justify-between w-full">
           <div>Additional Information</div>
           <div onClick={handleSave} className="text-base bg-[#5A5482] px-4 rounded-md py-[2px] hover:scale-105 transition-all cursor-pointer text-white ">Save</div>
         </div>
@@ -106,10 +109,10 @@ const PatientDetails = ({information,symptomsList,setInformation, userId})=>{
               accessment.
             </div>
             <div className="mt-10 grid grid-cols-2 text-gray-800 gap-4 grid-flow-row">
-              {medicalRecords.map(mr=>(
+              {medicalRecordsList.map(mr=>(
                 <MedicalRecord record={mr} handleRecordTitle={handleRecordTitle} setInformation={setInformation}/>
               ))}
-              <div className="w-full hover:border-[#6757E5] transition-all ease-in-out group border-gray-400 flex flex-col items-center justify-center h-full border-2 border-dashed rounded-md">
+              <div onClick={()=>setShow(true)} className="w-full hover:border-[#6757E5] transition-all ease-in-out group border-gray-400 flex flex-col items-center justify-center h-full border-2 border-dashed rounded-md">
                 <div>
                   <BsPlusCircleDotted
                     size={40}

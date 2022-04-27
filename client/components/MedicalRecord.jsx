@@ -22,9 +22,9 @@ const MedicalRecord = ({record, handleRecordTitle}) => {
   }
     return (
       <div className="px-5 rounded-md py-10 p-2 pt-10 bg-[#F5F7FB] border-dashed border-gray-400 border-2 flex flex-col items-center ">
-        <div className="p-6 shadow-md bg-white w-fit">
+        <a href={record.file} target="false" className="p-6 shadow-md bg-white w-fit hover:scale-110">
           <AiOutlineFileDone color="#6757E5" size={32} />
-        </div>
+        </a>
         <div>
           <input
             type="text"
