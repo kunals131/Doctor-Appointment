@@ -17,7 +17,7 @@ const Layout = ({children}) => {
     useEffect(()=>{
         console.log(user)
     }, [user]);
-    if (isNew) return <AdditionalDetails>Hio</AdditionalDetails>
+    if (isNew) return <AdditionalDetails></AdditionalDetails>
     return <>
   
     {(path!=='/'&&router.pathname!=='/appointments/[id]')&&<Sidebar></Sidebar>}

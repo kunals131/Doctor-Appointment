@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/actions/user";
 import { Triangle as Loader } from "react-loader-spinner";
 import { HiArrowSmRight } from "react-icons/hi";
+import AppointDoctorModal from "../../components/AppointDoctorModal";
+import { getAllAppointments } from "../../api/patient";
 
 export const getServerSideProps = async (ctx) => {
   const auth = verifyAuthentication(ctx.req);
@@ -21,10 +23,16 @@ export const getServerSideProps = async (ctx) => {
   }
   try {
     const allDoctors = await getDoctorsAPI(JSON.stringify(auth.decodedData));
+    let appointedDoctors = [];
+    if (auth.decodedData.role==='patient') {
+      let results = await getAllAppointments(auth.decodedData.additionalData.uuid);
+      appointedDoctors = results.data;
+    }
     return {
       props: {
         allDoctors: allDoctors.data.doctorsFiltered,
         user: auth.decodedData,
+        appointedDoctors
       },
     };
   } catch (err) {
@@ -35,7 +43,9 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const Doctors = ({ allDoctors, user }) => {
+const Doctors = ({ allDoctors, user, appointedDoctors }) => {
+  console.log(appointedDoctors)
+  console.log(user);
   const [loading, setLoading] = useState(false);
   const [keywords, setKeywords] = useState([]);
   const [search,setSearch] = useState(false);
@@ -83,6 +93,7 @@ const Doctors = ({ allDoctors, user }) => {
     if (inital) return setInital(false);
   }, [keywords,search]);
 
+
   return (
     <>
       {loading && (
@@ -117,7 +128,7 @@ const Doctors = ({ allDoctors, user }) => {
             </div>
             <hr className="my-3" />
             <div className="grid mt-6 grid-cols-1 gap-5 p-2">
-              {!loading && doctors.map((doc,idx) => <DoctorProfile key={idx} doctor={doc} />)}
+              {!loading && doctors.map((doc,idx) => <DoctorProfile patientId={user.additionalData.uuid} appointedDoctors={appointedDoctors} role={user.role}  key={idx} doctor={doc} />)}
             </div>
           </div>
         </div>

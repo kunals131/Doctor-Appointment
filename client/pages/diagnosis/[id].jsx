@@ -70,10 +70,10 @@ const Diagnose = ({diagnosis, user}) => {
             <div className=' text-lg font-semibold'>Recommended Doctors</div>
             <div className='text-xs'>32 Doctors Found</div>
             <div className='mt-4 space-y-5 h-[400px] overflow-y-auto'>
+                {/* <DoctorProfile/>
                 <DoctorProfile/>
                 <DoctorProfile/>
-                <DoctorProfile/>
-                <DoctorProfile/>
+                <DoctorProfile/> */}
             </div>
         </div>
        

@@ -1,5 +1,10 @@
+import cls from "classnames";
 import Image from "next/image";
+import { useState } from "react";
 import { MdHome, MdPhone } from "react-icons/md";
+import { useRouter } from "next/router";
+import AppointDoctorModal from "./AppointDoctorModal";
+
 
 
 const Tag = ({ title }) => {
@@ -9,8 +14,35 @@ const Tag = ({ title }) => {
       </span>
     );
   };
-  const DoctorProfile = ({doctor}) => {
+  const DoctorProfile = ({doctor, handleAppoint, role,patientId, appointedDoctors}) => {
+    const [show,setShow] = useState(false);
+
+   
+
+    const ActionButton = ()=>{
+      let isAppointed = false;
+      isAppointed = appointedDoctors?.filter(app=>{
+        if (app.doctor.uuid===doctor.uuid) return app.state;
+      });
+      if (isAppointed?.length>0) isAppointed = isAppointed[0].state;
+      else isAppointed = false;
+      let text = `Appointment Dr. ${doctor.user.fullName.split(' ')[0]}`;
+      if (isAppointed && isAppointed==='active') text = 'Active Appointment';
+      else if (isAppointed) text = `Request ${isAppointed}`
+      
+       return (
+        <>
+        {role==='patient'&&<button disabled={isAppointed} onClick={()=>handleAppoint(doctor.uuid)} className={cls('text-[0.7rem]  bg-opacity-90 hover:bg-opacity-100 w-fit p-1 border-[1px] text-white rounded-md px-2', {'bg-primary' : !isAppointed}, {'bg-gray-700' : isAppointed==='pending'}, {'bg-green-600' : isAppointed==='active'}, {'bg-red-500' : isAppointed==='rejected'})}>
+                  {text}
+        </button>}
+        </>
+      )
+
+    }
+
     return (
+      <>
+      <AppointDoctorModal show={show} onClose={()=>setShow(false)} patientId={patientId} doctorId={doctor.uuid}/>
       <div className="flex items-center rounded-md w-full p-2 px-2 bg-slate-50  border-[1px]  border-gray-400">
         <div className="flex space-x-5 items-center w-full">
           <div className="pt-1 rounded-md">
@@ -34,9 +66,7 @@ const Tag = ({ title }) => {
                 <Tag title="Dieasease" />
               </div>
               <div className="mt-4 flex space-x-3 items-center">
-                <div className="text-[0.7rem] bg-primary bg-opacity-90 hover:bg-opacity-100 w-fit p-1 border-[1px] text-white rounded-md px-2">
-                  Appointment Dr. {doctor.user.fullName.split(' ')[0]}
-                </div>
+          <ActionButton/>
                 <div className="text-[0.7rem] border-primary border-[1px] text-primary bg-opacity-90 hover:bg-opacity-100 w-fit p-1  rounded-md px-2">
                   View Profile
                 </div>
@@ -59,6 +89,7 @@ const Tag = ({ title }) => {
           </div>
         </div>
       </div>
+      </>
     );
   };
 

@@ -43,7 +43,7 @@ const PatientDashboard = ({patient,user,appointedDoctors}) => {
           width="400px"
         >
           {appointedDoctors.length>0?appointedDoctors.map(doc=>(
-              <DoctorCard name={doc.user.fullName} speciality={`${doc.specialities[0].title} Specialist` || 'Not Found'} />
+              <DoctorCard name={doc.user.fullName} speciality={`${doc.specialities[0]?.title || 'Unset'} Specialist` || 'Not Found'} />
           )):<div className=" text-gray-600">No Doctor Found</div>}
          
         </InfoBox>
