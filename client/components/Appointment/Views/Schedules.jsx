@@ -2,9 +2,9 @@ import React from 'react'
 import {MdOutlineAlarm} from 'react-icons/md'
 import {MdClock} from 'react-icons/md'
 
-const ScheduleItem = ()=>{
+const ScheduleItem = ({schedules, patientId, doctorId, appointmentId})=>{
   return (
-  <div className='w-full bg-[#222529] p-5 px-8 rounded-md flex justify-between items-center'>
+  <div className='w-full hover:bg-[#383c41] transition-all bg-[#222529] p-5 px-8 rounded-md flex justify-between items-center'>
     <div className=''>Session -1</div>
     <div className='flex items-center space-x-2'> <MdOutlineAlarm/><div> 3:00PM 16 March 2022</div></div>
     <div className='flex items-center space-x-2'>

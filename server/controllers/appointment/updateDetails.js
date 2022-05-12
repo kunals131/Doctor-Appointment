@@ -15,7 +15,8 @@ const createAppointmentHandler = async(req,res)=>{
                 [Op.and] : [{doctorId, patientId}]
             }
         });
-        if (ifAppointment) return res.status(400).json({message : 'Appointment already exists!'});
+        console.log(ifAppointment)
+        if (ifAppointment && (ifAppointment.state!=='rejected' && ifAppointment.state!=='closed')) return res.status(400).json({message : 'Appointment already exists!'});
         const newAppointment = await Appointment.create({doctorId,patientId});
         res.json(newAppointment);
 

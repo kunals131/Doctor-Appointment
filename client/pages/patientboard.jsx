@@ -31,9 +31,9 @@ export const getServerSideProps = async(ctx) => {
   };
   
 const Dashboard = ({error, patient,user, appointedDoctors}) => {
-    console.log(patient);
-    console.log(user);
-    console.log(appointedDoctors);
+    // console.log(patient);
+    // console.log(user);
+    // console.log(appointedDoctors);
   const dispatch=  useDispatch();
   useEffect(()=>{
     dispatch(updateUser(user));

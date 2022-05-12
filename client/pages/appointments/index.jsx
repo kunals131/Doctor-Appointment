@@ -70,9 +70,10 @@ const AppointmentCard = ({ appointment, role }) => {
     if (title.length > 30) return;
     setTitle(e.target.value);
   };
-  const handleBlur = () => {
+  const handleBlur = async() => {
     if (title.length > 0) {
       console.log(title);
+      const res=  await updateAppointmentAPI(appointment.id,{title})
     }
   };
 
@@ -80,8 +81,10 @@ const AppointmentCard = ({ appointment, role }) => {
     const res = await updateAppointmentAPI(appointment.id, { state });
     console.log(res.data);
     router.reload(window.location.pathname)
-
   };
+  const linkDoctor=`doctors/${doctor.uuid}`;
+  const linkPatient=`patient/${patient.uuid}`;
+
 
   return (
     <>
@@ -108,7 +111,7 @@ const AppointmentCard = ({ appointment, role }) => {
         </div>
         <div className="flex space-x-2 text-xs items-center">
           <FaUserAlt />
-          <div>{role==='doctor'?patient.user.fullName:doctor.user.fullName}</div>
+          <div onClick={()=>router.push(`${role==='doctor'?linkDoctor:linkPatient}`)}>{role==='doctor'?patient.user.fullName:doctor.user.fullName}</div>
         </div>
         <div className="flex space-x-2 text-xs items-center">
           <BiTimeFive />
@@ -117,7 +120,7 @@ const AppointmentCard = ({ appointment, role }) => {
         <div
           className={`flex space-x-2 ${colors[status]} w-fit p-2 rounded-md bg-opacity-10 text-xs items-center`}
         >
-          {status === "active" && <FiCheckCircle className="text-green-500" />}
+          {status === "active" && <FiCheckCircle onClick={()=>router.push(`/appointments/${appointment.id}`)} className="text-green-500" />}
           {status === "closed" && <IoMdDoneAll className="text-gray-700" />}
           {status === "pending" && (
             <MdOutlinePending className="text-gray-700" />
@@ -129,7 +132,7 @@ const AppointmentCard = ({ appointment, role }) => {
         </div>
         <div className="flex space-x-5 text-xs items-center">
           {status === "active" && (
-            <div className="hover:bg-gray-200 transition-all bg-gray-400 border-[1px] w-fit p-2 rounded-md bg-opacity-10">
+            <div onClick={()=>handleStateUpdate('closed')} className="hover:bg-gray-200 transition-all bg-gray-400 border-[1px] w-fit p-2 rounded-md bg-opacity-10">
               Close Case
             </div>
           )}

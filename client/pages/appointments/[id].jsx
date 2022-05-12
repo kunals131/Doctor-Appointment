@@ -149,7 +149,7 @@ const Appointment = ({schedules, appointment,user}) => {
           </div>
          <div className="h-[calc(93vh-70px)]">
            {view==='conversation'&&<Conversation messages={messages} user={user} otherUser = {getOtherUser()} setMessages={setMessages} socket={socket}/>}
-           {view==='schedules'&&<Schedules/>}
+           {view==='schedules'&&<Schedules schedules={schedules} appointmentId={appointment.id} doctor={appointment.doctor.uuid} patient/>}
          </div>
         </div>
       </div>

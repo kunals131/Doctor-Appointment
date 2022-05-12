@@ -26,3 +26,5 @@ const ifAppointmentExists = async (id)=>{
 }
 
 module.exports = {ifPatientExists, ifDoctorExists, ifAppointmentExists}
+
+

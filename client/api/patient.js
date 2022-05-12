@@ -67,3 +67,8 @@ export const deleteMedicationAPI = async(patientId,medId)=>{
     const res = await axios.delete(`/patient/${patientId}/medications/${medId}`);
     return res;
 }
+
+export const getAllDiagnosisAPI = async(patientId)=>{
+    const res = await axios.get(`/patient/${patientId}/diagnoses`);
+    return res;
+}
