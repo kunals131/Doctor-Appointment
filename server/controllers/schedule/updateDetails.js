@@ -1,12 +1,12 @@
 const {Schedule, Appointment} = require('../../models');
 
 const createScheduleHandler = async(req,res)=>{
-    const {appointmentId, at} = req.body;
+    const {appointmentId, at, title} = req.body;
     if (!appointmentId || !at) res.status(404).json({message : 'some fields are missing'});
     try {
         const appointment = await Appointment.findByPk(appointmentId);
         if (!appointment) return res.json({message : 'Appointment doesnt exists!'});
-        const result = await appointment.createSchedule({at});
+        const result = await appointment.createSchedule({at, title});
         res.json(result);
 
     }catch(err) {

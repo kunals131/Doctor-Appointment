@@ -153,8 +153,8 @@ const Diagnosis = ({ user, diagnoses }) => {
           <h1 className="font-semibold">Previous Diagnosis</h1>
           <div className="text-gray-600 text-xs">{diagnoses.length} Diagnoses Found</div>
           <div className="mt-5 space-y-2">
-            {diagnoses.map(d=>(
-              <DiagnosisBlock diagnosis={d}/>
+            {diagnoses.map((d,idx)=>(
+              <DiagnosisBlock key={d.idx} diagnosis={d}/>
             ))
 }
           </div>

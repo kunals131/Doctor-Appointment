@@ -7,6 +7,7 @@ import {
   MdOutlineCancel,
   MdOutlinePending,
 } from "react-icons/md";
+import Link from 'next/link'
 import { verifyAuthentication } from "../../utils/verifyAuth";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/actions/user";
@@ -98,7 +99,8 @@ const AppointmentCard = ({ appointment, role }) => {
             status === "active" || status === "closed" ? "flex" : "hidden"
           } items-center space-x-3`}
         >
-          <div className="w-[40px] h-[40px] bg-black rounded-full border-primary border-2"></div>
+          <Link href={`/appointments/${appointment.id}`}>
+          <div className="w-[40px] h-[40px] bg-black rounded-full border-primary border-2"></div></Link>
           <div className="text-xs text-gray-600">
             <input
               type="text"
@@ -236,7 +238,7 @@ const Appointments = ({ user, error, fetchedAppointments }) => {
                     {(view === "active" || view === "closed") && (
                       <div>Appointment Title</div>
                     )}
-                    <div>Patient</div>
+                    <div>{user.role==='patient'?'Doctor':'Patient'}</div>
                     <div>Created On</div>
                     <div>Status</div>
                     {view !== "rejected" && view !== "closed" && (

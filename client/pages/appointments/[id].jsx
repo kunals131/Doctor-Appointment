@@ -93,7 +93,7 @@ const Appointment = ({schedules, appointment,user}) => {
  
   const [view,setView] = useState('conversation');
   return (
-    <div className="h-screen w-screen bg-white">
+    <div className="h-screen w-screen bg-white overflow-x-hidden">
       <div className="bg-[#121016] h-[7vh] p-2 px-10 items-center justify-between flex">
         <div>
           <div className="bg-[#1C1F23] p-2 flex group items-center text-xs space-x-4 rounded-md">

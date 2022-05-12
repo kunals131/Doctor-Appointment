@@ -1,13 +1,16 @@
 import React from 'react';
 import { MdOutlineAlarm } from 'react-icons/md';
 import { MdDone } from 'react-icons/md';
+import Link from 'next/link'
 const AppointmentCard = ({appointment}) => {
   return (
       <div className='w-full rounded-xl flex space-x-11 hover:bg-headingBackground transition-all cursor-pointer bg-mainBackground p-3 items-center group'>
           <div className='flex space-x-2 items-center'>
+            <Link href={`/appointments/${appointment.id}`}>
           <div style={{background : `url(${appointment.image}) center center/cover`}}
           className='w-12 h-12 rounded-full'
           ></div>
+          </Link>
            <div className='font-medium text-sm'>{appointment.name}</div>
           </div>
           {/* <div className='text-sm'>📍 {appointment.address}</div> */}

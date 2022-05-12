@@ -1,6 +1,7 @@
 import cls from "classnames";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/dist/client/link";
 import { MdHome, MdPhone } from "react-icons/md";
 import { useRouter } from "next/router";
 import { createAppointmentAPI } from "../api/common";
@@ -29,6 +30,7 @@ const Tag = ({ title }) => {
       try {
         const res=  await createAppointmentAPI(patientId, doctor.uuid);
         console.log(res);
+        setAppointmentState('pending')
       }catch(err) {
         console.log(err.response.data.message)
       }
@@ -94,9 +96,11 @@ const Tag = ({ title }) => {
               </div>
               <div className="mt-4 flex space-x-3 items-center">
           <ActionButton/>
-                <div className="text-[0.7rem] border-primary border-[1px] text-primary bg-opacity-90 hover:bg-opacity-100 w-fit p-1  rounded-md px-2">
+                <Link  href={`/doctors/${doctor.uuid}`}>
+                  <div className="text-[0.7rem] cursor-pointer border-primary border-[1px] text-primary bg-opacity-90 hover:bg-opacity-100 w-fit p-1  rounded-md px-2">
                   View Profile
-                </div>
+                  </div>
+                </Link>
               </div>
             </div>
             <div>
