@@ -5,7 +5,8 @@ const getMessagesHandler = async(req,res)=>{
     try {
         const result = await Message.findAll({
             where : {appointmentId : id},
-            include : ['form', 'to']
+            include : ['sender', 'receiver'],
+            order: [['createdAt', 'DESC']]
         })
         return res.json(result);
     }catch(err) {

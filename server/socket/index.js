@@ -17,12 +17,12 @@ io.on('connection', socket => {
   socket.join(id)
   console.log('SOMEONE JOINED '+id);
 
-  socket.on('send-message', ({ recipients,type,appointmentId,text,createdAt, from}) => {
-    createMessage(from.uuid,recipients[0], type,text,appointmentId);
+  socket.on('send-message', ({ recipients,type,appointmentId,text,createdAt, sender}) => {
+    createMessage(sender.uuid,recipients[0], type,text,appointmentId);
 
     recipients.forEach(recipient => {
       socket.broadcast.to(recipient).emit('receive-message', {    
-        sender: id,type,appointmentId,text, from, createdAt
+        sender: id,type,appointmentId,text, sender, createdAt
       })
     })
   })

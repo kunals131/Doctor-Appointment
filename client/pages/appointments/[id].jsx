@@ -8,7 +8,7 @@ import {FaFileMedicalAlt, FaFilePrescription} from 'react-icons/fa';
 import Conversation from "../../components/Appointment/Views/Conversation";
 import Schedules from "../../components/Appointment/Views/Schedules";
 import { verifyAuthentication } from "../../utils/verifyAuth";
-import { getAppointmentAPI, getAppointmentSchedules } from "../../api/common";
+import { getAppointmentAPI, getAppointmentSchedules, getMessagesAPI } from "../../api/common";
 import io from 'socket.io-client';
 
 export const getServerSideProps = async (ctx) => {
@@ -24,9 +24,10 @@ export const getServerSideProps = async (ctx) => {
   }
   try {
     const appointment = await getAppointmentAPI(id);
+    const messages = await getMessagesAPI(id);
     console.log(appointment)
     const schedules = await getAppointmentSchedules(id);
-    return {props : {user : auth.decodedData, appointment : appointment.data, schedules : schedules.data}}
+    return {props : {user : auth.decodedData,fetchedMessages : messages.data, appointment : appointment.data, schedules : schedules.data}}
     
   }catch(error) {
     console.log(error);
@@ -67,15 +68,15 @@ const Heading = ({view})=>{
   )
 }
 
-const Appointment = ({schedules, appointment,user}) => {
-  console.log(schedules, appointment, user)
+const Appointment = ({schedules, appointment,user, fetchedMessages}) => {
+  console.log(schedules, appointment, user, fetchedMessages)
     const getOtherUser = ()=>{
       return  appointment[user.role==='doctor'?'patient':'doctor'].user
     }
-
+    console.log(fetchedMessages)
  
 
-  const [messages,setMessages] = useState([]);
+  const [messages,setMessages] = useState(fetchedMessages);
  
   const [socket,setSocket] = useState(['hellow']);
   useEffect(()=>{
@@ -149,7 +150,7 @@ const Appointment = ({schedules, appointment,user}) => {
           </div>
          <div className="h-[calc(93vh-70px)]">
            {view==='conversation'&&<Conversation messages={messages} user={user} appointmentId={appointment.id} otherUser = {getOtherUser()} setMessages={setMessages} socket={socket}/>}
-           {view==='schedules'&&<Schedules schedules={schedules} appointmentId={appointment.id} doctor={appointment.doctor.uuid}/>}
+           {view==='schedules'&&<Schedules socket={socket} schedules={schedules} user={user} appointmentId={appointment.id} doctor={appointment.doctor.uuid}/>}
          </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ const MessageInput = ({socket, user, otherUser ,messages,setMessages, appointmen
     const handleSubmit = (e)=>{
         e.preventDefault();
         console.log(`SENT : ${input} from ${user.fullName}`)
-        const dataToSend = {recipients : [otherUser.uuid], text : input, from : {...user},  createdAt: formatDate(moment.now()), type : 'message', appointmentId}
+        const dataToSend = {recipients : [otherUser.uuid], text : input, sender : {...user},  createdAt: formatDate(moment.now()), type : 'message', appointmentId}
 
         setMessages((list)=>[dataToSend,...list])
 
@@ -41,11 +41,11 @@ const MessageBox = ({message})=>{
     return (
         <div className='p-2  hover:bg-[#222529]'>
             <div className='flex justify-start space-x-4'>
-                <div className='bg-primary h-[50px] w-[50px] rounded-md'></div>
+                <div className='bg-primary h-[50px] w-[50px] rounded-md' style={{background  : `url(${message.sender.img}) center center/cover`}}></div>
                 <div className=''>
                     <div className='flex space-x-2 items-center'>
-                        <div className='font-semibold text-sm text-slate-300'>{"LISS"}</div>
-                        <div className='text-slate-500 text-xs'>{'KUNAL'}</div>
+                        <div className='font-semibold text-sm text-slate-300'>{message.sender.fullName}</div>
+                        <div className='text-slate-500 text-xs'>{formatDate(message.createdAt).includes('invalid')?message.createdAt:formatDate(message.createdAt)}</div>
                     </div>
                     <div className='mt-2 font-light text-white text-xs'>{message.text}</div>
                 </div>
