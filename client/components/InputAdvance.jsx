@@ -47,7 +47,7 @@ const InputAdvance = ({ width, label,list, placeholder,handleAdd, handleRemove, 
           htmlFor=""
           className={cls(
             "block transition-all text-[#6857E5] font-semibold",
-            { "scale-100": isFocus && list.length === 0 },
+            { "scale-100": isFocus && list?.length === 0 },
             { "scale-0": !isFocus }
           )}
         >

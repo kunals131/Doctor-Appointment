@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 import { getDoctorsAPI } from '../../api/doctor';
 import { getAllAppointedDoctors, getAllAppointments, getDiagnosis, getDiagnosisData } from '../../api/patient';
 import DoctorProfile from "../../components/DoctorCard";
+import { updateUser } from '../../redux/actions/user';
 import { verifyAuthentication } from '../../utils/verifyAuth';
 
 
@@ -39,6 +41,11 @@ export const getServerSideProps = async(ctx) => {
 
 const Diagnose = ({diagnosis, user,appointedDoctors, doctorsFound}) => {
     console.log(diagnosis);
+    const dispatch= useDispatch();
+    useEffect(()=>{
+      dispatch(updateUser(user));
+      
+    }, [])
     console.log(doctorsFound)
   return (
     <div className='mt-12 flex justify-between px-10'>

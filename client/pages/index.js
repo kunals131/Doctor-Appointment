@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import InputField from "../components/InputField";
-import { loginUser, registerUser } from "../redux/actions/user";
+import { loginUser, registerUser, updateUser } from "../redux/actions/user";
 const initalStateForm = {
   password: "",
   fullName: "",
@@ -32,9 +32,14 @@ export const getServerSideProps = (ctx) => {
 
 
 const Home = ({user}) => {
+
+
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(updateUser(user));
+  }, [])
 
   const [form, setForm] = useState(initalStateForm);
   const [error, setError] = useState("");

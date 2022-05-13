@@ -5,13 +5,14 @@ import diseases from '../../allDiseases.json';
 import InputField from "../Input";
 import InputAdvance from "../InputAdvance";
 
-const DoctorDetails = ({information,setInformation,userId,tagsList,specialitiesList})=>{
+const DoctorDetails = ({information,setInformation,userId,tagsList,specialitiesList,data})=>{
+  console.log(data)
   const handleChange = (e)=>{
     setInformation(prev=>({
       ...prev, details : {...prev.details, [e.target.name] : e.target.value}, error : ''
     }));
   }
-  const [specialities,setSpecialities] = useState(specialitiesList);
+  const [specialities,setSpecialities] = useState(data.specialities || []);
   const [tags,setTags] = useState(tagsList?.split(',')||[]);
   const handleAddSpecialities = async(title)=>{
     try {

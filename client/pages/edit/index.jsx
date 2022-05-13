@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { updateUserDetailsAPI } from "../../api/common";
 import BasicInformation from "../../components/EditPage/BasicInformation";
 import DoctorDetails from "../../components/EditPage/DoctorInformation";
 import PatientDetails from "../../components/EditPage/PatientInformation";
 import SecurityDetails from "../../components/EditPage/SecurityInformation";
 import Input from "../../components/Input";
+import { updateUser } from "../../redux/actions/user";
 import { verifyAuthentication } from "../../utils/verifyAuth";
 
 export const getServerSideProps = async (ctx) => {
@@ -29,6 +31,11 @@ const Edit = ({ user }) => {
     },
     error: "",
   });
+  const dispatch= useDispatch();
+  useEffect(()=>{
+    dispatch(updateUser(user));
+
+  }, [])
   const ref = useRef();
   const [patientInformation, setPatientInformation] = useState({
     details: {
@@ -123,7 +130,7 @@ const Edit = ({ user }) => {
             information={doctorInformation}
             setInformation={setDoctorInformation}
             userId={user.additionalData.uuid}
-            specialitiesList={user.additionalData.specialities}
+            data={user.additionalData}
             tagsList={user.additionalData.tags}
           />
         ) : (

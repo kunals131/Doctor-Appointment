@@ -10,6 +10,8 @@ import Schedules from "../../components/Appointment/Views/Schedules";
 import { verifyAuthentication } from "../../utils/verifyAuth";
 import { getAppointmentAPI, getAppointmentSchedules, getMessagesAPI } from "../../api/common";
 import io from 'socket.io-client';
+import { updateUser } from "../../redux/actions/user";
+import { useDispatch } from "react-redux";
 
 export const getServerSideProps = async (ctx) => {
   const auth = verifyAuthentication(ctx.req);
@@ -56,6 +58,11 @@ const MenuItem = ({title,value,view,setView, icon})=>{
     </div>
   )
 }
+const dispatch= useDispatch();
+useEffect(()=>{
+  dispatch(updateUser(user));
+  
+}, [])
 
 const Heading = ({view})=>{
   return (

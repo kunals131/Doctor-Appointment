@@ -30,6 +30,7 @@ export const getServerSideProps = async(ctx) => {
 };
 
 const Patient = ({patient}) => {
+
   return (
     <div className="flex space-x-10 mt-10">
       <div className="p-4 bg-white h-fit">

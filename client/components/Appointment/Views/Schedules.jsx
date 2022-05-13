@@ -20,7 +20,7 @@ const ScheduleItem = ({schedule, patientId, doctorId, appointmentId})=>{
     <div className=''>{schedule.title}</div>
     <div className='flex items-center space-x-2'> <MdOutlineAlarm/><div> {formatDate(schedule.at)}</div></div>
    {state==='future'&&<div className='flex items-center space-x-2'>
-      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all flex space-x-1 items-center'>🚪ENTER</div>
+      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all flex space-x-1 items-center'><a href={`https://reactroom.netlify.app/room/${schedule.id}`}>🚪ENTER</a></div>
       <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all'>✅Done</div>
       <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all'>⌚Reschedule</div>
     </div>}

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import AdditionalDetails from "./AdditionalDetails";
 
 const Layout = ({children}) => {
-    const [isNew,setIsNew] = useState(false);
+    const [isNew,setIsNew] = useState(true);
     const router = useRouter();
     const [path,setPath] = useState(router.pathname);
     useEffect(()=>{
@@ -17,9 +17,10 @@ const Layout = ({children}) => {
     useEffect(()=>{
         console.log(user)
     }, [user]);
-    if (isNew) return <AdditionalDetails></AdditionalDetails>
+    
+    if (router.pathname==='/new') return <>{children}</>
+
     return <>
-  
     {(path!=='/'&&router.pathname!=='/appointments/[id]')&&<Sidebar></Sidebar>}
     <div className={(path!=='/'&&router.pathname!=='/appointments/[id]')?'sm:pl-28 md:pl-36 lg:pl-44 lg:pr-28':''}>
         {(router.pathname!=='/'&&router.pathname!=='/appointments/[id]'&&router.pathname!=='/edit')&&<Header></Header>}

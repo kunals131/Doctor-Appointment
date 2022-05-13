@@ -19,6 +19,7 @@ const loginHandler = async(req,res)=>{
                 include : ['user', 'medicalRecords', 'medications', 'symptoms']
             }]
         })
+        console.log(foundUser)
 
         if (!foundUser) return res.status(406).json({message : 'Invalid Email Address or Password'});
         const passwordMatch = await bcrypt.compare(password,foundUser.getDataValue('password'));
@@ -26,6 +27,7 @@ const loginHandler = async(req,res)=>{
         const accessToken = createAccessToken({
             foundUser
         });
+
         res.cookie('jwt', accessToken, { httpOnly: true, sameSite: 'None',secure : true, maxAge: 24 * 60 * 60 * 1000 });
         res.json(foundUser);
     }

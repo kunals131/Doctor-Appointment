@@ -50,8 +50,8 @@ const PatientDetails = ()=>{
               accessment.
             </div>
             <div className="mt-10 grid grid-cols-3 gap-4 grid-flow-row">
-              <MedicalRecord />
-              <MedicalRecord />
+              {/* <MedicalRecord />
+              <MedicalRecord /> */}
               <div className="w-full hover:border-[#6757E5] transition-all ease-in-out group border-gray-400 flex flex-col items-center justify-center h-full border-2 border-dashed rounded-md">
                 <div>
                   <BsPlusCircleDotted
@@ -96,7 +96,7 @@ const AdditionalDetails = () => {
   return (
     <div className="h-[100vh] overflow-hidden bg-white w-full flex">
       <div className="h-full overflow-y-auto scrollbar w-[60vw] px-20 pt-16 pb-8">
-          <DoctorDetails/>
+          <PatientDetails/>
 
         <div className="mt-8 flex space-x-3 justify-end">
              <button  className="border-[#6757E5] bg-transparent disabled:bg-opacity-70 text-[#6757E5] border-2 hover:scale-105 transition-all ease-out text-sm px-2 py-2 rounded-md">Detect Location</button>
