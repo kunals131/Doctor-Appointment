@@ -25,3 +25,13 @@ export const createAppointmentAPI = async(patientId,doctorId)=>{
     return res;
 
 }
+
+export const createScheduleAPI = async(appointmentId,data)=>{
+    const res = await axios.post(`/schedule/`, {appointmentId,...data});
+    return res;
+}
+
+export const updateSchedulesAPI = async(id,changes)=>{
+    const res = await axios.put(`/schedule/${id}`, {changes});
+    return res;
+}

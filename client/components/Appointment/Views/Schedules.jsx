@@ -1,16 +1,30 @@
-import React, { useState } from 'react'
+import moment from 'moment';
+import React, { useEffect, useState } from 'react'
 import {MdOutlineAlarm} from 'react-icons/md'
-import {MdClock} from 'react-icons/md'
+import {MdClock, MdLogin} from 'react-icons/md'
+import { createScheduleAPI, updateSchedulesAPI } from '../../../api/common';
 
-const ScheduleItem = ({schedules, patientId, doctorId, appointmentId})=>{
+const formatDate = (date)=>{
+  return   moment(date).format('H:MMA DD MMMM YYYY')
+}
+const getDiff = (date)=>{
+  const date1 = moment(date);
+
+  return date1.diff(moment.now(), 'days') 
+}
+
+const ScheduleItem = ({schedule, patientId, doctorId, appointmentId})=>{
+  const state = schedule.state;
   return (
   <div className='w-full hover:bg-[#383c41] transition-all bg-[#222529] p-5 px-8 rounded-md flex justify-between items-center'>
-    <div className=''>Session -1</div>
-    <div className='flex items-center space-x-2'> <MdOutlineAlarm/><div> 3:00PM 16 March 2022</div></div>
-    <div className='flex items-center space-x-2'>
-      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all'>✅Mark as Done</div>
+    <div className=''>{schedule.title}</div>
+    <div className='flex items-center space-x-2'> <MdOutlineAlarm/><div> {formatDate(schedule.at)}</div></div>
+   {state==='future'&&<div className='flex items-center space-x-2'>
+      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all flex space-x-1 items-center'>🚪ENTER</div>
+      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all'>✅Done</div>
       <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all'>⌚Reschedule</div>
-    </div>
+    </div>}
+    
   </div>
   );
 }
@@ -21,11 +35,18 @@ const initialState ={
   time : ''
 }
 
-const SchduleCreator = ()=>{
+const SchduleCreator = ({appointmentId, currentSchedules, setCurrentSchedules})=>{
+ 
   const [creatorData,setCreatorData] = useState(initialState);
-  const handleSubmit = ()=>{
-    const date = new Date(`${creatorData.date} ${creatorData.time}`);
-    console.log(date);
+  const handleSubmit = async()=>{
+    const realDate = moment(creatorData.date + 'T' + creatorData.time).format("YYYY-MM-DDTHH:mm:ss.000Z")
+    try {
+    const res = await createScheduleAPI(appointmentId, {at : realDate, title : creatorData.title });
+    console.log(res);
+    console.log(res.data)
+    setCurrentSchedules([...currentSchedules, res.data]);
+    }catch(err) {console.log(err.response.data.message)
+    }
   }
   return (
     <div className='p-3 bg-[#222529] text-white rounded-md text-xs'>
@@ -54,24 +75,45 @@ const SchduleCreator = ()=>{
   )
 }
 
-const Schedules = () => {
+const Schedules = ({schedules, appointmentId, doctor}) => {
+  console.log(schedules)
+  useEffect(()=>{
+    const updateSchedules = async()=>{
+      for(let i=0; i<schedules.length; ++i) {
+        const s = schedules[i];
+        if (s.state==='future') {
+          if (getDiff(s.at)<0) {
+            const res = await updateSchedulesAPI(s.id,{state : 'past'})
+            console.log(res.data);
+          } 
+        }
+      }
+    }
+    try {
+      updateSchedules();
+    }catch(err) {
+      console.log(err);
+    }
+    console.log('RAN')
+  }, [])
+  
+  const [currentSchedules, setCurrentSchedules] = useState(schedules);
   return (
     <>
     <div className='text-slate-400 p-4 h-[485px] overflow-y-auto'>
-      <div className='text-lg'>Today (16 March 2022)</div>
+      <div className='text-lg'>Scheduled</div>
       <hr className='border-[#4a4f55] my-3'/>
       <div className='mt-4 space-y-4'>
-        <ScheduleItem/>
-        <ScheduleItem/>
+      {currentSchedules.filter(s=>s.state==='future').map(s=><ScheduleItem schedule={s}/>)}
       </div>
-      <div className='text-lg mt-9'>Tomorrow (16 March 2022)</div>
+      <div className='text-lg mt-9'>PAST & DONE</div>
       <hr className='border-[#4a4f55] my-3'/>
       <div className='mt-4 space-y-4'>
-        <ScheduleItem/>
+      {currentSchedules.filter(s=>(s.state==='past' || s.state==='done')).map(s=><ScheduleItem key={s.id} schedule={s}/>)}
       </div>
     </div>
     <div className='mt-1 p-1'>
-      <SchduleCreator/>
+      <SchduleCreator setCurrentSchedules={setCurrentSchedules} currentSchedules={currentSchedules} appointmentId={appointmentId}/>
     </div>
     </>
   )

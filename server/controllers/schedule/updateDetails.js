@@ -18,26 +18,14 @@ const createScheduleHandler = async(req,res)=>{
 
 const updateScheduleHandler = async(req,res)=>{
     const id = req.params.id;
-    const {at,title,state} = req.body;
+    const {changes} = req.body;
     let isUpdate = false;
     try {
         const schedule =await Schedule.findByPk(id);
         if (!schedule) return res.status(400).json({message : 'Schedule was not found!'});
-        if (at) {
-            isUpdate = true;
-            schedule.at = at;
-        }
-        if (title) {
-            isUpdate = true;
-            schedule.title = title;
-        }
-        if (state) {
-            isUpdate = true;
-            schedule.state = state;
-        }
-        if (!isUpdate) return res.json({message : 'Nothing was updated!'});
-        const result = await  schedule.save();
-        return res.json(result)
+        await schedule.update(changes);
+        const result = await schedule.save();
+        return res.json(result);
     }catch(err) {
         console.log(err);
         return res.status(400).json({message : 'Something went wrong!', error : err});

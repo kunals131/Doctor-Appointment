@@ -68,7 +68,7 @@ const Heading = ({view})=>{
 }
 
 const Appointment = ({schedules, appointment,user}) => {
-
+  console.log(schedules, appointment, user)
     const getOtherUser = ()=>{
       return  appointment[user.role==='doctor'?'patient':'doctor'].user
     }
@@ -149,7 +149,7 @@ const Appointment = ({schedules, appointment,user}) => {
           </div>
          <div className="h-[calc(93vh-70px)]">
            {view==='conversation'&&<Conversation messages={messages} user={user} otherUser = {getOtherUser()} setMessages={setMessages} socket={socket}/>}
-           {view==='schedules'&&<Schedules schedules={schedules} appointmentId={appointment.id} doctor={appointment.doctor.uuid} patient/>}
+           {view==='schedules'&&<Schedules schedules={schedules} appointmentId={appointment.id} doctor={appointment.doctor.uuid}/>}
          </div>
         </div>
       </div>
