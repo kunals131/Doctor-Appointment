@@ -35,3 +35,8 @@ export const updateSchedulesAPI = async(id,changes)=>{
     const res = await axios.put(`/schedule/${id}`, {changes});
     return res;
 }
+
+export const getMessagesAPI = async(id)=>{
+    const res = await axios.get(`/appointments/${id}/messages`);
+    return res;
+}

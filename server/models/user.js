@@ -9,10 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({Doctor, Patient}) {
+    static associate({Doctor, Patient, Message}) {
       // define association here
       this.hasOne(Doctor, {foreignKey : 'userId', as : 'doctorDetails'});
       this.hasOne(Patient, {foreignKey : 'userId', as : 'patientDetails'});
+      this.hasMany(Message , {foreignKey : 'from', as : 'messagesSent'});
+      this.hasMany(Message , {foreignKey : 'to', as : 'messagesRecieved'});
     }
     toJSON() {
       const role = this.getDataValue('role');

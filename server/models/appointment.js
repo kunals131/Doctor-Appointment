@@ -21,10 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         return {...this.get()}
       }
     }
-    static associate({Patient,Doctor, Schedule}) {
+    static associate({Patient,Doctor, Schedule,Message}) {
       // define association here
       this.belongsTo(Patient, {foreignKey : 'patientId', as : 'patient'});
       this.belongsTo(Doctor, {foreignKey : 'doctorId', as : 'doctor'});
+      this.hasMany(Message, {foreignKey : 'appointmentId', as : 'messages'})
       this.hasMany(Schedule, {foreignKey : 'appointmentId', as : 'schedules'});
     }
   }

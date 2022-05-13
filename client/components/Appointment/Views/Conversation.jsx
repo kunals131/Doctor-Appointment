@@ -3,18 +3,20 @@ import {HiOutlinePlusSm} from 'react-icons/hi';
 import {AiOutlineVideoCamera} from 'react-icons/ai';
 import {FaFileMedicalAlt, FaFilePrescription, FaNotesMedical} from 'react-icons/fa';
 import {MdStickyNote2} from 'react-icons/md';
+import moment from 'moment';
+const formatDate = (date)=>{
+    return   moment(date).format('H:MMA DD MMMM YYYY')
+  }
 
-const MessageInput = ({socket, user, otherUser ,messages,setMessages})=>{
+const MessageInput = ({socket, user, otherUser ,messages,setMessages, appointmentId})=>{
     const [input,setInput] = useState('');
+    
     const handleSubmit = (e)=>{
         e.preventDefault();
         console.log(`SENT : ${input} from ${user.fullName}`)
-        const dataToSend = {recipients : [otherUser.uuid], text : input, author : user.uuid,  time:
-        new Date(Date.now()).getHours() +
-        ":" +
-        new Date(Date.now()).getMinutes(), authorName : user.fullName, authorImg : user.img }
+        const dataToSend = {recipients : [otherUser.uuid], text : input, from : {...user},  createdAt: formatDate(moment.now()), type : 'message', appointmentId}
 
-        setMessages((list)=>[...list,dataToSend])
+        setMessages((list)=>[dataToSend,...list])
 
         socket.emit('send-message',dataToSend)
     }
@@ -35,17 +37,17 @@ const MessageInput = ({socket, user, otherUser ,messages,setMessages})=>{
     )
 }
 
-const MessageBox = ({name,text,time})=>{
+const MessageBox = ({message})=>{
     return (
         <div className='p-2  hover:bg-[#222529]'>
             <div className='flex justify-start space-x-4'>
                 <div className='bg-primary h-[50px] w-[50px] rounded-md'></div>
                 <div className=''>
                     <div className='flex space-x-2 items-center'>
-                        <div className='font-semibold text-sm text-slate-300'>{name}</div>
-                        <div className='text-slate-500 text-xs'>{time}</div>
+                        <div className='font-semibold text-sm text-slate-300'>{"LISS"}</div>
+                        <div className='text-slate-500 text-xs'>{'KUNAL'}</div>
                     </div>
-                    <div className='mt-2 font-light text-white text-xs'>{text}</div>
+                    <div className='mt-2 font-light text-white text-xs'>{message.text}</div>
                 </div>
             </div>
         </div>
@@ -53,12 +55,12 @@ const MessageBox = ({name,text,time})=>{
 }
 
 const Conversation = (props) => {
-    const {messages, user,otherUser} = props;
+    const {messages, user,otherUser, appointmentId,} = props;
   return (
     <div className='flex flex-col justify-between h-full  items-center'>
         <div className='w-full h-[520px] overflow-y-scroll p-3 flex  flex-col-reverse '>
             {
-                (messages?.length>0)&&messages.map((m,idx)=><div key={idx}><MessageBox name={m.authorName} text={m.text} time={m.time}/></div>)
+                (messages?.length>0)&&messages.map((m,idx)=><div key={idx}><MessageBox message={m}/></div>)
             }
         </div>
         <div className='w-full p-3'>
