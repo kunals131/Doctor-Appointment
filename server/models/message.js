@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, DATE
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class message extends Model {
@@ -22,6 +22,15 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       allowNull : true
     },
+    appointmentId : {
+      type : DataTypes.UUID,
+      allowNull : false
+    },
+
+    state : {
+      type : DataTypes.STRING,
+      allowNull : true
+    },
     from : {
       type : DataTypes.UUID,
       allowNull : false
@@ -32,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'message',
+    modelName: 'Message',
+    tableName : 'messages'
   });
   return message;
 };
