@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
+import { getAllUserDetailsAPI } from '../api/common';
 import { getDoctorAppointmentsAPI, getDoctorStatsAPI } from '../api/doctor';
 import { allPatientDetailsAPI, getAllAppointedDoctors } from '../api/patient';
 import DoctorDashboard from '../components/Dashboard/Doctor';
@@ -17,6 +18,9 @@ export const getServerSideProps = async(ctx) => {
         }
       }
     }
+    const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+    auth.decodedData = userData.data;
+    
    if (auth.decodedData.role==='doctor') {return {redirect : {destination : '/dashboard', permanent : false}}}
    try {
        const patientDetails = await allPatientDetailsAPI(auth.decodedData.dataId);

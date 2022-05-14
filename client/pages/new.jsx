@@ -38,6 +38,8 @@ export const getServerSideProps = async(ctx) => {
       }
     }
   }
+  const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+  auth.decodedData = userData.data;
   if(!auth.decodedData.isNew) return {
     redirect : {
       destination : '/',

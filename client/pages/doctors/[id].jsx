@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdPhone, MdEmail, MdHome, MdPersonPin, MdLocalMall, MdFeed, MdReviews } from "react-icons/md";
 import { useDispatch } from "react-redux";
+import { getAllUserDetailsAPI } from "../../api/common";
 import { getDoctorDetailsAPI } from "../../api/doctor";
 import DoctorProfile from "../../components/DoctorCard";
 import { updateUser } from "../../redux/actions/user";
@@ -21,6 +22,9 @@ export const getServerSideProps = async(ctx) => {
       }
     }
   }
+  const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+  auth.decodedData = userData.data;
+  if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
   console.log(ctx.query.id);
   try {
   const doctorDetails = await getDoctorDetailsAPI(ctx.query.id);

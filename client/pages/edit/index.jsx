@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateUserDetailsAPI } from "../../api/common";
+import { getAllUserDetailsAPI, updateUserDetailsAPI } from "../../api/common";
 import BasicInformation from "../../components/EditPage/BasicInformation";
 import DoctorDetails from "../../components/EditPage/DoctorInformation";
 import PatientDetails from "../../components/EditPage/PatientInformation";
@@ -18,6 +18,9 @@ export const getServerSideProps = async (ctx) => {
       },
     };
   }
+  const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+  auth.decodedData = userData.data;
+  if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
   return { props: { user: auth.decodedData } };
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { getAllUserDetailsAPI } from "../../api/common";
 import { allPatientDetailsAPI } from "../../api/patient";
 import InfoBox from "../../components/Dashboard/InfoBox";
 import DiagnosisCard from "../../components/ProfileCards.jsx/DiagnosisCard";
@@ -17,6 +18,9 @@ export const getServerSideProps = async(ctx) => {
       }
     }
   }
+  const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+  auth.decodedData = userData.data;
+  if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
   const {id} = ctx.query;
   try {
     const result = await allPatientDetailsAPI(id);

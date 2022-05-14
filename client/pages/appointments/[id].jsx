@@ -8,9 +8,10 @@ import {FaFileMedicalAlt, FaFilePrescription} from 'react-icons/fa';
 import Conversation from "../../components/Appointment/Views/Conversation";
 import Schedules from "../../components/Appointment/Views/Schedules";
 import { verifyAuthentication } from "../../utils/verifyAuth";
-import { getAppointmentAPI, getAppointmentSchedules, getMessagesAPI } from "../../api/common";
+import { getAllUserDetailsAPI, getAppointmentAPI, getAppointmentSchedules, getMessagesAPI } from "../../api/common";
 import io from 'socket.io-client';
 import { updateUser } from "../../redux/actions/user";
+import Link from 'next/link'
 import { useDispatch } from "react-redux";
 
 export const getServerSideProps = async (ctx) => {
@@ -24,6 +25,9 @@ export const getServerSideProps = async (ctx) => {
       },
     };
   }
+  const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+  auth.decodedData = userData.data;
+  if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
   try {
     const appointment = await getAppointmentAPI(id);
     const messages = await getMessagesAPI(id);
@@ -58,11 +62,6 @@ const MenuItem = ({title,value,view,setView, icon})=>{
     </div>
   )
 }
-const dispatch= useDispatch();
-useEffect(()=>{
-  dispatch(updateUser(user));
-  
-}, [])
 
 const Heading = ({view})=>{
   return (
@@ -76,6 +75,12 @@ const Heading = ({view})=>{
 }
 
 const Appointment = ({schedules, appointment,user, fetchedMessages}) => {
+  const dispatch= useDispatch();
+useEffect(()=>{
+  dispatch(updateUser(user));
+  
+}, [])
+
   console.log(schedules, appointment, user, fetchedMessages)
     const getOtherUser = ()=>{
       return  appointment[user.role==='doctor'?'patient':'doctor'].user
@@ -104,6 +109,7 @@ const Appointment = ({schedules, appointment,user, fetchedMessages}) => {
     <div className="h-screen w-screen bg-white overflow-x-hidden">
       <div className="bg-[#121016] h-[7vh] p-2 px-10 items-center justify-between flex">
         <div>
+          <Link href="/appointments" >
           <div className="bg-[#1C1F23] p-2 flex group items-center text-xs space-x-4 rounded-md">
             <MdLogout className="text-primary" size={17} />
             <label
@@ -112,7 +118,8 @@ const Appointment = ({schedules, appointment,user, fetchedMessages}) => {
             >
               Go Back
             </label>
-          </div>
+            </div>
+          </Link>
         </div>
         <div className="flex items-center">
           <input

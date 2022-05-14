@@ -11,6 +11,7 @@ import { Triangle as Loader } from "react-loader-spinner";
 import { HiArrowSmRight } from "react-icons/hi";
 import AppointDoctorModal from "../../components/AppointDoctorModal";
 import { getAllAppointments } from "../../api/patient";
+import { getAllUserDetailsAPI } from "../../api/common";
 
 export const getServerSideProps = async (ctx) => {
   const auth = verifyAuthentication(ctx.req);
@@ -21,6 +22,9 @@ export const getServerSideProps = async (ctx) => {
       },
     };
   }
+  const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+  auth.decodedData = userData.data;
+  if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
   try {
     const allDoctors = await getDoctorsAPI(JSON.stringify(auth.decodedData));
     let appointedDoctors = [];

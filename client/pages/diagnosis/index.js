@@ -11,6 +11,7 @@ import {
 import { verifyAuthentication } from "../../utils/verifyAuth";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { getAllUserDetailsAPI } from "../../api/common";
 const SymptomItem = ({ title, handleRemove }) => {
   return (
     <div className="text-sm p-2 flex items-center justify-between bg-gray-200 w-[250px] rounded-md">
@@ -30,6 +31,9 @@ export const getServerSideProps = async (ctx) => {
       },
     };
   }
+  const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+  auth.decodedData = userData.data;
+  if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
   if (auth.decodedData.role !== "patient") {
     return {
       notFound: true,

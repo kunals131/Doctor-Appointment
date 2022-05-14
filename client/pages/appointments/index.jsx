@@ -19,6 +19,7 @@ import { IoMdDoneAll } from "react-icons/io";
 import { updateAppointmentAPI } from "../../api/doctor";
 import { getAllAppointments } from "../../api/patient";
 import { useRouter } from "next/router";
+import { getAllUserDetailsAPI } from "../../api/common";
 
 const returnGridStyle = (status) => {
   if (status === "pending") return "grid-cols-[1.2fr_1.2fr_1fr_1.7fr]";
@@ -37,6 +38,9 @@ export const getServerSideProps = async (ctx) => {
       },
     };
   }
+  const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+  auth.decodedData = userData.data;
+  if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
   try {
     let appointments = null;
     if (auth.decodedData.role==='doctor') {

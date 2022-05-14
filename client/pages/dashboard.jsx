@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
+import { getAllUserDetailsAPI } from '../api/common';
 import { getDoctorAppointmentsAPI, getDoctorStatsAPI } from '../api/doctor';
 import DoctorDashboard from '../components/Dashboard/Doctor';
 import PatientDashboard from '../components/Dashboard/Patient';
@@ -7,7 +8,7 @@ import { updateUser } from '../redux/actions/user';
 import { verifyAuthentication } from '../utils/verifyAuth';
 
 export const getServerSideProps = async(ctx) => {
-    const auth = verifyAuthentication(ctx.req);
+    let auth = verifyAuthentication(ctx.req);
     if (!auth.state) {
       return {
         redirect : {
@@ -15,6 +16,9 @@ export const getServerSideProps = async(ctx) => {
         }
       }
     }
+    const userData = await getAllUserDetailsAPI(auth.decodedData.uuid);
+    auth.decodedData = userData.data;
+    if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
     if (auth.decodedData.role==='patient') {
       return {
         redirect : {
