@@ -22,7 +22,7 @@ import InputField from "../components/Input";
 import { verifyAuthentication } from "../utils/verifyAuth";
 import { useRouter } from "next/router";
 import { addSpecialityAPI, RemoveSpecialityAPI, updateDoctorAPI } from "../api/doctor";
-import { updateUserDetailsAPI } from "../api/common";
+import { getAllUserDetailsAPI, updateUserDetailsAPI } from "../api/common";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../redux/actions/user";
 
