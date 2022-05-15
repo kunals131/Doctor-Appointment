@@ -26,6 +26,7 @@ export const getServerSideProps = async(ctx) => {
   auth.decodedData = userData.data;
   if (auth.decodedData.isNew) return {redirect : {destination : '/new'}}
   console.log(ctx.query.id);
+
   try {
   const doctorDetails = await getDoctorDetailsAPI(ctx.query.id);
   return {props:{user : auth.decodedData, doctor : doctorDetails.data}}
@@ -35,11 +36,17 @@ export const getServerSideProps = async(ctx) => {
       notFound : true
     }
   }
-
-
 }
 
-const Profile = ({ profile, user,doctor }) => {
+
+const Tag = ({title})=>(
+<span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
+  {title}
+</span>
+)
+
+
+const Profile = ({user,doctor}) => {
   const dispatch=  useDispatch();
   useEffect(()=>{
     dispatch(updateUser(user));
@@ -62,9 +69,7 @@ const Profile = ({ profile, user,doctor }) => {
             </div>
             <div className="mt-8 text-xs font-medium">👨‍⚕️Specialities : </div>
             <div className="mt-2 flex space-x-1">
-              <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
-                Dentist
-              </span>
+              
               <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
                 Heart
               </span>
