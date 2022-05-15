@@ -35,7 +35,7 @@ const getAppointmentsHandler = async(req,res)=>{
                 model : Patient,
                 as : 'patient',
                 include : ['user']
-            }]
+            }, 'schedules']
         });
         res.json(appointments);
     }catch(err) {

@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {HiOutlinePlusSm} from 'react-icons/hi';
 import {AiOutlineVideoCamera} from 'react-icons/ai';
 import {FaFileMedicalAlt, FaFilePrescription, FaNotesMedical} from 'react-icons/fa';
 import {MdStickyNote2} from 'react-icons/md';
 import moment from 'moment';
+import { updateMessageAPI } from '../../../api/common';
 const formatDate = (date)=>{
     return   moment(date).format('H:MMA DD MMMM YYYY')
   }
@@ -45,7 +46,7 @@ const MessageBox = ({message})=>{
                 <div className=''>
                     <div className='flex space-x-2 items-center'>
                         <div className='font-semibold text-sm text-slate-300'>{message.sender.fullName}</div>
-                        <div className='text-slate-500 text-xs'>{formatDate(message.createdAt).includes('invalid')?message.createdAt:formatDate(message.createdAt)}</div>
+                        <div className='text-slate-500 text-xs'>{formatDate(message.createdAt).includes('Invalid')?message.createdAt:formatDate(message.createdAt)}</div>
                     </div>
                     <div className='mt-2 font-light text-white text-xs'>{message.text}</div>
                 </div>
@@ -56,6 +57,21 @@ const MessageBox = ({message})=>{
 
 const Conversation = (props) => {
     const {messages, user,otherUser, appointmentId,} = props;
+    useEffect(()=>{
+        const updated = async()=>{
+            for(let i =0; i<messages.length; ++i) {
+                if (messages[i].state==='unseen') {
+                    await updateMessageAPI(messages[i].id,{state : 'seen'});
+                }
+            }
+        }
+        try {
+            updated();
+        }catch(err) {
+            console.log(err);
+        }
+
+    }, []);
   return (
     <div className='flex flex-col justify-between h-full  items-center'>
         <div className='w-full h-[520px] overflow-y-scroll p-3 flex  flex-col-reverse '>

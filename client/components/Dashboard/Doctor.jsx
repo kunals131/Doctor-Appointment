@@ -8,7 +8,9 @@ import {
   MdAccountBalanceWallet,
   MdPeopleOutline,
 } from "react-icons/md";
-
+import Link from 'next/link'
+import {useRouter} from 'next/router'
+import { formatDate } from "../../utils";
 const ComponentHeading = ({ text }) => (
   <div className="w-full rounded-t-xl flex justify-between items-center bg-headingBackground h-12 px-4">
     <div className="font-medium text-gray-700">{text}</div>
@@ -18,8 +20,50 @@ const ComponentHeading = ({ text }) => (
   </div>
 );
 
-const DoctorDashboard = ({stats, appointments}) => {
+const MessageCard = ({message})=>{
+  return (
+    <Link href={`/appointments/${message.appointmentId}`}>
+    <div className="bg-primary p-2 bg-opacity-5 hover:bg-opacity-10 cursor-pointer flex items-center space-x-3 rounded-md">
+      <div className="bg-primary h-[30px] w-[30px] rounded-full"></div>
+      <div>
+      <div className="text-[14px]">{message.sender.fullName}</div>
+      <div className="text-[12px] text-gray-500">{message.text.length>15?message.substr(0,12)+'...':message.text}<span className="text-gray-600"> {" "}· 32m</span></div>
+      </div>
+    
+    </div>
+    </Link>
+  )
+}
+const schdulesArray = (appointments)=>{
+ 
+  let arr = [];
+  appointments.filter(a=>a.state==='active').map(a=>{
+    const arr2 = a.schedules.filter(s=>s.state==='future').map(s=>({...s,patientId : a.patient.uuid,patientName : a.patient.user.fullName, appointmentId : a.id, }))
+    arr = [...arr,...arr2]
+  });
+  return arr;
+}
+
+
+const ScheduleCard = ({schedule})=>{
+  const router = useRouter();
+  return (
+    <div onClick={()=>router.push(`/appointments/${schedule.appointmentId}`)} className="bg-slate-100 rounded-md text-sm hover:bg-slate-200 transition-all cursor-pointer flex justify-between p-2 py-4">
+      <div className="font-semibold">
+        <div>{schedule.title}</div>
+      </div>
+      <div >{schedule.patientName}</div>
+      <div className="">{formatDate(schedule.at)}</div>
+      <div>✅</div>
+    </div>
+  )
+}
+const DoctorDashboard = ({stats, appointments, messages}) => {
+  console.log(appointments)
+
   const [dashboardState, setDashboardState] = useState('Doctor');
+  const [schedule, setSchedule] = useState(schdulesArray(appointments))
+  console.log(schedule)
   return (
     <div className="mt-14">
       
@@ -53,15 +97,18 @@ const DoctorDashboard = ({stats, appointments}) => {
         <div className="bg-white w-[570px] rounded-xl h-[410px]">
           <ComponentHeading text="Active Appointments" />
           <div className="mt-3 p-3 flex flex-col space-y-3">
-            {appointments?.length&&appointments.map((appointment,idx)=><AppointmentCard key={idx}/>)}
-            {!appointments?.length&&<div className="">No Appointments yet</div>}
+          {schedule.length>0?schedule.map(s=>(
+             <div><ScheduleCard schedule={s}/></div>
+           )):<div>No Appointments Found</div>}
           </div>
         </div>
         
         <div className="bg-white h-[410px] rounded-xl w-[330px]">
           <ComponentHeading text="Messages" />
           <div className="mt-3 p-3 flex flex-col space-y-3">
-            {/* <MessageCard></MessageCard> */}
+            {messages.filter(m=>m.state==='unseen').length>0?messages.filter(m=>m.state==='unseen').map(m=>(
+              <MessageCard message={m}/>
+            )):(<div className="text-sm text-gray-800">No New Messages</div>)}
           </div>
         </div>
         <div className="bg-white h-[410px] rounded-xl w-[300px]">

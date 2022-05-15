@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { getAllUserDetailsAPI } from '../api/common';
+import { getAllUserDetailsAPI, getUserMessagesAPI } from '../api/common';
 import { getDoctorAppointmentsAPI, getDoctorStatsAPI } from '../api/doctor';
 import DoctorDashboard from '../components/Dashboard/Doctor';
 import PatientDashboard from '../components/Dashboard/Patient';
@@ -30,8 +30,9 @@ export const getServerSideProps = async(ctx) => {
     try {
      const stats =  await getDoctorStatsAPI(auth.decodedData.dataId);
      const appointments = await getDoctorAppointmentsAPI(auth.decodedData.dataId);
+     const messages = await getUserMessagesAPI(auth.decodedData.uuid);
      return {
-      props: {user : auth.decodedData, stats : stats.data, appointments : appointments.data},
+      props: {user : auth.decodedData, stats : stats.data, appointments : appointments.data, messages : messages.data},
     };
     }catch(err) {
       console.log(err);
@@ -43,7 +44,7 @@ export const getServerSideProps = async(ctx) => {
   
   };
   
-const Dashboard = ({user, error,stats, appointments}) => {
+const Dashboard = ({user, error,stats, appointments, messages}) => {
   const dispatch=  useDispatch();
   useEffect(()=>{
     dispatch(updateUser(user));
@@ -55,7 +56,7 @@ const Dashboard = ({user, error,stats, appointments}) => {
   }
   return (
     <>
-    {user.role==='doctor'?<DoctorDashboard stats={stats} appointments={appointments}/>:<PatientDashboard/>}
+    {user.role==='doctor'?<DoctorDashboard stats={stats} messages={messages} appointments={appointments}/>:<PatientDashboard/>}
     </>
   )
 }

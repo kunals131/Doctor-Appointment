@@ -40,3 +40,12 @@ export const getMessagesAPI = async(id)=>{
     const res = await axios.get(`/appointments/${id}/messages`);
     return res;
 }
+
+export const getUserMessagesAPI = async(id)=>{
+    const res = await axios.get(`/user/${id}/messages`);
+    return res; 
+}
+
+export const updateMessageAPI = async(id, changes)=>{
+    const res = await axios.put(`/message/${id}`, {changes})
+}

@@ -2,7 +2,7 @@ const { Appointment, User,Message } = require("../../models");
 const { ifAppointmentExists } = require("../../utils/ifExists");
 
 
-const createMessageHandler = (req,res)=>{
+const createMessageHandler = async(req,res)=>{
     try {
 
     const {id} = req.params;
@@ -17,3 +17,20 @@ const createMessageHandler = (req,res)=>{
     } 
 
 }
+
+const updateMessageHandler = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const {changes} = req.body;
+        const message = await Message.findByPk(id);
+        if (!message) return res.status(404).json({message : 'Message Not found!'});
+        await message.update(changes);
+        const result =await message.save();
+        res.json(result);
+    }catch(err){
+        console.log(err);
+        return res.status(400).json({message : "Something went wrong!"})
+    } 
+}
+
+module.exports = {updateMessageHandler}

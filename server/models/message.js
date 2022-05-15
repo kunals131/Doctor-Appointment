@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(User, {foreignKey : 'from', as : 'sender'});
       this.belongsTo(User, {foreignKey : 'to', as : 'receiver'});
-      this.belongsTo(Appointment, {foreignKey : 'appointmentId'});
+      this.belongsTo(Appointment, {foreignKey : 'appointmentId', as : 'appointment'});
 
     
     }
@@ -34,7 +34,8 @@ module.exports = (sequelize, DataTypes) => {
 
     state : {
       type : DataTypes.STRING,
-      allowNull : true
+      allowNull : true,
+      defaultValue : 'unseen'
     },
     from : {
       type : DataTypes.UUID,

@@ -36,6 +36,7 @@ app.use('/api/appointments/', require('./routes/appointment'));
 
 app.use('/api/schedule/', require('./routes/schedule'));
 app.use('/api/records/', require('./routes/records'));
+app.use('/api/message/', require('./routes/message'));
 app.use('/api/search/', require('./routes/search'));
 app.use('/api/user/', require('./routes/user'));
 

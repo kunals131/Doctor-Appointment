@@ -1,4 +1,4 @@
-const {User, Doctor, Patient} = require('../../models');
+const {User, Doctor, Patient, Message} = require('../../models');
 
 const getUserDetailsHandler = async(req,res)=>{
     const {id} = req.params;
@@ -25,4 +25,19 @@ const getUserDetailsHandler = async(req,res)=>{
     }
 }
 
-module.exports = {getUserDetailsHandler}
+const getUserMessagesHandler = async(req,res)=>{
+    const {id} = req.params;
+    try {
+        const messages = await Message.findAll({
+            where : {to : id},
+            include : ['sender', 'appointment'],
+            order: [['createdAt', 'DESC']]
+        });
+        res.json(messages);
+    }catch(err) {
+        console.log(err);
+        return res.status(400).json({error : err, message : 'Something went wrong!'});
+    }
+}
+
+module.exports = {getUserDetailsHandler,getUserMessagesHandler}

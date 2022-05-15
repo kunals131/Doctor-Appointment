@@ -24,7 +24,8 @@ module.exports = {
   
       state : {
         type : DataTypes.STRING,
-        allowNull : true
+        allowNull : true,
+        defaultValue : 'unseen'
       },
       from : {
         type : DataTypes.UUID,
