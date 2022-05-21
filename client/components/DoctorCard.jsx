@@ -25,6 +25,7 @@ const Tag = ({ title }) => {
   };
   const DoctorProfile = ({doctor, handleAppoint, role,patientId, appointedDoctors}) => {
     const [show,setShow] = useState(false);
+    console.log(doctor)
     const [appointmentState, setAppointmentState] = useState(false);
     const handleClick = async ()=>{
       try {
@@ -85,14 +86,14 @@ const Tag = ({ title }) => {
             <div>
               <div className="text-sm font-semibold">{doctor.user.fullName}</div>
               <div className="text-[0.7rem] text-gray-500 mt-1">
-                I'm the best doctor in the holy fucking world
-                {doctor.uuid}
+               {doctor.medicalExperience} years of Experience | {doctor.degree} | {doctor.university}
+                {/* {doctor.uuid} */}
               </div>
               <hr className="border-gray-400 my-2" />
               <div className="flex space-x-3 ">
-                <Tag title="dentistry" />
-                <Tag title="Heart" />
-                <Tag title="Dieasease" />
+                {doctor.specialities.map(s=>(
+                  <Tag title={s.title} id={s.id}/>
+                ))}
               </div>
               <div className="mt-4 flex space-x-3 items-center">
           <ActionButton/>

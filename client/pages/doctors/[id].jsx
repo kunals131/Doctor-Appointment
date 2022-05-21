@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { MdPhone, MdEmail, MdHome, MdPersonPin, MdLocalMall, MdFeed, MdReviews } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { getAllUserDetailsAPI } from "../../api/common";
+import { createAppointmentAPI, getAllUserDetailsAPI } from "../../api/common";
 import { getDoctorDetailsAPI } from "../../api/doctor";
+import { getAllAppointments } from "../../api/patient";
 import DoctorProfile from "../../components/DoctorCard";
 import { updateUser } from "../../redux/actions/user";
 import { verifyAuthentication } from "../../utils/verifyAuth";
+import cls from 'classnames'
+
+const sortFunc = function(a, b) {
+  var keyA = new Date(a.createdAt),
+    keyB = new Date(b.createdAt);
+  // Compare the 2 dates
+  if (keyA < keyB) return 1;
+  if (keyA > keyB) return -1;
+  return 0;
+}
+
 
 const DetailCard = ({title,info})=>(
     <div className="bg-mainBackground w-full h-auto p-2 rounded-lg">
@@ -29,6 +41,10 @@ export const getServerSideProps = async(ctx) => {
 
   try {
   const doctorDetails = await getDoctorDetailsAPI(ctx.query.id);
+  if (auth.decodedData.role==='patient') {
+    let results = await getAllAppointments(auth.decodedData.additionalData.uuid);
+    return {props:{user : auth.decodedData, doctor : doctorDetails.data, appointedDoctors : results.data}}
+  }
   return {props:{user : auth.decodedData, doctor : doctorDetails.data}}
   }catch(err) {
     console.log(err);
@@ -46,11 +62,55 @@ const Tag = ({title})=>(
 )
 
 
-const Profile = ({user,doctor}) => {
+
+const Profile = ({user,doctor, appointedDoctors}) => {
   const dispatch=  useDispatch();
   useEffect(()=>{
     dispatch(updateUser(user));
   }, [])
+  const [appointmentState, setAppointmentState] = useState(false);
+  const handleClick = async ()=>{
+    try {
+      const res=  await createAppointmentAPI(user.additionalData.uuid, doctor.uuid);
+      console.log(res);
+      setAppointmentState('pending')
+    }catch(err) {
+      console.log(err.response.data.message)
+    }
+  }
+  useEffect(()=>{
+    if (user.role==='patient') {
+    let isAppointed = false;
+    isAppointed = appointedDoctors?.filter(app=>{
+      if (app.doctor.uuid===doctor.uuid) return app;
+    });
+    if (isAppointed.length>0) {
+      isAppointed.sort(sortFunc);
+      const state = isAppointed[0].state;
+      console.log(`${state} ${doctor.uuid}`);
+      setAppointmentState(state);
+    }
+  }
+  }, [])
+
+  const ActionButton = ({role})=>{
+
+    let text = `Appointment Dr. ${doctor.user.fullName.split(' ')[0]}`;
+    if (appointmentState &&( appointmentState==='rejected' || appointmentState==='closed')) appointmentState = false;
+    if (appointmentState && appointmentState==='active') text = 'Active Appointment';
+    else if (appointmentState) text = `Request ${appointmentState}`
+    
+     return (
+      <>
+      {role==='patient'&&<button disabled={appointmentState} onClick={handleClick} className={cls('text-[0.7rem]  bg-opacity-90 hover:bg-opacity-100 w-fit p-1 border-[1px] text-white rounded-md px-2', {'bg-primary' : !appointmentState}, {'bg-gray-700' : appointmentState==='pending'}, {'bg-green-600' : appointmentState==='active'})}>
+                {text}
+      </button>}  
+      </>
+    )
+  
+  }
+
+
 
   return (
     
@@ -70,15 +130,9 @@ const Profile = ({user,doctor}) => {
             <div className="mt-8 text-xs font-medium">👨‍⚕️Specialities : </div>
             <div className="mt-2 flex space-x-1">
               
-              <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
-                Heart
-              </span>
-              <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
-                Joint Pain
-              </span>
-              <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
-                Lungs
-              </span>
+             {doctor.specialities.map(s=>(
+                  <Tag title={s.title} id={s.id}/>
+                ))}
             </div>
           </div>
         </div>
@@ -94,8 +148,8 @@ const Profile = ({user,doctor}) => {
         <div className="flex space-x-1">
             <MdHome size={20} /> <p className="text-sm">{doctor.address}</p>
         </div>
-        <div>
-            <button className="text-sm mt-2 bg-primary text-white rounded-xl px-3 py-2" >👨‍⚕️ Appoint Doctor Keith</button>
+        <div className={user.role==='doctor'?'invisible':''}>
+            <ActionButton role={user.role}/>
         </div>
         </div>
       </div>
@@ -126,18 +180,9 @@ const Profile = ({user,doctor}) => {
                     <div className="mt-5 overflow-y-scroll h-[270px] space-y-3">
                         <DetailCard title={"Name"} info={doctor.user.fullName} />
                         <DetailCard title={"Speciality"} info={<div className="mt-2 flex space-x-1">
-              <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
-                Dentist
-              </span>
-              <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
-                Heart
-              </span>
-              <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
-                Joint Pain
-              </span>
-              <span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
-                Lungs
-              </span>
+                        {doctor.specialities.map(s=>(
+                  <Tag title={s.title} id={s.id}/>
+                ))}
             </div>} />
             <DetailCard title={"Medical University"} info={doctor.university} />
             <DetailCard title={"Degree"} info={doctor.degree} />
