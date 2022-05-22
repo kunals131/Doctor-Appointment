@@ -12,7 +12,7 @@ import DatalistInput, { useComboboxControls } from "react-datalist-input";
 
 const ListItem = ({ text, handleRemove,id }) => {
   return (
-    <div className="bg-gray-300 w-fit flex space-x-2 items-center px-3 py-1 text-sm rounded-xl text-gray-500">
+    <div className="bg-gray-300 dark:bg-darkElevation-500 w-fit flex space-x-2 items-center px-3 py-1 text-sm rounded-xl text-gray-500">
       <div>{text}</div>
       <div
         onClick={()=>handleRemove(id)}
@@ -32,7 +32,7 @@ const InputAdvance = ({ width, label,list, placeholder,handleAdd, handleRemove, 
     <>
       {list?.length > 0 && (
         <div className="">
-          <div className="font-semibold text-sm text-gray-700">
+          <div className="font-semibold text-sm text-gray-700 dark:text-gray-500">
             Added {label}
           </div>
           <div className="flex mt-2 space-x-3">
@@ -61,11 +61,11 @@ const InputAdvance = ({ width, label,list, placeholder,handleAdd, handleRemove, 
             onFocus={() => setIsFocus(true)}
             onBlur={(e) => setIsFocus(e.target.value !== "")}
             placeholder={placeholder || label}
-            className="border-gray-300 placeholder:text-gray-400 outline-none border-2 mt-1 px-2 py-[8px] rounded-sm w-full"
+            className="border-gray-300 dark:border-none  dark:bg-darkElevation-200 dark:placeholder:text-gray-500 dark:rounded-md placeholder:text-gray-400 outline-none border-2 mt-1 px-2 py-[8px] rounded-sm w-full"
           />:<DatalistInput
           placeholder={placeholder || label}
           className="w-full"
-          inputProps={{className : 'border-gray-300 placeholder:text-gray-400 outline-none border-2 mt-1 px-2 py-[8px] rounded-sm w-full'}}
+          inputProps={{className : 'border-gray-300 dark:bg-darkElevation-200 dark:border-none dark:placeholder:text-gray-500 dark:text-white placeholder:text-gray-400 outline-none border-2 mt-1 px-2 py-[8px] rounded-sm w-full'}}
           onSelect={(item)=>{handleAdd(item); setValue('')}}
           listboxProps={{className : 'bg-white p-2 rounded-md h-[150px] overflow-y-auto '}}
           listboxOptionProps={{className : 'border-b-2'}}

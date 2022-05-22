@@ -23,11 +23,11 @@ const BasicInformation = ({information,setInformation, userId}) => {
   }
   return (
     <>
-         <div className="text-[#5A5482] font-bold text-xl flex justify-between w-full">
+         <div className="text-[#5A5482] dark:text-darkPrimary font-bold text-xl flex justify-between w-full">
           <div>Basic Information</div>
-          <div className="text-base bg-[#5A5482] px-4 rounded-md py-[2px] hover:scale-105 transition-all cursor-pointer text-white" onClick={handleSave}>Save</div>
+          <div className="text-base bg-[#5A5482] dark:bg-darkPrimary dark:bg-opacity-70 px-4 rounded-md py-[2px] hover:scale-105 transition-all cursor-pointer text-white" onClick={handleSave}>Save</div>
         </div>
-        <div className={`${error?'text-red-600':'text-gray-500'} text-xs mt-2`}>
+        <div className={`${error?'text-red-600 dark:text-darkError':'text-gray-500'} text-xs mt-2`}>
           {error?error:'Update Personal Details, Change the details and hit save'}
         </div>
         <div className="mt-5">

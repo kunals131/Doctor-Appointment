@@ -21,9 +21,9 @@ const MedicalRecord = ({record, handleRecordTitle}) => {
     if (title.length>0) handleRecordTitle(record.id,title);
   }
     return (
-      <div className="px-5 rounded-md py-10 p-2 pt-10 bg-[#F5F7FB] border-dashed border-gray-400 border-2 flex flex-col items-center ">
-        <a href={record.file} target="false" className="p-6 shadow-md bg-white w-fit hover:scale-110">
-          <AiOutlineFileDone color="#6757E5" size={32} />
+      <div className="px-5 rounded-md py-10 p-2 pt-10 bg-[#F5F7FB] border-dashed dark:bg-darkElevation-200 dark:border-darkElevation-800 border-gray-400 border-2 flex flex-col items-center ">
+        <a href={record.file} target="false" className="p-6 shadow-md bg-white dark:bg-darkElevation-600 w-fit hover:scale-110">
+          <AiOutlineFileDone className="dark:text-darkPrimary text-[#6757E5]" size={32}  />
         </a>
         <div>
           <input
@@ -31,15 +31,15 @@ const MedicalRecord = ({record, handleRecordTitle}) => {
             value={title}
             onChange={(e)=>setTitle(e.target.value)}
             onBlur={handleSubmit}
-            className="text-[#6757E5] w-full outline-none text-center mt-3  bg-transparent p-1"
+            className="text-[#6757E5] dark:text-darkPrimary w-full outline-none text-center mt-3  bg-transparent p-1"
           />
         </div>
         <div className="mt-4 flex space-x-3 text-sm">
-          <button className="bg-white px-3 py-1 border-[1px] flex items-center space-x-2">
+          <button className="bg-white dark:bg-darkElevation-600 dark:text-gray-300 dark:border-none px-3 py-1 border-[1px] flex items-center space-x-2">
             <AiOutlineEdit></AiOutlineEdit>
             <div>Edit</div>
           </button>
-          <button className="bg-white px-3 py-1 border-[1px] flex items-center space-x-2">
+          <button className="bg-white dark:bg-darkElevation-600 dark:text-gray-300 dark:border-none px-3 py-1 border-[1px] flex items-center space-x-2">
             <AiOutlineDelete></AiOutlineDelete>
             <div>Remove</div>
           </button>

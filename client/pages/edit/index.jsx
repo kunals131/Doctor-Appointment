@@ -93,14 +93,14 @@ const Edit = ({ user }) => {
   const [profileImg, setProfileImg] = useState(user.img);
   return (
     <div className="py-10 w-[70vw] pr-10">
-      <div className="text-[#5A5482] font-bold text-xl">Edit Your Profile</div>
+      <div className="text-[#5A5482] font-bold text-xl dark:text-darkPrimary">Edit Your Profile</div>
       <div className="text-gray-500 text-xs mt-2">
         Tip : Keep your profile complete for better search and accessiblity.
       </div>
       <div className="mt-10 flex space-x-5 items-center ">
         <div
           onClick={() => ref.current.click()}
-          className="w-[100px] h-[100px] rounded-full flex items-center justify-center text-xs hover:scale-110 transition-all bg-primary text-white border-primary border-2"
+          className="w-[100px] h-[100px] rounded-full flex items-center justify-center text-xs hover:scale-110 transition-all bg-primary dark:bg-darkElevation-900 dark:border-darkSecondary text-white border-primary border-2"
           style={{
             background: loading ? "" : `url(${profileImg}) center center/cover`,
           }}
@@ -115,7 +115,7 @@ const Edit = ({ user }) => {
           onChange={handleFileChange}
           className="hidden"
         />
-        <div className="text-black">
+        <div className="text-black dark:text-white">
           <div>{basicInformation.details.fullName}</div>
           <div className="text-xs mt-1">{basicInformation.details.email}</div>
         </div>

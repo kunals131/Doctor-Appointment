@@ -73,9 +73,9 @@ const DoctorDetails = ({information,setInformation,userId,tagsList,specialitiesL
   }
     return (
         <>
-             <div className="text-[#5A5482] font-bold text-xl flex justify-between w-full">
+             <div className="text-[#5A5482] dark:text-darkPrimary font-bold text-xl flex justify-between w-full">
           <div>Additional Information</div>
-          <div onClick={handleSave} className="text-base bg-[#5A5482] px-4 rounded-md py-[2px] hover:scale-105 transition-all cursor-pointer text-white ">Save</div>
+          <div onClick={handleSave} className="text-base dark:bg-darkPrimary dark:bg-opacity-70 bg-[#5A5482] px-4 rounded-md py-[2px] hover:scale-105 transition-all cursor-pointer text-white ">Save</div>
         </div>
         <div className="text-gray-500 text-xs mt-2">
           Update Personal Details, Change the details and hit save!
