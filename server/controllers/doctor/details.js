@@ -109,9 +109,13 @@ const getAllCountsHandler = async(req,res)=>{
             include : ['user', 'payments', 'appointments']
         })
         if (!doctor) return res.status(404).json({message : 'Doctor Not Found!'});
+        const patientIds = doctor.appointments.map(a=>a.patientId);
+
+        
         return res.json({
-            totalPatients : doctor.appointments.length,
+            totalPatients :new Set(patientIds).size,
             totalRevenue : 0,
+            totalAppointments : doctor.appointments.length,
             profileViews : Math.floor(Math.random()*doctor.appointments.length + 0)
         })
 

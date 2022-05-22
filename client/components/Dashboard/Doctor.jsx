@@ -70,7 +70,7 @@ const DoctorDashboard = ({stats, appointments, messages}) => {
       <div className="grid grid-cols-4 grid-flow-col  space-x-3">
         <DashboardCount
           icon={<MdCalendarToday size={36} />}
-          count={stats.totalPatients}
+          count={stats.totalAppointments}
           text="3 today!✅"
           title="Appointments"
         ></DashboardCount>
