@@ -37,12 +37,12 @@ const Patient = ({patient}) => {
 
   return (
     <div className="flex space-x-10 mt-10">
-      <div className="p-4 bg-white h-fit">
+      <div className="p-4 bg-white dark:bg-darkElevation-100 rounded-md h-fit">
         <div className="h-[190px] w-[190px] bg-purple-300 rounded-md" style={{background : `url(${patient.user.img}) center center/cover`}}></div>
         <div className="mt-3 text-sm space-y-1">
-        <div><span className="font-medium">Name : </span>{patient.user.fullName}</div>
-        <div><span className="font-medium">Age : </span>{patient.age} Years Old</div>
-        <div><span className="font-medium">Medical History : </span>{patient.medicalHistory} years </div>
+        <div><span className="font-medium dark:text-gray-500">Name : </span>{patient.user.fullName}</div>
+        <div><span className="font-medium dark:text-gray-500">Age : </span>{patient.age} Years Old</div>
+        <div><span className="font-medium dark:text-gray-500">Medical History : </span>{patient.medicalHistory} years </div>
      
         </div>
       </div>

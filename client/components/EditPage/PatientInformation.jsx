@@ -77,9 +77,9 @@ const PatientDetails = ({information,symptomsList,setInformation, userId, user})
     return (
         <>
         <AddMedicalRecord show={show} onClose={()=>setShow(false)} userId={userId} setMedicalRecordsList={setMedicalRecordsList}/>
-          <div className="text-[#5A5482] font-bold text-xl flex justify-between w-full">
+          <div className="text-[#5A5482] dark:text-darkPrimary font-bold text-xl flex justify-between w-full">
           <div>Additional Information</div>
-          <div onClick={handleSave} className="text-base bg-[#5A5482] px-4 rounded-md py-[2px] hover:scale-105 transition-all cursor-pointer text-white ">Save</div>
+          <div onClick={handleSave} className="text-base bg-[#5A5482]  dark:bg-darkPrimary dark:bg-opacity-70  px-4 rounded-md py-[2px] hover:scale-105 transition-all cursor-pointer text-white ">Save</div>
         </div>
         <div className="text-gray-500 text-xs mt-2">
           {error?error:'Update Personal Details, Change the details and hit save.'}
@@ -101,7 +101,7 @@ const PatientDetails = ({information,symptomsList,setInformation, userId, user})
             /> */}
           </div>
           <div className="mt-10">
-            <div className="text-[#5A5482] font-bold text-xl flex justify-between w-full">
+            <div className="text-[#5A5482] dark:text-darkPrimary font-bold text-xl flex justify-between w-full">
               <div>Medical Records</div>
             </div>
             <div className="text-gray-500 text-xs mt-2">

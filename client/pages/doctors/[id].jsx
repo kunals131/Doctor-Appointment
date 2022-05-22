@@ -20,8 +20,8 @@ const sortFunc = function(a, b) {
 
 
 const DetailCard = ({title,info})=>(
-    <div className="bg-mainBackground w-full h-auto p-2 rounded-lg">
-        <div className="text-sm font-semibold text-gray-600">{title} : </div>
+    <div className="bg-mainBackground dark:bg-darkElevation-400 w-full h-auto p-2 rounded-lg">
+        <div className="text-sm font-semibold text-gray-500">{title} : </div>
         <div className="mt-1">{info}</div>
     </div>
 )
@@ -56,7 +56,7 @@ export const getServerSideProps = async(ctx) => {
 
 
 const Tag = ({title})=>(
-<span className="text-[0.8rem] px-2 py-1 bg-gray-300 rounded-lg">
+<span className="text-[0.8rem] px-2 py-1 dark:bg-darkElevation-500 dark:text-gray-400 bg-gray-300 rounded-lg">
   {title}
 </span>
 )
@@ -102,7 +102,7 @@ const Profile = ({user,doctor, appointedDoctors}) => {
     
      return (
       <>
-      {role==='patient'&&<button disabled={appointmentState} onClick={handleClick} className={cls('text-[0.7rem]  bg-opacity-90 hover:bg-opacity-100 w-fit p-1 border-[1px] text-white rounded-md px-2', {'bg-primary' : !appointmentState}, {'bg-gray-700' : appointmentState==='pending'}, {'bg-green-600' : appointmentState==='active'})}>
+      {role==='patient'&&<button disabled={appointmentState} onClick={handleClick} className={cls('text-[0.7rem]  bg-opacity-90 hover:bg-opacity-100 w-fit p-1 border-[1px] text-white rounded-md px-2', {'bg-primary dark:bg-darkPrimary' : !appointmentState}, {'bg-gray-700' : appointmentState==='pending'}, {'bg-green-600' : appointmentState==='active'})}>
                 {text}
       </button>}  
       </>
@@ -116,7 +116,7 @@ const Profile = ({user,doctor, appointedDoctors}) => {
     
     <div className="mt-3 px-24">
       {/* <div className='text-2xl'> <span className='font-medium'></span> Profile</div> */}
-      <div className="bg-white w-full h-[250px] mt-9 rounded-xl flex items-center justify-between px-8 shadow-md">
+      <div className="bg-white dark:bg-darkElevation-100 w-full h-[250px] mt-9 rounded-xl flex items-center justify-between px-8 shadow-md">
         <div className="flex space-x-6 items-center">
           <div
             className="w-48 h-48 bg-black rounded-xl"
@@ -124,7 +124,7 @@ const Profile = ({user,doctor, appointedDoctors}) => {
           ></div>
           <div>
             <div className="text-xl font-semibold">{doctor.user.fullName}</div>
-            <div className="text-xs text-gray-700">
+            <div className="text-xs text-gray-700 dark:text-gray-500">
               {doctor.medicalExperience}+ Years of Experience
             </div>
             <div className="mt-8 text-xs font-medium">👨‍⚕️Specialities : </div>
@@ -154,26 +154,26 @@ const Profile = ({user,doctor, appointedDoctors}) => {
         </div>
       </div>
       <div className="mt-7 w-full flex space-x-12">
-          <div className="h-[350px] flex flex-col items-center w-24 rounded-tl-xl rounded-bl-xl bg-white">
-              <div className="flex flex-col items-center justify-center bg-iconBg text-white w-full rounded-tl-xl p-3 border-b-2 hover:scale-110 transition-all cursor-pointer">
-                   <MdPersonPin size={32} className="text-white"/>
+          <div className="h-[350px] flex flex-col items-center w-24 rounded-tl-xl rounded-bl-xl bg-white dark:bg-darkElevation-100">
+              <div className="flex flex-col items-center justify-center bg-iconBg dark:bg-darkElevation-700 text-white w-full rounded-tl-xl p-3 border-b-2 hover:scale-110 transition-all cursor-pointer">
+                   <MdPersonPin size={32} className="text-white dark:text-darkPrimary"/>
                    <div>About</div>
               </div>
               <div className="flex flex-col items-center justify-center p-3 border-b-2 hover:scale-110 transition-all cursor-pointer">
-                   <MdLocalMall size={32} className="text-primary"/>
-                   <div>Store</div>
+                   <MdLocalMall size={32} className="text-primary dark:text-gray-700"/>
+                   <div className="dark:text-gray-700">Store</div>
               </div>
               <div className="flex flex-col items-center justify-center p-3 border-b-2 hover:scale-110 transition-all cursor-pointer">
-                   <MdFeed size={32} className="text-primary"/>
-                   <div>Feed</div>
+                   <MdFeed size={32} className="text-primary dark:text-gray-700"/>
+                   <div className="dark:text-gray-700">Feed</div>
               </div>
               <div className="flex flex-col items-center justify-center p-3 hover:scale-110 transition-all cursor-pointer">
-                   <MdReviews size={32} className="text-primary"/>
-                   <div>Review</div>
+                   <MdReviews size={32} className="text-primary dark:text-gray-700"/>
+                   <div className="dark:text-gray-700">Review</div>
               </div>
               
           </div>
-          <div className="w-[910px] h-[350px] bg-white rounded-lg">
+          <div className="w-[910px] h-[350px] bg-white dark:bg-darkElevation-100 rounded-lg">
                 <div className="p-5 group" id="About">
                     <div className="font-semibold text-xl">About</div>
                     <div className="h-1 w-5 transition-all group-hover:w-9 bg-primary"></div>

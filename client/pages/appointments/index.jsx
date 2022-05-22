@@ -117,7 +117,7 @@ const AppointmentCard = ({ appointment, role }) => {
         </div>
         <div className="flex space-x-2 text-xs items-center">
           <FaUserAlt />
-          <div onClick={()=>router.push(`${role==='doctor'?linkDoctor:linkPatient}`)}>{role==='doctor'?patient.user.fullName:doctor.user.fullName}</div>
+          <div onClick={()=>router.push(`${role==='doctor'?linkPatient:linkDoctor}`)}>{role==='doctor'?patient.user.fullName:doctor.user.fullName}</div>
         </div>
         <div className="flex space-x-2 text-xs items-center">
           <BiTimeFive />

@@ -23,7 +23,7 @@ const InfoBox = ({ src, title, children, width,height, color, icon,onClick }) =>
           </div>
           {icon&&<div onClick={onClick}>{icon}</div>}
         </div>
-        <div className="mt-4 space-y-3 h-[150px] overflow-y-auto" style={{height}}>
+        <div className="mt-4 space-y-3 h-[150px] overflow-y-auto scrollbar" style={{height}}>
           {children}
         </div>
       </div>

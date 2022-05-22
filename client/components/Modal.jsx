@@ -28,12 +28,12 @@ const Modal = ({ show, onClose, children, title, width }) => {
   
     const modalContent = show ? (
         <div className="w-screen h-screen left-0 absolute top-0 flex justify-center items-center bg-black bg-opacity-60">
-            <div className="bg-white w-[42%] h-auto p-4 rounded-sm">
+            <div className="bg-white dark:bg-darkElevation-100 dark:rounded-md w-[42%] h-auto p-4 rounded-sm">
                 <div className="w-full flex items-center justify-between">
                     <div>{title}</div>
                     <div onClick={handleCloseClick} className="p-1 hover:bg-primary rounded-full hover:text-white transition-all"><MdClear size={20}/></div>
                 </div>
-                <hr className="my-2"/>
+                <hr className="my-2 dark:border-darkElevation-900"/>
                 <div className="mt-2">
                     {children}
                 </div>
