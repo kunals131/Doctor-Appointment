@@ -90,7 +90,7 @@ const PatientDetails = ({information,symptomsList,setInformation, userId, user})
         <div className="mt-6 text-gray-800">
           <div className="flex space-x-4 items-center">
             <InputField type="number" name="age" value={age} width="100px" label="AGE *" onChange={handleChange} />
-            <InputField type="number" name="medicalHistory" value={medicalHistory} onChange={handleChange} width="270px" label="Medical History *" />
+            <InputField type="number" name="medicalHistory" value={medicalHistory} onChange={handleChange} width="270px" label="Medical History (in yrs)*" />
             <InputField name="bloodGroup" value={bloodGroup} onChange={handleChange} width="100px" label="Blood Group *" />
           </div>
           <div className="mt-4 space-y-4">

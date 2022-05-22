@@ -14,7 +14,7 @@ import Link from "next/link";
 import { getAllUserDetailsAPI } from "../../api/common";
 const SymptomItem = ({ title, handleRemove }) => {
   return (
-    <div className="text-sm p-2 flex items-center justify-between bg-gray-200 w-[250px] rounded-md">
+    <div className="text-sm p-2 flex items-center justify-between bg-gray-200 dark:bg-darkElevation-300 w-[250px] rounded-md">
       <div>{title}</div>
       <MdClear onClick={() => handleRemove(title)} />
     </div>
