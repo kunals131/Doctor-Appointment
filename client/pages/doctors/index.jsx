@@ -101,7 +101,7 @@ const Doctors = ({ allDoctors, user, appointedDoctors }) => {
   return (
     <>
       {loading && (
-        <div className="absolute h-screen flex-col w-screen flex items-center justify-center bg-white bg-opacity-70 z-[200] top-0 left-0">
+        <div className="absolute h-screen flex-col w-screen flex items-center justify-center bg-white dark:bg-darkElevation-900 bg-opacity-70 z-[200] top-0 left-0">
           <Loader color="purple" />
           <div className="mt-2 animate-bounce">Loading...</div>
         </div>
@@ -111,18 +111,18 @@ const Doctors = ({ allDoctors, user, appointedDoctors }) => {
           <FilterOptions keywords={keywords} setKeywords={setKeywords} />
         </div>
         <div className=" w-[55vw] rounded-md">
-          <div className="bg-white w-full p-5 rounded-md py-5 -space-x-7 flex items-center">
+          <div className="bg-white dark:bg-darkElevation-100 w-full p-5 rounded-md py-5 -space-x-7 flex items-center">
             <input
               type="text"
               value={searchInput}
               onChange={(e)=>setSearchInput(e.target.value)}
               placeholder="Search for any keyword"
-              className="border w-full py-3 p-2 text-sm"
+              className="border w-full py-3 p-2 text-sm dark:bg-darkElevation-300 dark:border-none outline-none rounded-md dark:placeholder:text-gray-600"
             />
             <HiArrowSmRight onClick={()=>setSearch(prev=>!prev)} size={25} className={`${searchInput.length>0?'scale-100':'scale-0'} transition-all ease-linear text-primary`}/>
           </div>
-          <div className="mt-3 bg-white rounded-md p-4">
-            <div className="font-medium text-xl">Doctors Found</div>
+          <div className="mt-3 bg-white dark:bg-darkElevation-200 rounded-md p-4">
+            <div className="font-medium text-xl dark:text-gray-300">Doctors Found</div>
             <div className="text-xs mt-1 text-gray-500 font-medium">
               {loading ? (
                 <div>Loading...</div>
@@ -130,7 +130,7 @@ const Doctors = ({ allDoctors, user, appointedDoctors }) => {
                 <div>{doctors.length} Results Found</div>
               )}
             </div>
-            <hr className="my-3" />
+            <hr className="my-3 dark:border-gray-600" />
             <div className="grid mt-6 grid-cols-1 gap-5 p-2">
               {!loading && doctors.map((doc,idx) => <DoctorProfile patientId={user.additionalData.uuid} appointedDoctors={appointedDoctors} role={user.role}  key={idx} doctor={doc} />)}
             </div>

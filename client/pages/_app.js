@@ -5,11 +5,12 @@ import { Provider } from 'react-redux'
 import {useRouter} from 'next/router';
 import NProgress from 'nprogress';
 import '../public/nprogress.css'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }) {
 
   const router = useRouter()
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const handleStart = (url) => {
@@ -30,12 +31,23 @@ function MyApp({ Component, pageProps }) {
       router.events.off('routeChangeError', handleStop)
     }
   }, [router])
-
+  useEffect(()=>{
+    if (darkMode) {
+      if (!document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.add('dark');
+      }
+    }
+    else {
+      if (document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.remove('dark');
+      }
+    }
+  }, [darkMode])
 
   return  <>
   <Provider store={store}>
-  <Layout>
-  <Component {...pageProps} />
+  <Layout setDarkMode={setDarkMode} darkMode={darkMode}>
+  <Component {...pageProps} darkMode={darkMode} setDarkMode={setDarkMode} />
   </Layout>
   </Provider>
   </>

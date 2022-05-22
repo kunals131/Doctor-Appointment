@@ -9,7 +9,7 @@ import InfoBox from "./InfoBox";
 const ScheduleCard = ({schedule})=>{
   const router = useRouter();
   return (
-    <div onClick={()=>router.push(`/appointments/${schedule.appointmentId}`)} className="bg-slate-100 rounded-md text-sm hover:bg-slate-200 transition-all cursor-pointer flex justify-between p-2 py-4">
+    <div onClick={()=>router.push(`/appointments/${schedule.appointmentId}`)} className="bg-slate-100 dark:bg-darkElevation-300 rounded-md text-sm hover:bg-slate-200 transition-all cursor-pointer flex justify-between p-2 py-4">
       <div className="font-semibold">
         <div>New Schedule</div>
       </div>
@@ -22,7 +22,7 @@ const ScheduleCard = ({schedule})=>{
 
 const MedicalRecordCard = ({record})=>{
   return (
-    <div className="p-2 bg-green-100 rounded-md">
+    <div className="p-2 bg-green-100 dark:bg-darkElevation-300 rounded-md">
       <div className="text-sm  font-semibold">{record.title}</div>
       <div className="text-[0.65rem] mt-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, laboriosam?</div>
     </div>
@@ -32,7 +32,7 @@ const MedicalRecordCard = ({record})=>{
 const DianogisCard = ({diagnosis})=>{
   const router = useRouter();
   return (
-    <div onClick={()=>router.push(`/diagnosis/${diagnosis.id}`)} className="p-2 bg-pink-100 cursor-pointer flex hover:bg-pink-50 justify-between items-center text-sm rounded-md">
+    <div onClick={()=>router.push(`/diagnosis/${diagnosis.id}`)} className="p-2 bg-pink-100 cursor-pointer dark:bg-darkElevation-300 flex hover:bg-pink-50 justify-between items-center text-sm rounded-md">
       <div className="flex space-x-5 items-center">
         <div className="p-2 rounded-md bg-pink-400"><AiFillRobot className="text-white"/></div>
         <div>New Diagnosis</div>
@@ -47,7 +47,7 @@ const PatientDashboard = ({patient,user,appointedDoctors}) => {
   console.log(patient)
   const DoctorCard = ({ speciality, name }) => {
     return (
-      <div className="p-2 bg-[#ede4ff] rounded-md flex items-center space-x-3">
+      <div className="p-2 bg-[#ede4ff] dark:bg-darkElevation-300 rounded-md flex items-center space-x-3">
         <div
           className="h-[55px] border-2 border-primary w-[55px] rounded-full"
           style={{

@@ -18,7 +18,7 @@ const sortFunc = function(a, b) {
 
 const Tag = ({ title }) => {
     return (
-      <span className="text-[0.6rem] px-2 py-1 bg-gray-300 rounded-lg">
+      <span className="text-[0.6rem] px-2 py-1 dark:bg-darkElevation-800 dark:text-gray-400 bg-gray-300 rounded-lg">
         {title}
       </span>
     );
@@ -48,7 +48,7 @@ const Tag = ({ title }) => {
       
        return (
         <>
-        {role==='patient'&&<button disabled={appointmentState} onClick={handleClick} className={cls('text-[0.7rem]  bg-opacity-90 hover:bg-opacity-100 w-fit p-1 border-[1px] text-white rounded-md px-2', {'bg-primary' : !appointmentState}, {'bg-gray-700' : appointmentState==='pending'}, {'bg-green-600' : appointmentState==='active'})}>
+        {role==='patient'&&<button disabled={appointmentState} onClick={handleClick} className={cls('text-[0.7rem] dark:border-none  bg-opacity-90 hover:bg-opacity-100 w-fit p-1 dark:px-2 border-[1px] text-white rounded-md px-2', {'bg-primary dark:bg-darkPrimary dark:bg-opacity-25 dark:border-none' : !appointmentState}, {'bg-gray-700' : appointmentState==='pending'}, {'bg-green-600 dark:bg-darkSecondaryVariant' : appointmentState==='active'})}>
                   {text}
         </button>}  
         </>
@@ -72,7 +72,7 @@ const Tag = ({ title }) => {
     return (
       <>
       <AppointDoctorModal show={show} onClose={()=>setShow(false)} patientId={patientId} doctorId={doctor.uuid}/>
-      <div className="flex items-center rounded-md w-full p-2 px-2 bg-slate-50  border-[1px]  border-gray-400">
+      <div className="flex items-center rounded-md w-full p-2 px-2 bg-slate-50 dark:bg-darkElevation-500 dark:border-none  border-[1px]  border-gray-400">
         <div className="flex space-x-5 items-center w-full">
           <div className="pt-1 rounded-md">
             <Image
@@ -89,7 +89,7 @@ const Tag = ({ title }) => {
                {doctor.medicalExperience} years of Experience | {doctor.degree} | {doctor.university}
                 {/* {doctor.uuid} */}
               </div>
-              <hr className="border-gray-400 my-2" />
+              <hr className="border-gray-400 my-2 dark:border-gray-600" />
               <div className="flex space-x-3 ">
                 {doctor.specialities.map(s=>(
                   <Tag title={s.title} id={s.id}/>
@@ -98,7 +98,7 @@ const Tag = ({ title }) => {
               <div className="mt-4 flex space-x-3 items-center">
           <ActionButton/>
                 <Link  href={`/doctors/${doctor.uuid}`}>
-                  <div className="text-[0.7rem] cursor-pointer border-primary border-[1px] text-primary bg-opacity-90 hover:bg-opacity-100 w-fit p-1  rounded-md px-2">
+                  <div className="text-[0.7rem] cursor-pointer dark:border-darkPrimary border-primary border-[1px] text-primary dark:text-darkPrimary bg-opacity-90 hover:bg-opacity-100 w-fit p-1  rounded-md px-2">
                   View Profile
                   </div>
                 </Link>
@@ -107,14 +107,14 @@ const Tag = ({ title }) => {
             <div>
               <div className="w-[190px] space-y-2 px-3">
                 <div className="flex space-x-2">
-                  <MdHome className="text-primary" />
-                  <div className="text-[0.7rem]">
+                  <MdHome className="text-primary dark:text-darkPrimary" />
+                  <div className="text-[0.7rem] dark:text-gray-300">
                     {doctor.address}
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <MdPhone className="text-primary" size={15} />
-                  <div className="text-[0.7rem]">{doctor.user.contact}</div>
+                  <MdPhone className="text-primary dark:text-darkPrimary" size={15} />
+                  <div className="text-[0.7rem] dark:text-gray-300">{doctor.user.contact}</div>
                 </div>
               </div>
             </div>

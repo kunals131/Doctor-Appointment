@@ -13,7 +13,7 @@ const Header = ({profile}) => {
       {
     page!=='profile'&&
       <div className='flex items-center'>
-      <input type="text" className='outline-none text-sm border-none shadow-md w-[300px] h-[37px] rounded-md  p-2' placeholder='Search Appointments' />
+      <input type="text" className='outline-none dark:bg-darkElevation-300 dark:placeholder:text-darkElevation-900 text-sm border-none shadow-md w-[300px] h-[37px] rounded-md  p-2' placeholder='Search Appointments' />
       <div className='relative -left-8 text-gray-700' >
       <MdSearch size={22}/>
       </div>

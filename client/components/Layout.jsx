@@ -5,7 +5,7 @@ import {useState, useEffect} from 'react';
 import { useSelector } from "react-redux";
 import AdditionalDetails from "./AdditionalDetails";
 
-const Layout = ({children}) => {
+const Layout = ({children, setDarkMode, darkMode}) => {
     const [isNew,setIsNew] = useState(true);
     const router = useRouter();
     const [path,setPath] = useState(router.pathname);
@@ -21,7 +21,7 @@ const Layout = ({children}) => {
     if (router.pathname==='/new') return <>{children}</>
 
     return <>
-    {(path!=='/'&&router.pathname!=='/appointments/[id]')&&<Sidebar></Sidebar>}
+    {(path!=='/'&&router.pathname!=='/appointments/[id]')&&<Sidebar setDarkMode={setDarkMode} darkMode={darkMode} ></Sidebar>}
     <div className={(path!=='/'&&router.pathname!=='/appointments/[id]')?'sm:pl-28 md:pl-36 lg:pl-44 lg:pr-28':''}>
         {(router.pathname!=='/'&&router.pathname!=='/appointments/[id]'&&router.pathname!=='/edit')&&<Header></Header>}
         {children}

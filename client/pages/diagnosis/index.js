@@ -87,11 +87,11 @@ const Diagnosis = ({ user, diagnoses }) => {
     console.log(diagnosis)
     return (
       <Link href={`/diagnosis/${diagnosis.id}`}>
-        <div  className="bg-white shadow-lg border-primary hover:bg-slate-100 transition-all cursor-pointer p-4 rounded-md">
-        <div className="font-semibold">{diagnosis.title}</div>
-        <div className="text-xs mt-4">{diagnosis.disease} <span> ({diagnosis.accuracy}) </span></div>
-        <div className="text-xs">{diagnosis.symptoms}</div>
-        <div className="text-xs">{diagnosis.createdAt}</div>
+        <div  className="bg-white shadow-lg dark:bg-darkElevation-400 border-primary hover:bg-slate-100 transition-all cursor-pointer p-4 rounded-md">
+        <div className="font-semibold dark:text-darkSecondary">{diagnosis.title}</div>
+        <div className="text-xs mt-4 dark:text-gray-400">{diagnosis.disease} <span> ({diagnosis.accuracy}) </span></div>
+        <div className="text-xs dark:text-gray-400">{diagnosis.symptoms}</div>
+        <div className="text-xs dark:text-gray-400">{diagnosis.createdAt}</div>
         </div>
       </Link>
     )
@@ -107,9 +107,9 @@ const Diagnosis = ({ user, diagnoses }) => {
             <AiOutlineRobot size={30} />
             <div>AI DIAGNOSIS</div>
           </div>
-          <div className="w-[120px] mt-2 h-[2px] bg-primary"></div>
+          <div className="w-[120px] mt-2 h-[2px] bg-primary dark:bg-darkPrimary"></div>
           <div className="mt-10">
-            <div className="text-lg text-gray-700">Symptoms</div>
+            <div className="text-lg text-gray-700 dark:text-white">Symptoms</div>
           </div>
           <div className="mt-3 text-base space-y-2">
             {symptomList.map((item, idx) => (
@@ -119,13 +119,13 @@ const Diagnosis = ({ user, diagnoses }) => {
           <div className="mt-2">
             <DatalistInput
               placeholder="Add a symptom"
-              className="bg-white w-[250px] rounded-md p-1 bg-transparent  border-b-2  border-gray-500"
+              className="bg-white dark:bg-darkElevation-300 w-[250px] rounded-md p-1 bg-transparent  border-b-2  border-gray-500"
               inputProps={{
                 className: "w-[250px] bg-transparent text-sm outline-none ",
               }}
               onSelect={(item) => console.log(item.value)}
               listboxProps={{
-                className: "bg-white p-2 rounded-md h-[150px] overflow-y-auto ",
+                className: "bg-white dark:bg-darkElevation-500 p-2 rounded-md h-[150px] overflow-y-auto ",
               }}
               listboxOptionProps={{ className: "border-b-2" }}
               value={value}

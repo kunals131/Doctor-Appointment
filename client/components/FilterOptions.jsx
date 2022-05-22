@@ -45,24 +45,24 @@ const FilterOptions = ({keywords,setKeywords}) => {
       }
       
   return (
-    <div className="bg-white p-3 px-4 rounded-md w-[21vw]">
+    <div className="bg-white dark:bg-darkElevation-200 p-3 px-4 rounded-md w-[21vw]">
     <div className="flex justify-between items-center">
-      <div className="text-gray-600 font-medium">Filters</div>
-      <div className="text-sm text-black underline">Clear All</div>
+      <div className="text-gray-600 dark:text-gray-400 font-medium">Filters</div>
+      <div className="text-sm text-black underline dark:text-gray-500">Clear All</div>
     </div>
     {options.map((option,idx) => (
       <div key={idx}>
-        <hr className="mt-5 mb-5" />
+        <hr className="mt-5 mb-5 dark:border-gray-600" />
         <div>
           <div className="text-sm">{option.title}</div>
           <div className="mt-2">
             <input
               type="text"
-              className="border-2 w-full h-[35px] rounded-md text-sm p-2"
+              className="border-2 w-full h-[35px] dark:bg-darkElevation-500 dark:text-xs dark:placeholder:text-gray-600 border-none outline-none rounded-md text-sm p-2"
               placeholder={`Search by ${option.title}`}
             />
           </div>
-          <div className="mt-4 space-y-2 overflow-y-auto" style={{height :` ${option.height}px`}}>
+          <div className="mt-4 space-y-2 overflow-y-auto scrollbar" style={{height :` ${option.height}px`}}>
             {option.options.map((name,idx) => (
               <div key={idx} className="flex space-x-2 items-center">
                 <div>
@@ -70,10 +70,10 @@ const FilterOptions = ({keywords,setKeywords}) => {
                     type="checkbox"
                     name={name}
                     onChange={handleChange}
-                    className="appearance-none border-2 h-4 w-4 checked:bg-primary"
+                    className="appearance-none border-2 h-4 w-4 checked:bg-primary dark:checked:bg-darkPrimary"
                   />
                 </div>
-                <div className="-mt-1 text-sm">{name}</div>
+                <div className="-mt-1 text-sm dark:text-gray-400">{name}</div>
               </div>
             ))}
           </div>

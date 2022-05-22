@@ -31,8 +31,7 @@ export const getServerSideProps = (ctx) => {
 };
 
 
-const Home = ({user}) => {
-
+const Home = ({user, darkMode, setDarkMode}) => {
 
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
