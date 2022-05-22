@@ -42,6 +42,7 @@ module.exports = {
           200: '#ebedef',
           100: '#f2f3f5',
         },
+        darkError : '#CF6679'
       },
       fontFamily : {
         poppins : ['Poppins', 'sans-serif']

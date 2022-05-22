@@ -83,15 +83,15 @@ const Home = ({user, darkMode, setDarkMode}) => {
   return (
     <div className="flex justify-between">
       <div className="p-16">
-        <div>
-          <Image src="/logo.svg" height="40px" width="250px" />
+        <div onClick={()=>setDarkMode(prev=>!prev)} className="cursor-pointer">
+          <Image src={!darkMode?"/logo.svg":"/darkLogo.svg"} height="40px" width="250px" />
         </div>
         <div className={`${isLogin?'mt-28':'mt-16'}`}>
           <div className="flex space-x-2 items-center">
             <FcUnlock size={36} />
             <div
               className={` ${
-                error ? "text-red-600" : "text-black"
+                error ? "text-red-600 dark:text-darkError" : "text-black dark:text-white"
               } text-2xl font-semibold`}
             >
               {error
@@ -101,7 +101,7 @@ const Home = ({user, darkMode, setDarkMode}) => {
           </div>
           <div
             className={`${
-              error ? "text-red-600" : "text-black"
+              error ? "text-red-600 dark:text-darkError" : "text-black dark:text-gray-400"
             } text-sm mt-3 pl-1`}
           >
             {error
@@ -162,7 +162,7 @@ const Home = ({user, darkMode, setDarkMode}) => {
                   id=""
                   value={form.role}
                   onChange={handleChange}
-                  className="mt-2  h-[40px] w-[510px] text-sm p-2 rounded-md outline-none"
+                  className="mt-2  h-[40px] dark:bg-darkElevation-300 dark:placeholder:text-gray-400 w-[510px] text-sm p-2 rounded-md outline-none"
                 >
                   <option value="doctor">Doctor</option>
                   <option value="patient">Patient</option>
@@ -203,7 +203,7 @@ const Home = ({user, darkMode, setDarkMode}) => {
               <div
                 onClick={isLogin?LoginSubmit:RegisterSubmit}
                 style={{ width : isLogin?'370px':'510px'}}
-                className="mt-7 bg-primary cursor-pointer text-white  h-[37px] hover:bg-purple-500 transition-all flex items-center justify-center rounded-md"
+                className="mt-7 bg-primary dark:bg-darkPrimary cursor-pointer text-white  h-[37px] hover:bg-purple-500 transition-all flex items-center justify-center rounded-md"
               >
               {loading?'Loading...':(
                 isLogin?'Login':'Sign Up'
@@ -213,7 +213,7 @@ const Home = ({user, darkMode, setDarkMode}) => {
           </div>
           <div className="mt-5 text-sm">
             {isLogin?"Don't have an account ":"Already have an account? "}
-            <span className="text-primary transition-all cursor-pointer font-semibold" onClick={()=>setIsLogin(!isLogin)}>{isLogin?'Sign Up':'Login'}</span>
+            <span className="text-primary dark:text-darkPrimary transition-all cursor-pointer font-semibold" onClick={()=>setIsLogin(!isLogin)}>{isLogin?'Sign Up':'Login'}</span>
           </div>
         </div>
       </div>

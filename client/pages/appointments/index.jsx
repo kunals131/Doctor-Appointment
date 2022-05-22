@@ -62,7 +62,7 @@ export const getServerSideProps = async (ctx) => {
 const AppointmentCard = ({ appointment, role }) => {
   const colors = {
     active: "bg-green-400",
-    closed: "bg-gray-500",
+    closed: "bg-gray-500 dark:bg-darkElevation-700",
     pending: "bg-gray-500",
     rejected: "bg-red-300",
   };
@@ -94,7 +94,7 @@ const AppointmentCard = ({ appointment, role }) => {
   return (
     <>
       <div
-        className={` hover:bg-gray-50 group cursor-pointer 00 bg-opacity-5 grid ${returnGridStyle(
+        className={` hover:bg-gray-50 dark:hover:bg-darkElevation-100 group cursor-pointer 00 bg-opacity-5 grid ${returnGridStyle(
           status
         )} gap-3 justify-center w-full items-center py-4 px-2 rounded-lg`}
       >
@@ -104,14 +104,14 @@ const AppointmentCard = ({ appointment, role }) => {
           } items-center space-x-3`}
         >
           <Link href={`/appointments/${appointment.id}`}>
-          <div className="w-[40px] h-[40px] bg-black rounded-full border-primary border-2"></div></Link>
+          <div className="w-[40px] h-[40px] bg-darkSecondaryVariant rounded-full border-primary border-2"></div></Link>
           <div className="text-xs text-gray-600">
             <input
               type="text"
               onBlur={handleBlur}
               value={title}
               onChange={handleOnChange}
-              className="group-hover:bg-gray-50 focus:bg-white appearance-none outline-none focus:border-2 focus:p-1"
+              className=" dark:hover:bg-darkElevation-400 dark:border-none dark:bg-darkElevation-200 focus:bg-white dark:text-gray-200 dark:focus:bg-darkElevation-500 appearance-none outline-none focus:border-2 focus:p-1"
             />
           </div>
         </div>
@@ -127,9 +127,9 @@ const AppointmentCard = ({ appointment, role }) => {
           className={`flex space-x-2 ${colors[status]} w-fit p-2 rounded-md bg-opacity-10 text-xs items-center`}
         >
           {status === "active" && <FiCheckCircle onClick={()=>router.push(`/appointments/${appointment.id}`)} className="text-green-500" />}
-          {status === "closed" && <IoMdDoneAll className="text-gray-700" />}
+          {status === "closed" && <IoMdDoneAll className="text-gray-700 dark:text-gray-300" />}
           {status === "pending" && (
-            <MdOutlinePending className="text-gray-700" />
+            <MdOutlinePending className="text-gray-700 dark:text-gray-400" />
           )}
           {status === "rejected" && (
             <MdOutlineCancel className="text-red-700" />
@@ -138,7 +138,7 @@ const AppointmentCard = ({ appointment, role }) => {
         </div>
         <div className="flex space-x-5 text-xs items-center">
           {status === "active" && (
-            <div onClick={()=>handleStateUpdate('closed')} className="hover:bg-gray-200 transition-all bg-gray-400 border-[1px] w-fit p-2 rounded-md bg-opacity-10">
+            <div onClick={()=>handleStateUpdate('closed')} className="hover:bg-gray-200 dark:hover:bg-darkElevation-900 transition-all bg-gray-400 dark:bg-darkElevation-700 dark:border-none dark:text-gray-300 border-[1px] w-fit p-2 rounded-md bg-opacity-10">
               Close Case
             </div>
           )}
@@ -161,7 +161,7 @@ const AppointmentCard = ({ appointment, role }) => {
           )}
         </div>
       </div>
-      <hr />
+      <hr  className="dark:border-darkElevation-900"/>
     </>
   );
 };
@@ -173,8 +173,8 @@ const ViewItem = ({ view, setView, title, value }) => {
       <div
         className={`border-b-[1px] ${
           value === view
-            ? "border-primary font-semibold text-primary"
-            : "border-gray-500 text-black"
+            ? "border-primary dark:border-darkPrimary font-semibold text-primary dark:text-darkPrimary"
+            : "border-gray-500  text-black dark:text-gray-500"
         } hover:text-primary hover:border-primary rounded-md cursor-pointer hover:font-semibold transition-all border-opacity-40 py-2 w-[100px]`}
       >
         {title}
@@ -204,11 +204,11 @@ const Appointments = ({ user, error, fetchedAppointments }) => {
         <div className="flex justify-between items-center">
           <div>
             <div className="text-2xl font-semibold">Appointments</div>
-            <div className="text-gray-600 text-sm mt-1">
+            <div className="text-gray-600 text-sm mt-1 dark:text-darkSecondary">
               28 {view.toUpperCase()}
             </div>
           </div>
-          <div className="bg-primary py-1 px-3 rounded-lg cursor-pointer text-white">
+          <div className="bg-primary dark:bg-darkPrimary dark:bg-opacity-40 py-1 px-3 rounded-lg cursor-pointer text-white">
             {" "}
             + create
           </div>
@@ -219,20 +219,20 @@ const Appointments = ({ user, error, fetchedAppointments }) => {
             <div className="flex w-full items-center">
               <MdSearch
                 size={26}
-                className="relative left-[40px] text-gray-300"
+                className="relative left-[40px] dark:text-gray-500 text-gray-300"
               />
               <input
                 type="text"
-                className="w-full h-[42px] border-gray-400 p-2 pl-12 outline-none"
+                className="w-full h-[42px] border-gray-400 dark:border-none dark:bg-darkElevation-300 dark:placeholder:text-gray-600 dark:rounded-md p-2 pl-12 outline-none"
                 placeholder="Search Appointments"
               />
               <MdTune
                 size={26}
-                className="relative -left-[40px] text-gray-300"
+                className="relative -left-[40px] dark:text-gray-500 text-gray-300"
               />
             </div>
             <div className="px-6 mt-7">
-              <div className="w-full  bg-white  h-[450px] rounded-lg p-3">
+              <div className="w-full  bg-white dark:bg-darkElevation-200  h-[450px] rounded-lg p-3">
                 <div className="w-full h-full flex flex-col space-y-2 p-3 ">
                   <div
                     className={`bg-opacity-5 text-xs grid ${returnGridStyle(

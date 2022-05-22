@@ -12,8 +12,8 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import { formatDate } from "../../utils";
 const ComponentHeading = ({ text }) => (
-  <div className="w-full rounded-t-xl flex justify-between items-center bg-headingBackground h-12 px-4">
-    <div className="font-medium text-gray-700">{text}</div>
+  <div className="w-full rounded-t-xl flex justify-between items-center bg-headingBackground dark:bg-darkElevation-100 h-12 px-4">
+    <div className="font-medium text-gray-700 dark:text-gray-400">{text}</div>
     <div className="text-gray-600 hover:scale-110 cursor-pointer">
       <MdOutlineMoreHoriz size={23} />
     </div>
@@ -23,10 +23,10 @@ const ComponentHeading = ({ text }) => (
 const MessageCard = ({message})=>{
   return (
     <Link href={`/appointments/${message.appointmentId}`}>
-    <div className="bg-primary p-2 bg-opacity-5 hover:bg-opacity-10 cursor-pointer flex items-center space-x-3 rounded-md">
+    <div className="bg-primary dark:bg-darkElevation-400 dark:bg-opacity-100 p-2 bg-opacity-5 hover:bg-opacity-10 cursor-pointer flex items-center space-x-3 rounded-md">
       <div className="bg-primary h-[30px] w-[30px] rounded-full"></div>
       <div>
-      <div className="text-[14px]">{message.sender.fullName}</div>
+      <div className="text-[14px] dark:text-gray-400">{message.sender.fullName}</div>
       <div className="text-[12px] text-gray-500">{message.text.length>15?message.substr(0,12)+'...':message.text}<span className="text-gray-600"> {" "}· 32m</span></div>
       </div>
     
@@ -48,7 +48,7 @@ const schdulesArray = (appointments)=>{
 const ScheduleCard = ({schedule})=>{
   const router = useRouter();
   return (
-    <div onClick={()=>router.push(`/appointments/${schedule.appointmentId}`)} className="bg-slate-100 rounded-md text-sm hover:bg-slate-200 transition-all cursor-pointer flex justify-between p-2 py-4">
+    <div onClick={()=>router.push(`/appointments/${schedule.appointmentId}`)} className="bg-slate-100 dark:bg-darkElevation-500 rounded-md text-sm hover:bg-slate-200 transition-all cursor-pointer flex justify-between p-2 dark:px-3 py-4">
       <div className="font-semibold">
         <div>{schedule.title}</div>
       </div>
@@ -94,7 +94,7 @@ const DoctorDashboard = ({stats, appointments, messages}) => {
         ></DashboardCount>
       </div>
       <div className="flex mt-9 space-x-7">
-        <div className="bg-white w-[570px] rounded-xl h-[410px]">
+        <div className="bg-white dark:bg-darkElevation-300 w-[570px] rounded-xl h-[410px]">
           <ComponentHeading text="Active Appointments" />
           <div className="mt-3 p-3 flex flex-col space-y-3">
           {schedule.length>0?schedule.map(s=>(
@@ -103,18 +103,18 @@ const DoctorDashboard = ({stats, appointments, messages}) => {
           </div>
         </div>
         
-        <div className="bg-white h-[410px] rounded-xl w-[330px]">
+        <div className="bg-white h-[410px] dark:bg-darkElevation-300 rounded-xl w-[330px]">
           <ComponentHeading text="Messages" />
           <div className="mt-3 p-3 flex flex-col space-y-3">
             {messages.filter(m=>m.state==='unseen').length>0?messages.filter(m=>m.state==='unseen').map(m=>(
               <MessageCard message={m}/>
-            )):(<div className="text-sm text-gray-800">No New Messages</div>)}
+            )):(<div className="text-sm text-gray-800 dark:text-gray-600">No New Messages</div>)}
           </div>
         </div>
-        <div className="bg-white h-[410px] rounded-xl w-[300px]">
+        <div className="bg-white h-[410px] dark:bg-darkElevation-300 rounded-xl w-[300px]">
           <ComponentHeading text="Notification" />
           <div className="flex text-center h-4/5 w-4/5 m-auto justify-center items-center">
-            <div className="text-sm text-gray-800">This Feature is not currently under development</div>
+            <div className="text-sm text-gray-800 dark:text-gray-600">This Feature is not currently under development</div>
           </div>
         </div>
       </div>

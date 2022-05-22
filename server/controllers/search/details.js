@@ -17,7 +17,7 @@ const getDoctorsBasedOnKeywordsHandler = async(req,res)=>{
     
     let sortedList = cosine.sortMatch(keywords, TagList).reverse();
     sortedList = sortedList.filter(fil=>fil.rating>=accuracy)
-    const doctorsFiltered = sortedList.map((item)=>allDoctors[item.index])  ;
+    const doctorsFiltered = sortedList.map((item)=>allDoctors[item.index]);
     return res.json({doctorsFiltered});
 
 }
