@@ -12,6 +12,7 @@ import { getAllUserDetailsAPI, getAppointmentAPI, getAppointmentSchedules, getMe
 import io from 'socket.io-client';
 import { updateUser } from "../../redux/actions/user";
 import Link from 'next/link'
+import {useRouter} from 'next/router'; 
 import { useDispatch } from "react-redux";
 
 export const getServerSideProps = async (ctx) => {
@@ -63,14 +64,15 @@ const MenuItem = ({title,value,view,setView, icon})=>{
   )
 }
 
-const Heading = ({view})=>{
+const Heading = ({view,appointment})=>{
+  const router = useRouter();
   return (
-    <>
+    <div className="flex items-center space-x-3" onClick={()=>router.push(`/patient/${appointment.patientId}`)}>
     <FaUserAlt className="font-bold text-white" size={15}  />
-            <div className="font-semibold text-sm text-gray-400">
-              Patient Kunal Sangtiani
+            <div className="font-semibold text-sm text-gray-400 underline underline-offset-4 hover:text-darkSecondary transition-all cursor-pointer">
+              {appointment.patient.user.fullName}
             </div>
-    </>
+    </div>
   )
 }
 
@@ -81,7 +83,7 @@ useEffect(()=>{
   
 }, [])
 
-  console.log(schedules, appointment, user, fetchedMessages)
+  console.log( appointment, user)
     const getOtherUser = ()=>{
       return  appointment[user.role==='doctor'?'patient':'doctor'].user
     }
@@ -107,14 +109,14 @@ useEffect(()=>{
   const [view,setView] = useState('conversation');
   return (
     <div className="h-screen w-screen bg-white overflow-x-hidden">
-      <div className="bg-[#121016] h-[7vh] p-2 px-10 items-center justify-between flex">
+      <div className="bg-[#121016] dark:bg-darkElevation-100 h-[7vh] p-2 px-10 items-center justify-between flex">
         <div>
           <Link href="/appointments" >
-          <div className="bg-[#1C1F23] p-2 flex group items-center text-xs space-x-4 rounded-md">
-            <MdLogout className="text-primary" size={17} />
+          <div className="bg-[#1C1F23] dark:bg-darkElevation-500 p-2 flex group items-center text-xs space-x-4 rounded-md">
+            <MdLogout className="text-primary dark:text-darkSecondary" size={17} />
             <label
               htmlFor=""
-              className="scale-0  group-hover:scale-100 transition-all text-white bg-[#1C1F23] left-16 p-2 rounded-md absolute "
+              className="scale-0  group-hover:scale-100 transition-all dark:bg-darkSecondaryVariant text-white bg-[#1C1F23] left-16 p-2 rounded-md absolute "
             >
               Go Back
             </label>
@@ -124,7 +126,7 @@ useEffect(()=>{
         <div className="flex items-center">
           <input
             type="text"
-            className="w-[550px] bg-[#1C1F23]  rounded-md p-2 text-white focus:outline-[1px] focus:outline-primary focus:border-0 outline-none  text-xs"
+            className="w-[550px] bg-[#1C1F23] dark:bg-darkElevation-500 rounded-md p-2 text-white focus:outline-[1px] focus:outline-primary focus:border-0 outline-none  text-xs"
             placeholder="Search "
           />
           <MdSearch className="text-gray-500 relative right-8" size={18} />
@@ -132,10 +134,10 @@ useEffect(()=>{
         <div className="w-[30px] h-[30px] rounded-md bg-primary bg-opacity-30"></div>
       </div>
       <div className="flex h-[93vh]">
-        <div className="w-[20vw] border-r-[1px] bg-[#19171D] border-primary border-opacity-30">
-          <div className="flex items-center border-b-[1px] border-primary border-opacity-30 space-x-3 p-6">
+        <div className="w-[20vw] border-r-[1px] dark:bg-darkElevation-200 bg-[#19171D] border-primary dark:border-darkElevation-900  border-opacity-30">
+          <div className="flex items-center border-b-[1px] border-primary dark:border-darkElevation-900  border-opacity-30 space-x-3 p-6">
             <div className="font-bold tracking-tight text-sm text-white">
-              New Appointment
+              {appointment.title}
             </div>
             <BsChevronDown className="font-bold text-white" size={15} />
           </div>
@@ -146,7 +148,7 @@ useEffect(()=>{
             <MenuItem title="AI Diagnosis Reports" icon={<AiOutlineRobot size={18}/> } view={view} setView={setView} value="aidiagnosis" />
             <MenuItem title="Prescriptions" icon={<FaFilePrescription size={18}/> } view={view} setView={setView} value="prescriptions" />
           </div>
-          <hr  className="border-primary  border-opacity-20"/>
+          <hr  className="border-primary dark:border-darkElevation-900   border-opacity-20"/>
           <div className="mt-5 px-4">
             <div className="text-sm text-slate-200 font-semibold mb-2">Actions</div>
          
@@ -158,9 +160,9 @@ useEffect(()=>{
             </div>
           </div>
         </div>
-        <div className="w-[80vw] bg-[#1C1F23]">
-        <div className="flex items-center border-b-[1px] border-primary border-opacity-30 space-x-3 p-6">
-            <Heading view={view}/>
+        <div className="w-[80vw] bg-[#1C1F23] dark:bg-darkElevation-50">
+        <div className="flex items-center border-b-[1px] border-primary dark:border-darkElevation-900 border-opacity-30 space-x-3 p-6">
+            <Heading view={view} appointment={appointment}/>
           </div>
          <div className="h-[calc(93vh-70px)]">
            {view==='conversation'&&<Conversation messages={messages} user={user} appointmentId={appointment.id} otherUser = {getOtherUser()} setMessages={setMessages} socket={socket}/>}

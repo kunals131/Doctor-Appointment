@@ -17,7 +17,7 @@ const getAppointmentHandler = async (req, res) => {
         {
           model: Patient,
           as: "patient",
-          include: ["user"],
+          include: ["user", "symptoms", "diagnoses", "medicalRecords", "payments", "medications", "symptoms"],
         },
       ],
     });
