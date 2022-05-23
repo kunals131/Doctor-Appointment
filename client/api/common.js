@@ -36,6 +36,11 @@ export const updateSchedulesAPI = async(id,changes)=>{
     return res;
 }
 
+export const updateUserProfileAPI = async(id,image)=>{
+    const res = await axios.put(`/user/${id}/profile`, {image});
+    return res;
+}
+
 export const getMessagesAPI = async(id)=>{
     const res = await axios.get(`/appointments/${id}/messages`);
     return res;

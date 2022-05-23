@@ -28,6 +28,27 @@ const updateUserHandler = async(req,res)=>{
 
 }
 
+const changeProfilePictureHandler = async(req,res)=>{
+    const {id} =req.params;
+    const {image} = req.body;
+    try {
+    const foundUser = await User.findOne({
+        where : {uuid : id},
+        include : ['doctorDetails', 'patientDetails']
+    }); 
+    if (foundUser===null) return res.status(404).json({message : 'User Not Found!'});
+    foundUser.img = image;
+    const result = await foundUser.save();
+    return res.json(result);
+}catch(err) {
+    console.log(err);
+    return res.status(400).json({message : 'Something went wrong!', error : err});
+
+}
+
+
+}
+
 const updatePasswordHandler = async(req,res)=>{
     const {id} = req.params;
     const {confirmPassword,password,currentPassword} = req.body;
@@ -48,4 +69,4 @@ const updatePasswordHandler = async(req,res)=>{
 
 }
 
-module.exports = {updateUserHandler, updatePasswordHandler}
+module.exports = {updateUserHandler,changeProfilePictureHandler, updatePasswordHandler}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getAllUserDetailsAPI, updateUserDetailsAPI } from "../../api/common";
+import { getAllUserDetailsAPI, updateUserDetailsAPI, updateUserProfileAPI } from "../../api/common";
 import BasicInformation from "../../components/EditPage/BasicInformation";
 import DoctorDetails from "../../components/EditPage/DoctorInformation";
 import PatientDetails from "../../components/EditPage/PatientInformation";
@@ -79,9 +79,7 @@ const Edit = ({ user }) => {
         const { url } = result;
         console.log(url);
         setProfileImg(url);
-        const result2 = await updateUserDetailsAPI(user.uuid, {
-          img: profileImg,
-        });
+        const result2 = await updateUserProfileAPI(user.uuid,url);
         console.log(result2);
         setLoading(false);
       } catch (err) {
