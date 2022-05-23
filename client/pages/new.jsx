@@ -177,7 +177,7 @@ const DoctorDetails = ({user})=>{
             <InputAdvance list={specialities} handleAdd={handleAddSpecialities} handleRemove={handleRemoveSpeciality}   width="100%" label="Speciality" placeholder="Enter your major specialities"/>
         </div>
         <div className="mt-8 flex space-x-3 justify-end">
-               <button  className="border-[#6757E5] bg-transparent disabled:bg-opacity-70 text-[#6757E5] border-2 hover:scale-105 transition-all ease-out text-sm px-2 py-2 rounded-md" onClick={()=>alert('Detected!!!')}>Detect Location</button>
+               <button  className="border-[#6757E5] bg-transparent disabled:bg-opacity-70 text-[#6757E5] border-2 hover:scale-105 transition-all ease-out text-sm px-2 py-2 rounded-md" onClick={()=>alert('Detected!!')}>Detect Location</button>
               <button onClick={handleSave}   className="bg-[#6757E5] disabled:bg-opacity-70 text-white text-sm px-2 py-2 rounded-md">Save and Continue</button>
           </div>
         </>
