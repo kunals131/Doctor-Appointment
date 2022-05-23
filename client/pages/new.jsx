@@ -96,7 +96,7 @@ const DoctorDetails = ({user})=>{
   }
   const handleAddSpecialities = async(title)=>{
     try {
-      const res = await addSpecialityAPI(userId,title);
+      const res = await addSpecialityAPI(user.uuid,title);
       console.log(res);
       setSpecialities(prev=>[...prev,res.data]);
     }catch(err) {
@@ -105,7 +105,7 @@ const DoctorDetails = ({user})=>{
   }
   const handleRemoveSpeciality = async(id)=>{
     try {
-      const result = await RemoveSpecialityAPI(userId,id);
+      const result = await RemoveSpecialityAPI(user.uuid,id);
       console.log(result);
       setSpecialities(prev=>prev.filter(p=>p.id!==id));
     }catch(err) {
