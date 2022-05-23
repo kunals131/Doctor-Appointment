@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router'
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import MedicalRecord from '../MedicalRecord';
 import InputField from '../Input';
 import InputAdvance from '../InputAdvance';
@@ -16,7 +16,7 @@ import {
 
 
 
-import { updateUserDetailsAPI } from '../../api/common';
+import { updateUserDetailsAPI, updateUserProfileAPI } from '../../api/common';
 
 const PatientDetails = ({user})=>{
     const [form,setForm] = useState({
@@ -79,6 +79,37 @@ const PatientDetails = ({user})=>{
       setForm({...form, [e.target.name] : e.target.value})
       setError('');
     }
+    const [loading, setLoading] = useState(false);
+    const ref = useRef();
+    const handleFileChange = async (e) => {
+      if (e.target.files[0]) {
+        const file = e.target.files[0];
+        try {
+          setLoading(true);
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "yylewyo1");
+          const res = await fetch(
+            "https://api.cloudinary.com/v1_1/insight-byte/raw/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          const result = await res.json();
+          const { url } = result;
+          console.log(url);
+          setProfileImg(url);
+          const result2 = await updateUserProfileAPI(user.uuid,url);
+          console.log(result2);
+          setLoading(false);
+        } catch (err) {
+          console.log(err);
+          setLoading(false);
+        }
+      }
+    };
+    const [profileImg, setProfileImg] = useState(user.img);
     
       return (
           <>
@@ -91,6 +122,29 @@ const PatientDetails = ({user})=>{
           <div className={`${error?'text-red-600':'text-gray-500'} text-xs mt-2"`}>
             {error?error:'So, that your profile is easily accessible to other doctors.'}
           </div>
+          <div className="mt-10 flex space-x-5 items-center ">
+        <div
+          onClick={() => ref.current.click()}
+          className="w-[100px] h-[100px] rounded-full flex items-center justify-center text-xs hover:scale-110 transition-all bg-primary dark:bg-darkElevation-900 dark:border-darkSecondary text-white border-primary border-2"
+          style={{
+            background: loading ? "" : `url(${profileImg}) center center/cover`,
+          }}
+        >
+          {loading && "Uploading....."}
+        </div>
+        <input
+          accept="image/*"
+          ref={ref}
+          disabled={loading}
+          type="file"
+          onChange={handleFileChange}
+          className="hidden"
+        />
+        <div className="text-black dark:text-white">
+          <div>{user.fullName}</div>
+          <div className="text-xs mt-1">{user.email}</div>
+        </div>
+      </div>
           <div className="mt-6">
             <div className="flex space-x-4 items-center">
               <InputField width="150px" label="AGE *" name="age" onChange={handleChangeForm} value={form.age} placeholder="Enter Age"/>

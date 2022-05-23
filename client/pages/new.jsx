@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import FillImage from "../public/fill.png";
 import cls from "classnames";
@@ -22,7 +22,7 @@ import InputField from "../components/Input";
 import { verifyAuthentication } from "../utils/verifyAuth";
 import { useRouter } from "next/router";
 import { addSpecialityAPI, RemoveSpecialityAPI, updateDoctorAPI } from "../api/doctor";
-import { getAllUserDetailsAPI, updateUserDetailsAPI } from "../api/common";
+import { getAllUserDetailsAPI, updateUserDetailsAPI, updateUserProfileAPI } from "../api/common";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../redux/actions/user";
 
@@ -103,6 +103,37 @@ const DoctorDetails = ({user})=>{
       console.log(err);
     }
   }
+  const [loading, setLoading] = useState(false);
+  const ref = useRef();
+  const handleFileChange = async (e) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      try {
+        setLoading(true);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "yylewyo1");
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/insight-byte/raw/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const result = await res.json();
+        const { url } = result;
+        console.log(url);
+        setProfileImg(url);
+        const result2 = await updateUserProfileAPI(user.uuid,url);
+        console.log(result2);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    }
+  };
+  const [profileImg, setProfileImg] = useState(user.img);
   const handleRemoveSpeciality = async(id)=>{
     try {
       const result = await RemoveSpecialityAPI(user.uuid,id);
@@ -163,6 +194,29 @@ const DoctorDetails = ({user})=>{
         <div className="text-gray-500 text-xs mt-2">
           Let your patients know how you can treat them the best.
         </div>
+        <div className="mt-10 flex space-x-5 items-center ">
+        <div
+          onClick={() => ref.current.click()}
+          className="w-[100px] h-[100px] rounded-full flex items-center justify-center text-xs hover:scale-110 transition-all bg-primary dark:bg-darkElevation-900 dark:border-darkSecondary text-white border-primary border-2"
+          style={{
+            background: loading ? "" : `url(${profileImg}) center center/cover`,
+          }}
+        >
+          {loading && "Uploading....."}
+        </div>
+        <input
+          accept="image/*"
+          ref={ref}
+          disabled={loading}
+          type="file"
+          onChange={handleFileChange}
+          className="hidden"
+        />
+        <div className="text-black dark:text-white">
+          <div>{user.fullName}</div>
+          <div className="text-xs mt-1">{user.email}</div>
+        </div>
+      </div>
         <div className="mt-6 space-y-3">
             <div className="flex space-x-3">
             <InputField value={information.medicalExperience} onChange={handleChange} name="medicalExperience" label="Medical Experience" width="200px" placeholder={"Medical Experience in Yrs"}/>
