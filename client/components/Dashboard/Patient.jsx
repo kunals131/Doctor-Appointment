@@ -35,9 +35,9 @@ const DianogisCard = ({diagnosis})=>{
     <div onClick={()=>router.push(`/diagnosis/${diagnosis.id}`)} className="p-2 bg-pink-100 cursor-pointer dark:bg-darkElevation-300 flex hover:bg-pink-50 justify-between items-center text-sm rounded-md">
       <div className="flex space-x-5 items-center">
         <div className="p-2 rounded-md bg-pink-400"><AiFillRobot className="text-white"/></div>
-        <div>New Diagnosis</div>
+        <div>{diagnosis.title}</div>
       </div>
-      <div>😷Fermi</div>
+      <div>😷{diagnosis.disease}</div>
    
     </div>
   )

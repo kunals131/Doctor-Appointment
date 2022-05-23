@@ -11,6 +11,7 @@ import {
 import { verifyAuthentication } from "../../utils/verifyAuth";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Input from "../../components/Input";
 import { getAllUserDetailsAPI } from "../../api/common";
 const SymptomItem = ({ title, handleRemove }) => {
   return (
@@ -57,6 +58,8 @@ const Diagnosis = ({ user, diagnoses }) => {
   console.log(diagnoses);
   const [symptomList, setSymptomList] = useState([]);
   const { value, setValue } = useComboboxControls({ initialValue: "" });
+  const [title, setTitle] = useState('');
+
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -70,8 +73,10 @@ const Diagnosis = ({ user, diagnoses }) => {
       patientId: user.dataId,
       symptoms: symptomString,
       disease: res.data.final_prediction,
+      title
     });
     console.log(addedDiagosnis.data.id);
+    console.log(addedDiagosnis.data);
     router.push(`/diagnosis/${addedDiagosnis.data.id}`);
   };
 
@@ -109,6 +114,10 @@ const Diagnosis = ({ user, diagnoses }) => {
           </div>
           <div className="w-[120px] mt-2 h-[2px] bg-primary dark:bg-darkPrimary"></div>
           <div className="mt-10">
+            <div className="mb-10">
+            <Input name="title" label="Title" value={title} onChange={(e)=>setTitle(e.target.value)}/>
+            </div>
+
             <div className="text-lg text-gray-700 dark:text-white">Symptoms</div>
           </div>
           <div className="mt-3 text-base space-y-2">
