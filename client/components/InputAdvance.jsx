@@ -61,7 +61,7 @@ const InputAdvance = ({ width, label,list, placeholder,handleAdd, handleRemove, 
             onFocus={() => setIsFocus(true)}
             onBlur={(e) => setIsFocus(e.target.value !== "")}
             placeholder={placeholder || label}
-            className="border-gray-300 dark:border-none  dark:bg-darkElevation-200 dark:placeholder:text-gray-500 dark:rounded-md placeholder:text-gray-400 outline-none border-2 mt-1 px-2 py-[8px] rounded-sm w-full"
+            className="border-gray-300 dark:border-none dark:text-white dark:bg-darkElevation-200 dark:placeholder:text-gray-500 dark:rounded-md placeholder:text-gray-400 outline-none border-2 mt-1 px-2 py-[8px] rounded-sm w-full"
           />:<DatalistInput
           placeholder={placeholder || label}
           className="w-full"

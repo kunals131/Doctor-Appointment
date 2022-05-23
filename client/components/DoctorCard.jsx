@@ -84,7 +84,7 @@ const Tag = ({ title }) => {
           </div>
           <div className="flex justify-between w-full">
             <div>
-              <div className="text-sm font-semibold">{doctor.user.fullName}</div>
+              <div className="text-sm font-semibold">Doctor {doctor.user.fullName}</div>
               <div className="text-[0.7rem] text-gray-500 mt-1">
                {doctor.medicalExperience} years of Experience | {doctor.degree} | {doctor.university}
                 {/* {doctor.uuid} */}

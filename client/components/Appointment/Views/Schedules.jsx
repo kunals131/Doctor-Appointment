@@ -124,7 +124,7 @@ const Schedules = ({schedules, appointmentId, doctor, user}) => {
       </div>
     </div>
     <div className='mt-1 p-1'>
-      <SchduleCreator setCurrentSchedules={setCurrentSchedules} currentSchedules={currentSchedules} appointmentId={appointmentId}/>
+      {user.role==='doctor'&&<SchduleCreator setCurrentSchedules={setCurrentSchedules} currentSchedules={currentSchedules} appointmentId={appointmentId}/>}
     </div>
     </>
   )

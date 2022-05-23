@@ -15,6 +15,11 @@ module.exports = {
         allowNull : false,
         primaryKey : true,
       },
+      profileViews : {
+        type : DataTypes.INTEGER,
+        allowNull : true,
+        defaultValue : 0
+      },
       img : {
         type : DataTypes.STRING,
         defaultValue : 'https://res.cloudinary.com/insight-byte/image/upload/v1649939622/austin-distel-7bMdiIqz_J4-unsplash_rmcvfa.jpg',
