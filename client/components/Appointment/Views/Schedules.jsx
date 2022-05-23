@@ -2,8 +2,9 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import {MdOutlineAlarm} from 'react-icons/md'
 import {MdClock, MdLogin} from 'react-icons/md'
+import { useSelector } from 'react-redux';
 import { createScheduleAPI, updateSchedulesAPI } from '../../../api/common';
-
+import {useRouter} from 'next/router'
 const formatDate = (date)=>{
   return   moment(date).format('H:MMA DD MMMM YYYY')
 }
@@ -13,15 +14,23 @@ const getDiff = (date)=>{
   return date1.diff(moment.now(), 'days') 
 }
 
-const ScheduleItem = ({schedule, patientId, doctorId, appointmentId})=>{
+const ScheduleItem = ({schedule, patientId, doctorId, appointmentId,})=>{
+  // console.log(url)
   const state = schedule.state;
+  const router = useRouter();
+  const user = useSelector(state=>state.user.data);
+  console.log(user.fullName);
+  const setStateDone = async()=>{
+    const res = await updateSchedulesAPI(schedule.id,{state : 'done'})
+    console.log(res);
+  }
   return (
   <div className='w-full hover:bg-[#383c41] transition-all bg-[#222529] p-5 px-8 rounded-md flex justify-between items-center'>
     <div className=''>{schedule.title}</div>
     <div className='flex items-center space-x-2'> <MdOutlineAlarm/><div> {formatDate(schedule.at)}</div></div>
    {state==='future'&&<div className='flex items-center space-x-2'>
-      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all flex space-x-1 items-center'><a href={`https://reactroom.netlify.app/room/${schedule.id}`}>🚪ENTER</a></div>
-      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all'>✅Done</div>
+      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all flex space-x-1 items-center'><a href={`http://localhost:3001/room/${schedule.id}?name=${user.fullName.split(' ').join('')}`}>🚪ENTER</a></div>
+      <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all' onClick={setStateDone}>✅Done</div>
       <div className='p-2 rounded-md text-sm bg-[#2b2f34] cursor-pointer hover:bg-[#1415179e] transition-all'>⌚Reschedule</div>
     </div>}
     
@@ -75,8 +84,10 @@ const SchduleCreator = ({appointmentId, currentSchedules, setCurrentSchedules})=
   )
 }
 
-const Schedules = ({schedules, appointmentId, doctor}) => {
-  console.log(schedules)
+const Schedules = ({schedules, appointmentId, doctor, user}) => {
+  console.log(schedules, user)
+  const name = useSelector(state=>state.user.data).fullName
+  console.log(name)
   useEffect(()=>{
     const updateSchedules = async()=>{
       for(let i=0; i<schedules.length; ++i) {
@@ -109,7 +120,7 @@ const Schedules = ({schedules, appointmentId, doctor}) => {
       <div className='text-lg mt-9'>PAST & DONE</div>
       <hr className='border-[#4a4f55] my-3'/>
       <div className='mt-4 space-y-4'>
-      {currentSchedules.filter(s=>(s.state==='past' || s.state==='done')).map(s=><ScheduleItem key={s.id} schedule={s}/>)}
+      {currentSchedules.filter(s=>(s.state==='past' || s.state==='done')).map(s=><ScheduleItem  key={s.id} schedule={s}/>)}
       </div>
     </div>
     <div className='mt-1 p-1'>

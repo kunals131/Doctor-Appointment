@@ -80,7 +80,6 @@ const Appointment = ({schedules, appointment,user, fetchedMessages}) => {
   const dispatch= useDispatch();
 useEffect(()=>{
   dispatch(updateUser(user));
-  
 }, [])
 
   console.log( appointment, user)
