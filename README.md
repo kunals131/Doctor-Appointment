@@ -27,7 +27,7 @@ Patients can upload their complete medical history and records for doctors to di
 
 ![image](https://user-images.githubusercontent.com/86314140/171212468-530bc2b5-3cfe-4885-9acd-164a941a14c8.png)
 
-<p>Doctor Dashboard (Light Mode Mode)</p>
+<p>Doctor Dashboard (Light Mode)</p>
 
 ![image](https://user-images.githubusercontent.com/86314140/171213553-5da2f56f-cb52-4b25-af75-cd400a45c26a.png)
 
