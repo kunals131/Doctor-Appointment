@@ -21,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.19.0",
+    "sequelize-cli": "^6.4.1",
     "socket.io": "^4.4.1",
     "string-comparison": "^1.1.0"
   }
